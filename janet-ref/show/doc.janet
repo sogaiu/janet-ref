@@ -67,8 +67,25 @@
 (defn thing-doc
   [thing]
   (def doc-arg
-    (if ((curenv) (symbol thing))
+    (cond
+      ((curenv) (symbol thing))
       thing
+      # XXX: make a table for special forms somewhere?
+      (get {"def" true
+            "var" true
+            "fn" true
+            "quote" true
+            "if" true
+            "splice" true
+            "while" true
+            "break" true
+            "set" true
+            "quasiquote" true
+            "unquote" true
+            "upscope" true}
+           thing)
+      thing
+      #
       (string/format `"%s"` thing)))
   (def buf @"")
   # XXX: for things that are in curenv, could just pull
