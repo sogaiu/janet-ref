@@ -17,7 +17,8 @@
     (if (get {"*" true
               "->" true
               ">" true
-              "<-" true}
+              "<-" true
+              "|" true}
              thing)
       (print (escape thing))
       (print thing))))
