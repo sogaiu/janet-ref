@@ -1,6 +1,7 @@
 (import ../highlight/highlight :as hl)
 (import ../jandent/indent)
 (import ./misc :as misc)
+(import ../parse/question :as qu)
 (import ../parse/tests :as tests)
 (import ../random :as rnd)
 
@@ -156,9 +157,51 @@
         (handle-eval-failure resp-code e)
         false))))
 
+(defn thing-fill-in-quiz
+  [content]
+  # extract first set of tests from content
+  (def test-zloc-pairs
+    (tests/extract-first-test-set-zlocs content))
+  (when (empty? test-zloc-pairs)
+    (print "Sorry, didn't find any material to make a quiz from.")
+    (break nil))
+  # choose a question and answer, then make a blanked question
+  (let [[ques-zloc ans-zloc] (rnd/choose test-zloc-pairs)
+        [blank-ques-zloc blanked-item] (qu/rewrite-test-zloc ques-zloc)]
+    # XXX: a cheap work-around...evidence of a deeper issue?
+    (unless blank-ques-zloc
+      (print "Sorry, drew a blank...take a deep breath and try again?")
+      (break nil))
+    (let [ques (tests/indent-node-gen ques-zloc)
+          blank-ques (tests/indent-node-gen blank-ques-zloc)
+          trimmed-ans (string/trim (tests/indent-node-gen ans-zloc))]
+      # show the question
+      (print-nicely blank-ques)
+      (print "# =>")
+      (print-nicely trimmed-ans)
+      (print)
+      # ask for an answer
+      (def buf
+        (getline "What value could work in the blank? "))
+      (when (handle-want-to-quit buf)
+        (break nil))
+      # does the response make some sense?
+      (def resp
+        (validate-response buf))
+      (unless resp
+        (break nil))
+      # improve perceptibility
+      (print)
+      (misc/print-separator)
+      (print)
+      #
+      (handle-fill-in-response ques blank-ques blanked-item
+                               trimmed-ans resp))))
+
 (defn thing-quiz
   [content]
   (def quiz-fn
-    (rnd/choose [thing-plain-quiz]))
+    (rnd/choose [thing-plain-quiz
+                 thing-fill-in-quiz]))
   (quiz-fn content))
 
