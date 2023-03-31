@@ -190,16 +190,6 @@
   (let [[file-path _]
         (module/find (string "janet-ref/examples/" thing))]
 
-    # XXX: remove this hack later
-    (when (and (one? (length opts))
-               (opts :doc))
-      (if (get special-forms-table thing)
-        # XXX: should check file existence, but will be removing this
-        #      code anyway
-        (doc/special-form-doc (slurp file-path))
-        (doc/thing-doc thing))
-      (os/exit 0))
-
     (unless file-path
       (eprintf "Did not find file for `%s`" thing)
       (os/exit 1))
