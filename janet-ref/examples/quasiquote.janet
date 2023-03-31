@@ -12,7 +12,7 @@
 # So `(quasiquote x)` is equivalent to `~x`.
 
 # With that form, `(unquote x)` will evaluate and insert `x` into the
-# `unquote` form. The shorthand for `(unquote x)` is `,x`.
+# `unquote` form.
 
 # For further info, see:
 
