@@ -1,3 +1,18 @@
+# special form
+
+# `(var name meta... value)`
+
+# `var` binds a value to a symbol.
+
+# The symbol can be substituted for the value in subsequent
+# expressions for the same result.
+
+# A binding made by `var` can be updated using `set`.
+
+# For further info, see:
+
+#   https://janet-lang.org/docs/specials.html
+
 (comment
 
   (do

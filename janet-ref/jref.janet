@@ -7,6 +7,7 @@
 (import ./random :as rnd)
 (import ./show/doc :as doc)
 (import ./show/examples :as ex)
+(import ./show/misc :as misc)
 (import ./show/questions :as qu)
 (import ./view :as view)
 
@@ -45,6 +46,21 @@
   appropriately so the shell doesn't process them in an undesired
   fashion.
   ``)
+
+(def special-forms-table
+  {"def" true
+   "var" true
+   "fn" true
+   "do" true
+   "quote" true
+   "if" true
+   "splice" true
+   "while" true
+   "break" true
+   "set" true
+   "quasiquote" true
+   "unquote" true
+   "upscope" true})
 
 (def examples-table
   # XXX: what's missing?
@@ -177,7 +193,11 @@
     # XXX: remove this hack later
     (when (and (one? (length opts))
                (opts :doc))
-      (doc/thing-doc thing)
+      (if (get special-forms-table thing)
+        # XXX: should check file existence, but will be removing this
+        #      code anyway
+        (doc/special-form-doc (slurp file-path))
+        (doc/thing-doc thing))
       (os/exit 0))
 
     (unless file-path
@@ -197,16 +217,20 @@
               (and (nil? (opts :doc))
                    (nil? (opts :eg))
                    (nil? (opts :quiz))))
-      (doc/thing-doc thing)
-      (print)
-      ((dyn :jref-hl-prin) (string/repeat "#" (dyn :jref-width))
-                           (dyn :jref-separator-color))
+      (if (get special-forms-table thing)
+        (doc/special-form-doc content)
+        (do
+          (doc/thing-doc thing)
+          (print)))
+      (misc/print-separator)
       (print)
       (ex/thing-examples content)
       (os/exit 0))
 
     (when (opts :doc)
-      (doc/thing-doc thing))
+      (if (get special-forms-table thing)
+        (doc/special-form-doc content)
+        (doc/thing-doc thing)))
 
     (cond
       (opts :eg)

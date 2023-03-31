@@ -36,7 +36,35 @@
          first
          print)))
 
-(defn massage-lines!
+# assumes example file for special form has certain structure
+(defn massage-lines-for-special
+  [lines]
+  (def m-lines @[])
+  (var i 0)
+  (while (< i (length lines))
+    (def cur-line (get lines i))
+    # stop at first (comment ...) form
+    (if (peg/match ~(sequence "(comment")
+                     cur-line)
+      (break)
+      (if (string/has-prefix? "# " cur-line)
+        (array/push m-lines (string/slice cur-line 2))
+        (array/push m-lines cur-line)))
+    (++ i))
+  #
+  m-lines)
+
+(defn special-form-doc
+  [content]
+  (def lines
+    (string/split "\n" content))
+  (def m-lines
+    (massage-lines-for-special lines))
+  #
+  (each line m-lines
+    (print line)))
+
+(defn massage-lines
   [lines]
   # figure out where first non-blank line is
   (var i 0)
@@ -67,37 +95,20 @@
 
 (defn thing-doc
   [thing]
-  (def doc-arg
+  (def buf @"")
+  (def lines
     (cond
       ((curenv) (symbol thing))
-      thing
-      # XXX: make a table for special forms somewhere?
-      (get {"def" true
-            "var" true
-            "fn" true
-            "quote" true
-            "if" true
-            "splice" true
-            "while" true
-            "break" true
-            "set" true
-            "quasiquote" true
-            "unquote" true
-            "upscope" true}
-           thing)
-      thing
+      (with-dyns [*out* buf]
+        (eval-string (string/format `(doc %s)` thing)))
       #
-      (string/format `"%s"` thing)))
-  (def buf @"")
-  # XXX: for things that are in curenv, could just pull
-  #      out the associated value of :doc from result
-  #      of ((curenv) (symbol thing))
-  (with-dyns [*out* buf]
-    (eval-string (string/format "(doc %s)" doc-arg)))
+      (with-dyns [*out* buf]
+        (eval-string (string/format `(doc "%s")` thing)))))
+  #
   (def lines
     (string/split "\n" buf))
   (def [m-lines indent]
-    (massage-lines! lines))
+    (massage-lines lines))
   #
   (each line m-lines
     (if (>= (length line) indent)

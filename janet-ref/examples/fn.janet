@@ -1,3 +1,28 @@
+# special form
+
+# `(fn name? args body...)`
+
+# Compile a function literal (closure).
+
+# A function literal consists of an optional name, an argument list,
+# and a function body.
+
+# The optional name is allowed so that functions can more easily be
+# recursive.
+
+# The argument list is a tuple of named parameters, and the body is 0
+# or more forms.
+
+# The function will evaluate to the last form in the body. The other
+# forms will only be evaluated for side effects.
+
+# Functions also introduce a new lexical scope, meaning the defs and
+# vars inside a function body will not escape outside the body.
+
+# For further info, see:
+
+#   https://janet-lang.org/docs/specials.html
+
 (comment
 
   (function? (fn [] 1))
@@ -68,6 +93,6 @@
 
     stack)
   # =>
-  [:a-3 :b-2 :a-1 :b-done]
+  @[:a-3 :b-2 :a-1 :b-done]
 
   )

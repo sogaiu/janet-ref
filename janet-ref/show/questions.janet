@@ -1,5 +1,6 @@
 (import ../highlight/highlight :as hl)
 (import ../jandent/indent)
+(import ./misc :as misc)
 (import ../parse/tests :as tests)
 (import ../random :as rnd)
 
@@ -8,11 +9,6 @@
   (let [buf (hl/colorize (indent/format expr-str))]
     (each line (string/split "\n" buf)
       (print line))))
-
-(defn print-separator
-  []
-  ((dyn :jref-hl-prin) (string/repeat "#" (dyn :jref-width))
-                       (dyn :jref-separator-color)))
 
 (defn handle-eval-failure
   [resp e]
@@ -106,7 +102,7 @@
       (break nil))
     # improve perceptibility
     (print)
-    (print-separator)
+    (misc/print-separator)
     (print)
     #
     (handle-plain-response trimmed-ans resp)))

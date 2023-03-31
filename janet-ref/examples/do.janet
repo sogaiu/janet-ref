@@ -1,3 +1,17 @@
+# special form
+
+# `(do body...)`
+
+# Execute a series of forms for side effects and evaluates to the
+# final form.
+
+# Also introduces a new lexical scope without creating or calling
+# a function.
+
+# For further info, see:
+
+#   https://janet-lang.org/docs/specials.html
+
 (comment
 
   (do)
