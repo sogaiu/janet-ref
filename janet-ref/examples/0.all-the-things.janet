@@ -10,6 +10,7 @@
 #   (while condition body...)
 #   (break value?)
 #   (set l-value r-value)
+#   (quasiquote x)
 #
 # Functions
 #   mapcat
