@@ -12,6 +12,7 @@
 #   (set l-value r-value)
 #   (quasiquote x)
 #   (unquote x)
+#   (upscope & body)
 #
 # Functions
 #   mapcat
