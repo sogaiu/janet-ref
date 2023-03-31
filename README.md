@@ -3,6 +3,10 @@
 Tool for doc lookups, examples, and quizzes of
 [Janet](https://janet-lang.org) info.
 
+## Status
+
+Adding things :)
+
 ## Usages Examples
 
 ```
