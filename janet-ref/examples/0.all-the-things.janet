@@ -11,6 +11,7 @@
 #   (break value?)
 #   (set l-value r-value)
 #   (quasiquote x)
+#   (unquote x)
 #
 # Functions
 #   mapcat
