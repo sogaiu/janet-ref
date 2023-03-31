@@ -15,6 +15,7 @@
 #   (upscope & body)
 #
 # Functions
+#   interpose
 #   mapcat
 #
 # Macros
