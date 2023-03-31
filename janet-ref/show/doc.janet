@@ -14,11 +14,16 @@
     # XXX: need to add a lot here or use some kind of
     #      pattern matching?
     # XXX: anything platform-specific?
-    (if (get {"*" true
+    (if (get {"'" true
+              "*" true
+              "->>" true
               "->" true
-              ">" true
+              ";" true
               "<-" true
-              "|" true}
+              "<" true
+              ">" true
+              "|" true
+              "~" true}
              thing)
       (print (escape thing))
       (print thing))))
