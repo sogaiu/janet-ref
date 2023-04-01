@@ -1,15 +1,7 @@
-(import ../highlight/highlight :as hl)
-(import ../jandent/indent)
 (import ./misc :as misc)
 (import ../parse/question :as qu)
 (import ../parse/tests :as tests)
 (import ../random :as rnd)
-
-(defn print-nicely
-  [expr-str]
-  (let [buf (hl/colorize (indent/format expr-str))]
-    (each line (string/split "\n" buf)
-      (print line))))
 
 (defn handle-eval-failure
   [resp e]
@@ -28,11 +20,11 @@
   (print)
   (print "My answer is:")
   (print)
-  (print-nicely ans)
+  (misc/print-nicely ans)
   (print)
   (print "Your answer is:")
   (print)
-  (print-nicely resp)
+  (misc/print-nicely resp)
   (print)
   (when (deep= ans resp)
     (print "Yay, our answers agree :)")
@@ -89,7 +81,7 @@
   (let [[ques ans] (rnd/choose tests)
         trimmed-ans (string/trim ans)]
     # show the question
-    (print-nicely ques)
+    (misc/print-nicely ques)
     (print "# =>")
     # ask for an answer
     (def buf
@@ -113,17 +105,17 @@
   (print)
   (print "One complete picture is: ")
   (print)
-  (print-nicely ques)
+  (misc/print-nicely ques)
   (print "# =>")
-  (print-nicely ans)
+  (misc/print-nicely ans)
   (print)
   (print "So one value that works is:")
   (print)
-  (print-nicely blanked-item)
+  (misc/print-nicely blanked-item)
   (print)
   (print "Your answer is:")
   (print)
-  (print-nicely resp)
+  (misc/print-nicely resp)
   (print)
   (when (deep= blanked-item resp)
     (print "Yay, the answers agree :)")
@@ -176,9 +168,9 @@
           blank-ques (tests/indent-node-gen blank-ques-zloc)
           trimmed-ans (string/trim (tests/indent-node-gen ans-zloc))]
       # show the question
-      (print-nicely blank-ques)
+      (misc/print-nicely blank-ques)
       (print "# =>")
-      (print-nicely trimmed-ans)
+      (misc/print-nicely trimmed-ans)
       (print)
       # ask for an answer
       (def buf

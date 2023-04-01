@@ -224,6 +224,7 @@
           (print)))
       (misc/print-separator)
       (print)
+      (print)
       (ex/thing-examples content)
       (os/exit 0))
 

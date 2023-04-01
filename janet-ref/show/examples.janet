@@ -1,42 +1,21 @@
 (import ../highlight/highlight :as hl)
-
-# assumes example file has certain structure
-(defn massage-lines-for-examples
-  [lines]
-  (def n-lines (length lines))
-  (def m-lines @[])
-  (var i 0)
-  # get "inside" comment form
-  (while (< i n-lines)
-    (def cur-line (get lines i))
-    # whether loop ends or not, index increases
-    (++ i)
-    # stop at first (comment ...) form
-    (when (peg/match ~(sequence "(comment")
-                     cur-line)
-      (break)))
-  # save lines until (comment ...) ends
-  (while (< i n-lines)
-    (def cur-line (get lines i))
-    # supposedly where the "(comment ...)" form ends -- hacky
-    (if (peg/match ~(sequence (any (set " \t\f\v"))
-                              ")")
-                   cur-line)
-      (break)
-      (if (string/has-prefix? "  " cur-line)
-        (array/push m-lines (string/slice cur-line 2))
-        (array/push m-lines cur-line)))
-    (++ i))
-  #
-  m-lines)
+(import ./misc :as misc)
+(import ../parse/tests :as tests)
 
 (defn thing-examples
   [content]
-  (def lines
-    (string/split "\n" content))
-  (def examples-lines
-    (massage-lines-for-examples lines))
-  (-> (string/join examples-lines "\n")
-      hl/colorize
-      print))
+  # extract first set of tests from content
+  (def tests
+    (tests/extract-first-test-set content))
+  (when (empty? tests)
+    (print "Sorry, didn't find any material to make a quiz from.")
+    (break nil))
+  # choose a question and answer pair
+  (each [ques ans] tests
+    (def trimmed-ans (string/trim ans))
+    # show the question
+    (misc/print-nicely ques)
+    (print "# =>")
+    (misc/print-nicely ans)
+    (print)))
 
