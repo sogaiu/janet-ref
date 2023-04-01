@@ -20,6 +20,7 @@
 #
 # Macros
 #   defn
+#   toggle
 #   when
 #
 # Variables
