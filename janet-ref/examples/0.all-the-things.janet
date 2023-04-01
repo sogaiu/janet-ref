@@ -21,6 +21,7 @@
 #   mapcat
 #
 # Macros
+#   comment
 #   default
 #   defn
 #   toggle
