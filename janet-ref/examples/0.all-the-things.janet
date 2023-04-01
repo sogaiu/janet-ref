@@ -15,6 +15,8 @@
 #   (upscope & body)
 #
 # Functions
+#   dec
+#   inc
 #   interpose
 #   mapcat
 #
