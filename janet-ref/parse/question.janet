@@ -79,26 +79,6 @@
   [thing-zloc]
   (def node-type
     (get (j/node thing-zloc) 0))
-  (cond
-    (or (= :symbol node-type)
-        (= :constant node-type)
-        (= :number node-type)
-        (= :string node-type)
-        (= :long-string node-type)
-        (= :keyword node-type))
-    (j/edit thing-zloc
-            |[node-type
-              (get $ 1)
-              (string/repeat "_" (length (get $ 2)))])
-    #
-    (do
-      (eprintf "Unexpected node-type: %s" node-type)
-      thing-zloc)))
-
-(defn blank-thing
-  [thing-zloc]
-  (def node-type
-    (get (j/node thing-zloc) 0))
   (var blanked-item nil)
   (var new-thing-zloc nil)
   (cond
