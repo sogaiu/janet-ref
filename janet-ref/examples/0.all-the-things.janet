@@ -24,7 +24,9 @@
 #   comment
 #   default
 #   defn
+#   if-not
 #   toggle
+#   unless
 #   when
 #
 # Variables
