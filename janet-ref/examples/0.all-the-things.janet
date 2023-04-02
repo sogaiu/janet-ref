@@ -21,9 +21,11 @@
 #   mapcat
 #
 # Macros
+#   assert
 #   comment
 #   default
 #   defn
+#   errorf
 #   if-not
 #   toggle
 #   unless
