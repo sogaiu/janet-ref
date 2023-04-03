@@ -37,6 +37,7 @@
 #   try
 #   unless
 #   when
+#   with-syms
 #
 # Variables
 #   default-peg-grammar
