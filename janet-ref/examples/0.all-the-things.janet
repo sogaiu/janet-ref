@@ -34,6 +34,7 @@
 #   if-not
 #   let
 #   or
+#   prompt
 #   protect
 #   toggle
 #   try
