@@ -30,6 +30,26 @@
   nil
 
   (do
+    (def arr @[])
+    (for i 0 2
+      (array/push arr i)
+      (when (pos? i)
+        (break)))
+    arr)
+  # =>
+  @[0 1]
+
+  (do
+    (var tot 0)
+    (each i [-1 0 1]
+      (+= tot i)
+      (when (zero? i)
+        (break)))
+    tot)
+  # =>
+  -1
+
+  (do
     (defn a-fn
       []
       (when (> (math/random) 0.5)
