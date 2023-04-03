@@ -31,6 +31,7 @@
 #   if-not
 #   let
 #   toggle
+#   try
 #   unless
 #   when
 #
