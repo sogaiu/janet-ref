@@ -21,6 +21,7 @@
 #   mapcat
 #
 # Macros
+#   and
 #   assert
 #   case
 #   comment
@@ -30,6 +31,7 @@
 #   errorf
 #   if-not
 #   let
+#   or
 #   protect
 #   toggle
 #   try
