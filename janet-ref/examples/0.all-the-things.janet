@@ -30,6 +30,7 @@
 #   errorf
 #   if-not
 #   let
+#   protect
 #   toggle
 #   try
 #   unless
