@@ -27,7 +27,9 @@
 #   comment
 #   cond
 #   default
+#   defer
 #   defn
+#   edefer
 #   errorf
 #   if-not
 #   let
