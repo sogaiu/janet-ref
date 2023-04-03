@@ -154,6 +154,12 @@
         alias
         cand)))
 
+  # XXX: organize this later
+  (when (and (one? (length opts))
+             (opts :repl))
+    (eval-string "(import janet-ref/repl) (repl/cli-main @[])")
+    (os/exit 0))
+
   # if no thing found and no options, show info about all things
   (when (and (nil? thing)
              (nil? (opts :doc))

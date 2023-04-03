@@ -46,6 +46,11 @@
              arg)
         (put opts :eval true)
         #
+        (get {"--repl" true
+              "-r" true}
+             arg)
+        (put opts :repl true)
+        #
         (get {"--help" true
               "-h" true}
              arg)

@@ -47,8 +47,8 @@ fashion.
 
 ## Credits
 
-Significant portions of the documentation come from Janet and the
-janet-lang.org website.  Thus the following license applies to at
+Significant portions of the code and documentation come from Janet and
+the janet-lang.org website.  Thus the following license applies to at
 least those portions.
 
 ```
