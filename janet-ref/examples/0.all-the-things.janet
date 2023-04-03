@@ -22,6 +22,7 @@
 #
 # Macros
 #   assert
+#   case
 #   comment
 #   cond
 #   default
