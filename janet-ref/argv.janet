@@ -36,6 +36,16 @@
              arg)
         (put opts :quiz true)
         #
+        (get {"--macex1" true
+              "-m" true}
+             arg)
+        (put opts :macex1 true)
+        #
+        (get {"--eval" true
+              "-e" true}
+             arg)
+        (put opts :eval true)
+        #
         (get {"--help" true
               "-h" true}
              arg)

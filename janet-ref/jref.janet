@@ -186,6 +186,20 @@
     (set thing
       (choose-random-thing file-names)))
 
+  # XXX: organize this later
+  (when (and (one? (length opts))
+             (opts :macex1))
+    (printf "%p"
+            (eval-string (string "(macex1 '" thing ")")))
+    (os/exit 0))
+
+  # XXX: organize this later
+  (when (and (one? (length opts))
+             (opts :eval))
+    (printf "%p"
+            (eval-string thing))
+    (os/exit 0))
+
   # show docs, examples, and/or quizzes for a thing
   (let [[file-path _]
         (module/find (string "janet-ref/examples/" thing))]
