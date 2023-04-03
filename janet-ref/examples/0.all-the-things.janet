@@ -23,6 +23,7 @@
 # Macros
 #   assert
 #   comment
+#   cond
 #   default
 #   defn
 #   errorf
