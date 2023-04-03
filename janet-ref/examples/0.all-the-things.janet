@@ -29,6 +29,7 @@
 #   defn
 #   errorf
 #   if-not
+#   let
 #   toggle
 #   unless
 #   when
