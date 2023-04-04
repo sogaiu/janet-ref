@@ -33,6 +33,7 @@
 #   edefer
 #   errorf
 #   if-not
+#   label
 #   let
 #   or
 #   prompt
