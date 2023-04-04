@@ -24,6 +24,7 @@
 #   and
 #   assert
 #   case
+#   chr
 #   comment
 #   cond
 #   default
