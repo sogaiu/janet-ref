@@ -9,6 +9,7 @@
 (import ./show/examples :as ex)
 (import ./show/misc :as misc)
 (import ./show/questions :as qu)
+(import ./show/source :as src)
 (import ./view :as view)
 
 (def usage
@@ -117,6 +118,11 @@
   [& argv]
   (setdyn :jref-rng
           (math/rng (os/cryptorand 8)))
+  (setdyn :jref-janet-src-path
+          (if-let [j-src-path (os/getenv "JREF_JANET_SRC_PATH")]
+            j-src-path
+            (string (os/getenv "HOME")
+                    "/src/janet")))
 
   (view/configure)
 
@@ -191,6 +197,12 @@
       (os/exit 1))
     (set thing
       (choose-random-thing file-names)))
+
+  # XXX: organize this later
+  (when (and (one? (length opts))
+             (opts :src))
+    (src/definition thing)
+    (os/exit 0))
 
   # XXX: organize this later
   (when (and (one? (length opts))

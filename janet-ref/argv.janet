@@ -51,6 +51,11 @@
              arg)
         (put opts :repl true)
         #
+        (get {"--src" true
+              "-s" true}
+             arg)
+        (put opts :src true)
+        #
         (get {"--help" true
               "-h" true}
              arg)
