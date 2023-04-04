@@ -43,6 +43,7 @@
 #   try
 #   unless
 #   when
+#   with
 #   with-syms
 #
 # Variables
