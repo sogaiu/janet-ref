@@ -50,6 +50,17 @@
   -1
 
   (do
+    (var r nil)
+    (for i 0 2
+      (for j 0 2
+        (when (and (pos? i) (pos? j))
+          (break)))
+      (set r i))
+    r)
+  # =>
+  1
+
+  (do
     (defn a-fn
       []
       (when (> (math/random) 0.5)
