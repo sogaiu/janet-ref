@@ -1,5 +1,6 @@
-(import ../parse/location :as loc)
+(import ../highlight/highlight :as hl)
 (import ../parse/etags :as etags)
+(import ../parse/location :as loc)
 
 (defn definition
   [id-name]
@@ -56,7 +57,8 @@
 
   (if m
     (do
-      (print (loc/gen (first m)))
+      (printf "# %s +%d %s\n" id-name line full-path)
+      (print (hl/colorize (loc/gen (first m))))
       true)
     (do
       (printf "Sorry, failed to find definition for: %s" id-name)
