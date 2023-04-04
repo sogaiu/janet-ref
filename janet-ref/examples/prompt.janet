@@ -7,6 +7,14 @@
   # =>
   1
 
+  (prompt :here
+    (for i 0 2
+      (for j 0 2
+        (when (and (pos? i) (pos? j))
+          (return :here [i j])))))
+  # =>
+  [1 1]
+
   (do
     (defn l
       []
