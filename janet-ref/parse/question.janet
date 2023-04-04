@@ -3,7 +3,7 @@
 (import ./loc-jipper :as j)
 (import ../random :as rnd)
 
-(defn dprintf
+(defn deprintf
   [fmt & args]
   (when (os/getenv "VERBOSE")
     (eprintf fmt ;args)))
@@ -142,8 +142,8 @@
 
 (defn rewrite-test-zloc
   [test-zloc]
-  (dprintf "test:")
-  (dprintf (l/gen (j/node test-zloc)))
+  (deprintf "test:")
+  (deprintf (l/gen (j/node test-zloc)))
   # find how many "steps" back are needed to "get back" to original spot
   (var steps 0)
   (var chosen-thing-zloc nil)
@@ -156,7 +156,7 @@
         (= :constant test-node-type)
         (= :number test-node-type))
     (do
-      (dprintf "test was a %s" test-node-type)
+      (deprintf "test was a %s" test-node-type)
       (set chosen-thing-zloc test-zloc))
     #
     (get {:tuple true
@@ -168,18 +168,18 @@
           :table true} test-node-type)
     (let [things (find-things test-zloc)]
       # XXX
-      (dprintf "test was a %s" test-node-type)
+      (deprintf "test was a %s" test-node-type)
       # XXX
-      (dprintf "Number of things found: %d" (length things))
+      (deprintf "Number of things found: %d" (length things))
       (when (empty? things)
         # XXX
         (eprint "Failed to find a thing")
         (break [nil nil]))
       (each thng things
-        (dprintf (l/gen (j/node thng))))
+        (deprintf (l/gen (j/node thng))))
       (set chosen-thing-zloc
            (rnd/choose things))
-      (dprintf "chosen: %s" (l/gen (j/node chosen-thing-zloc))))
+      (deprintf "chosen: %s" (l/gen (j/node chosen-thing-zloc))))
     #
     (do
       (eprint "Unexpected node-type:" test-node-type)
@@ -200,7 +200,7 @@
          (j/df-prev curr-zloc))
     (++ steps))
   # XXX
-  (dprintf "steps: %d" steps)
+  (deprintf "steps: %d" steps)
   # XXX: check not nil?
   (var [curr-zloc blanked-item]
     (->> chosen-thing-zloc
@@ -210,7 +210,7 @@
     (set curr-zloc
          (j/df-prev curr-zloc)))
   # XXX
-  #(dprintf "curr-zloc: %M" curr-zloc)
+  #(deprintf "curr-zloc: %M" curr-zloc)
   #
   [curr-zloc blanked-item])
 
