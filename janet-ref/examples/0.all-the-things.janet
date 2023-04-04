@@ -38,6 +38,7 @@
 #   or
 #   prompt
 #   protect
+#   return
 #   toggle
 #   try
 #   unless
