@@ -33,6 +33,7 @@
 #   edefer
 #   errorf
 #   if-not
+#   if-with
 #   label
 #   let
 #   or
@@ -43,6 +44,7 @@
 #   try
 #   unless
 #   when
+#   when-with
 #   with
 #   with-syms
 #
