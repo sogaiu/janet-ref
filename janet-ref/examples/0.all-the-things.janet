@@ -30,6 +30,9 @@
 #   default
 #   defer
 #   defn
+#   each
+#   eachk
+#   eachp
 #   edefer
 #   errorf
 #   for
