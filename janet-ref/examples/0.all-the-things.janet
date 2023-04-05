@@ -32,6 +32,8 @@
 #   defn
 #   edefer
 #   errorf
+#   for
+#   forv
 #   if-not
 #   if-with
 #   label
