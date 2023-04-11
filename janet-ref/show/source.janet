@@ -31,6 +31,41 @@
 
   )
 
+(defn dedent
+  [src]
+  (def m
+    (peg/match ~(capture (any " ")) src))
+  (if (nil? m)
+    src
+    (let [n-spaces (length (first m))
+          lines (string/split "\n" src)]
+      (string/join (map (fn [line]
+                          (if (< n-spaces
+                                 (length line))
+                            (string/slice line n-spaces)
+                            line))
+                        lines)
+                   "\n"))))
+
+(comment
+
+  (def src
+    ``
+        janet_quick_asm(env, JANET_FUN_BNOT,
+                        "bnot", 1, 1, 1, 1, bnot_asm, sizeof(bnot_asm),
+                        JDOC("(bnot x)\n\nReturns the ... of integer x."));
+    ``)
+
+  (dedent src)
+  # =>
+  ``
+  janet_quick_asm(env, JANET_FUN_BNOT,
+                  "bnot", 1, 1, 1, 1, bnot_asm, sizeof(bnot_asm),
+                  JDOC("(bnot x)\n\nReturns the ... of integer x."));
+  ``
+
+  )
+
 (defn handle-c
   [id-name line position search-str full-path src]
   (def trimmed-search-str
@@ -48,7 +83,7 @@
               (string/format "Unexpected col value: %d" col))
       # XXX: need c-colorize
       #(print (hl/c-colorize (string/slice src position (inc end-pos))))
-      (print (string/slice src position (inc end-pos)))
+      (print (dedent (string/slice src position (inc end-pos))))
       (print)
       (print "//" id-name)
       (printf "+%d %s\n" line full-path)
@@ -67,7 +102,7 @@
       (def [_ col end-pos] (find |(= :semi-colon (first $)) m))
       # XXX: need c-colorize
       #(print (hl/c-colorize (string/slice src position (inc end-pos))))
-      (print (string/slice src position (inc end-pos)))
+      (print (dedent (string/slice src position (inc end-pos))))
       (print)
       (print "//" id-name)
       (printf "+%d %s\n" line full-path)
@@ -88,7 +123,7 @@
       (def [_ col end-pos] (find |(= :semi-colon (first $)) m))
       # XXX: need c-colorize
       #(print (hl/c-colorize (string/slice src start-pos (inc end-pos))))
-      (print (string/slice src start-pos (inc end-pos)))
+      (print (dedent (string/slice src start-pos (inc end-pos))))
       (print)
       (print "//" id-name)
       (printf "+%d %s\n" line full-path)
