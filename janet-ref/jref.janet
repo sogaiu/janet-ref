@@ -213,8 +213,9 @@
   # XXX: organize this later
   (when (and (one? (length opts))
              (opts :macex1))
-    (printf "%p"
-            (eval-string (string "(macex1 '" thing ")")))
+    (->> (string "(macex1 '" thing ")")
+         eval-string
+         (printf "%n"))
     (os/exit 0))
 
   # XXX: organize this later
