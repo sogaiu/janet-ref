@@ -58,14 +58,14 @@ depending on the "search string":
                                 (capture (any :input))
                                 (column) (position)
                                 ")")
-                      ,(fn [b & rest]
-                         [:paren ;(slice rest -3)]))
+                      ,(fn [& args]
+                         [:paren ;(slice args -3)]))
     :curly-bound (cmt (sequence "{"
                                 (any :input)
                                 (column) (position)
                                 "}")
-                      ,(fn [b & rest]
-                         [:curly ;(slice rest -3)]))
+                      ,(fn [& args]
+                         [:curly ;(slice args -3)]))
     :semi-colon (cmt (sequence (column) (position) ";")
                      ,|[:semi-colon $0 $1])
     # XXX: incomplete?
@@ -176,5 +176,27 @@ depending on the "search string":
   (peg/match c-grammar templatize-varop-src)
   # =>
   '@[(:paren 73 195) (:semi-colon 74 196)]
+
+  (def janet-abstract-type-src
+    ``
+    const JanetAbstractType janet_peg_type = {
+        "core/peg",
+        NULL,
+        peg_mark,
+        cfun_peg_getter,
+        NULL, /* put */
+        peg_marshal,
+        peg_unmarshal,
+        NULL, /* tostring */
+        NULL, /* compare */
+        NULL, /* hash */
+        peg_next,
+        JANET_ATEND_NEXT
+    };
+    ``)
+
+  (peg/match c-grammar janet-abstract-type-src)
+  # =>
+  '@[(:curly 1 265) (:semi-colon 2 266)]
 
   )
