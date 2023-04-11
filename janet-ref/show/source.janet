@@ -154,7 +154,6 @@
     (eprintf "Failed to find: %s" full-path)
     (break nil))
 
-  # XXX: file existence check?
   (def src (slurp full-path))
 
   (cond
