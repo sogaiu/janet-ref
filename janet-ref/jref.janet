@@ -220,8 +220,11 @@
   # XXX: organize this later
   (when (and (one? (length opts))
              (opts :eval))
-    (printf "%p"
-            (eval-string thing))
+    (->> (eval-string thing)
+         (string/format "%n")
+         fmt/fmt
+         hl/colorize
+         print)
     (os/exit 0))
 
   # show docs, examples, and/or quizzes for a thing
