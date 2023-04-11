@@ -195,17 +195,23 @@
         (os/exit 1))))
 
   # XXX: organize this later
-  (when (and thing
-             (opts :macex1))
-    (->> (string "(macex1 '" thing ")")
+  (when (opts :macex1)
+    (def to-handle
+      (if thing
+        thing
+        (file/read stdin :all)))
+    (->> (string "(macex1 '" to-handle ")")
          eval-string
          (printf "%n"))
     (os/exit 0))
 
   # XXX: organize this later
-  (when (and thing
-             (opts :eval))
-    (->> (eval-string thing)
+  (when (opts :eval)
+    (def to-handle
+      (if thing
+        thing
+        (file/read stdin :all)))
+    (->> (eval-string to-handle)
          (string/format "%n")
          fmt/fmt
          hl/colorize
