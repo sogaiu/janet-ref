@@ -57,10 +57,12 @@
         (let [[_ col end-pos] (find |(= :curly (first $)) m)]
           (assert (= col 1)
                   (string/format "Unexpected col value: %d" col))
-          (printf "// %s +%d %s\n" id-name line full-path)
           # XXX: need c-colorize
           #(print (hl/c-colorize (string/slice src position (inc end-pos))))
-          (print (string/slice src position (inc end-pos))))
+          (print (string/slice src position (inc end-pos)))
+          (print)
+          (print "//" id-name)
+          (printf "+%d %s\n" line full-path))
         #
         (or (string/has-prefix? "JANET_CORE_DEF" trimmed-search-str)
             (string/has-prefix? "janet_quick_asm" trimmed-search-str)
@@ -68,10 +70,12 @@
             (string/has-prefix? "templatize_comparator" trimmed-search-str)
             (string/has-prefix? "templatize_varop" trimmed-search-str))
         (let [[_ col end-pos] (find |(= :semi-colon (first $)) m)]
-          (printf "// %s +%d %s\n" id-name line full-path)
           # XXX: need c-colorize
           #(print (hl/c-colorize (string/slice src position (inc end-pos))))
-          (print (string/slice src position (inc end-pos))))
+          (print (string/slice src position (inc end-pos)))
+          (print)
+          (print "//" id-name)
+          (printf "+%d %s\n" line full-path))
         # XXX: not yet handling core/peg and friends
         # XXX: should not get here
         (do
@@ -86,8 +90,10 @@
                      src position)]
       (if m
         (do
-          (printf "# %s +%d %s\n" id-name line full-path)
           (print (hl/colorize (loc/gen (first m))))
+          (print)
+          (print "#" id-name)
+          (printf "+%d %s\n" line full-path)
           true)
         (do
           (printf "Sorry, failed to find definition for: %s" id-name)
