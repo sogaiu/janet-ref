@@ -1,11 +1,26 @@
 # janet-ref (jref)
 
-Tool for doc lookups, examples, and quizzes of
-[Janet](https://janet-lang.org) info.
+Multi-purpose [Janet](https://janet-lang.org) info tool for:
+
+* doc and source lookups
+* examples and quizzes
+* pretty-printing
+* quick evaluation and macro-expansion
 
 ## Status
 
-Adding things :)
+Adding:
+
+* Examples and quizzes for more functions, macros, etc.
+
+Preliminary Support:
+
+* Some docs, examples, and quizzes for functions, macros, etc.
+* Pretty-printing (--pretty-print, -p)
+* Macro-expansion (--macex1, -m)
+* Source lookup (--src, -s)
+* Expression evaluation (--eval, -e)
+* Demo-oriented repl (--repl, -r)
 
 ## Usages Examples
 
