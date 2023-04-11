@@ -79,12 +79,13 @@
         (array/pop indt-stack)
         (buffer/push-string buf close-delim))
       #
-      (or (= :struct the-type)
-          (= :table the-type))
+      (get {:struct true
+            :table true}
+           the-type)
       (let [[open-delim close-delim]
-            (cond
-              (= :struct the-type) ["{" "}"]
-              (= :table the-type) ["@{" "}"])
+            (case the-type
+              :struct ["{" "}"]
+              :table ["@{" "}"])
             items (filter |(and (not= :whitespace (first $))
                                 (not= :comment (first $)))
                           (drop 2 an-ast))]
