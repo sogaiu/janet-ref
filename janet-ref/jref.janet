@@ -181,9 +181,7 @@
 
   # if no thing found and no options, show info about all things
   (when (and (nil? thing)
-             (nil? (opts :doc))
-             (nil? (opts :eg))
-             (nil? (opts :quiz)))
+             (empty? opts))
     (if-let [[file-path _]
              (module/find "janet-ref/examples/0.all-the-things")]
       (do
@@ -195,6 +193,24 @@
       (do
         (eprint "Hmm, something is wrong, failed to find all the things.")
         (os/exit 1))))
+
+  # XXX: organize this later
+  (when (and thing
+             (opts :macex1))
+    (->> (string "(macex1 '" thing ")")
+         eval-string
+         (printf "%n"))
+    (os/exit 0))
+
+  # XXX: organize this later
+  (when (and thing
+             (opts :eval))
+    (->> (eval-string thing)
+         (string/format "%n")
+         fmt/fmt
+         hl/colorize
+         print)
+    (os/exit 0))
 
   # ensure a thing beyond this form by choosing one if needed
   (unless thing
@@ -212,27 +228,8 @@
       (choose-random-thing file-names)))
 
   # XXX: organize this later
-  (when (and (one? (length opts))
-             (opts :src))
+  (when (opts :src)
     (src/definition thing)
-    (os/exit 0))
-
-  # XXX: organize this later
-  (when (and (one? (length opts))
-             (opts :macex1))
-    (->> (string "(macex1 '" thing ")")
-         eval-string
-         (printf "%n"))
-    (os/exit 0))
-
-  # XXX: organize this later
-  (when (and (one? (length opts))
-             (opts :eval))
-    (->> (eval-string thing)
-         (string/format "%n")
-         fmt/fmt
-         hl/colorize
-         print)
     (os/exit 0))
 
   # show docs, examples, and/or quizzes for a thing
@@ -265,7 +262,9 @@
     (when (or (and (opts :doc) (opts :eg))
               (and (nil? (opts :doc))
                    (nil? (opts :eg))
-                   (nil? (opts :quiz))))
+                   (nil? (opts :quiz))
+                   (nil? (opts :macex1))
+                   (nil? (opts :eval))))
       (if (get special-forms-table thing)
         (doc/special-form-doc content)
         (do
