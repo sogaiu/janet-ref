@@ -4,9 +4,11 @@
 
 (import ./argv :as av)
 (import ./completion :as compl)
+(import ./highlight/highlight :as hl)
 (import ./random :as rnd)
 (import ./show/doc :as doc)
 (import ./show/examples :as ex)
+(import ./show/format :as fmt)
 (import ./show/misc :as misc)
 (import ./show/questions :as qu)
 (import ./show/source :as src)
@@ -161,9 +163,13 @@
         cand)))
 
   # XXX: organize this later
-  (when (and (one? (length opts))
-             (opts :repl))
+  (when (opts :repl)
     (eval-string "(import janet-ref/repl) (repl/cli-main @[])")
+    (os/exit 0))
+
+  # XXX: organize this later
+  (when (opts :pretty-print)
+    (print (hl/colorize (fmt/fmt (file/read stdin :all))))
     (os/exit 0))
 
   # if no thing found and no options, show info about all things

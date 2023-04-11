@@ -1,5 +1,8 @@
 # copy-modify of Janet's boot.janet
 
+(import ./show/format :as fmt)
+(import ./highlight/highlight :as hl)
+
 # conditional compilation for reduced os
 (def- getenv-alias (if-let [entry (in root-env 'os/getenv)] (entry :value) (fn [&])))
 
@@ -18,16 +21,7 @@
       (when (not= :dead (fiber/status f))
         ((debugger-on-status env) f res)))))
 
-(defdyn *args*
-  "Dynamic bindings that will contain command line arguments at program start.")
-
-(defdyn *executable*
-  ``Name of the interpreter executable used to execute this program. Corresponds to `argv[0]` in the call to
-    `int main(int argc, char **argv);`.``)
-
-(defdyn *profilepath*
-  "Path to profile file loaded when starting up the repl.")
-
+# XXX: not so clear this needs to be out here
 (defdyn *getprompt*
   "Function to be used as getprompt function in the repl.")
 
@@ -177,7 +171,9 @@
       compile-only (flycheck stdin :source :stdin :exit exit-on-error)
       (do
         (if-not quiet
-          (print "jref - Janet " janet/version "-" janet/build " " (os/which) "/" (os/arch) "/" (os/compiler) " - '(doc)' for help"))
+          (print "jref - Janet " janet/version "-" janet/build " "
+                 (os/which) "/" (os/arch) "/" (os/compiler)
+                 " - '(doc)' for help"))
         (flush)
         (when-let [prompt-fn (dyn *getprompt*)]
           (when (function? prompt-fn)
@@ -196,8 +192,8 @@
         (def getter (if raw-stdin getstdin getline))
         (defn getchunk [buf p]
           (getter (getprompt p) buf env))
-        (setdyn *pretty-format* (if colorize "%.20Q" "%.20q"))
         # XXX
+        #(setdyn *pretty-format* (if colorize "%.20Q" "%.20q"))
         (put env *pretty-format*
              @{:value :pretty-format})
         (put env :pretty-format
@@ -206,5 +202,24 @@
         (setdyn *doc-color* (if colorize true))
         (setdyn *lint-error* error-level)
         (setdyn *lint-warn* error-level)
-        (repl getchunk nil env)))))
+        # XXX
+        #(repl getchunk nil env)
+        # defining the following to customize ouput
+        # customized the returned value of debugger-on-status in boot.janet
+        (defn onsignal
+          [fib x]
+          (def fs (fiber/status fib))
+          (if (= :dead fs)
+            (when true
+              (put env '_ @{:value x})
+              (print "# =>")
+              (print (hl/colorize (fmt/fmt (string/format "%n" x))))
+              (print)
+              (flush))
+            (do
+              (debug/stacktrace fib x "")
+              (eflush)
+              (when (get env :debug)
+                (debugger fib 1)))))
+        (repl getchunk onsignal env)))))
 

@@ -56,6 +56,11 @@
              arg)
         (put opts :src true)
         #
+        (get {"--pretty-print" true
+              "-p" true}
+             arg)
+        (put opts :pretty-print true)
+        #
         (get {"--help" true
               "-h" true}
              arg)
