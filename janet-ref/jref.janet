@@ -179,21 +179,6 @@
          print)
     (os/exit 0))
 
-  # if no thing found and no options, show info about all things
-  (when (and (nil? thing)
-             (empty? opts))
-    (if-let [[file-path _]
-             (module/find "janet-ref/examples/0.all-the-things")]
-      (do
-        (unless (os/stat file-path)
-          (eprintf "Failed to find file: %s" file-path)
-          (os/exit 1))
-        (doc/doc (slurp file-path))
-        (os/exit 0))
-      (do
-        (eprint "Hmm, something is wrong, failed to find all the things.")
-        (os/exit 1))))
-
   # XXX: organize this later
   (when (opts :macex1)
     (def to-handle
@@ -217,6 +202,21 @@
          hl/colorize
          print)
     (os/exit 0))
+
+  # if no thing found and no options, show info about all things
+  (when (and (nil? thing)
+             (empty? opts))
+    (if-let [[file-path _]
+             (module/find "janet-ref/examples/0.all-the-things")]
+      (do
+        (unless (os/stat file-path)
+          (eprintf "Failed to find file: %s" file-path)
+          (os/exit 1))
+        (doc/doc (slurp file-path))
+        (os/exit 0))
+      (do
+        (eprint "Hmm, something is wrong, failed to find all the things.")
+        (os/exit 1))))
 
   # ensure a thing beyond this form by choosing one if needed
   (unless thing
