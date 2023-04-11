@@ -169,7 +169,14 @@
 
   # XXX: organize this later
   (when (opts :pretty-print)
-    (print (hl/colorize (fmt/fmt (file/read stdin :all))))
+    (def to-print
+      (if thing
+        thing
+        (file/read stdin :all)))
+    (->> to-print
+         fmt/fmt
+         hl/colorize
+         print)
     (os/exit 0))
 
   # if no thing found and no options, show info about all things
