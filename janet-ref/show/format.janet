@@ -426,31 +426,30 @@
           (buffer/popn buf (+ 1 (length (array/peek indt-stack)))))
         (array/pop indt-stack)
         (buffer/push-string buf close-delim))
-      # :fn
-      # (do
-      #   (buffer/push-string buf "|")
-      #   (each elt (drop 2 an-ast)
-      #     (fmt* elt buf)))
-      # :quasiquote
-      # (do
-      #   (buffer/push-string buf "~")
-      #   (each elt (drop 2 an-ast)
-      #     (fmt* elt buf)))
-      # :quote
-      # (do
-      #   (buffer/push-string buf "'")
-      #   (each elt (drop 2 an-ast)
-      #     (fmt* elt buf)))
-      # :splice
-      # (do
-      #   (buffer/push-string buf ";")
-      #   (each elt (drop 2 an-ast)
-      #     (fmt* elt buf)))
-      # :unquote
-      # (do
-      #   (buffer/push-string buf ",")
-      #   (each elt (drop 2 an-ast)
-      #     (fmt* elt buf)))
+      # XXX: janet itself won't print things with any of the following?
+      (get {:fn true
+            :quasiquote true
+            :quote true
+            :splice true
+            :unquote true}
+           the-type)
+      (let [sigil
+            (case the-type
+              :fn "|"
+              :quasiquote "~"
+              :quote "'"
+              :splice ";"
+              :unquote ",")
+            # XXX: should only be one thing left?
+            items (filter |(and (not= :whitespace (first $))
+                                (not= :comment (first $)))
+                          (drop 2 an-ast))]
+        (+= cur-col (length sigil))
+        (buffer/push-string buf sigil)
+        (each elt items
+          (fmt* elt buf)))
+      #
+      (errorf "Unexpected type: %s" the-type)
       )
     buf)
   #
