@@ -353,15 +353,11 @@
             :tuple true}
            the-type)
       (let [[open-delim close-delim]
-            (cond
-              (= :array the-type)
-              ["@(" ")"]
-              (= :bracket-array the-type)
-              ["@[" "]"]
-              (= :bracket-tuple the-type)
-              ["[" "]"]
-              (= :tuple the-type)
-              ["(" ")"])
+            (case the-type
+              :array ["@(" ")"]
+              :bracket-array ["@[" "]"]
+              :bracket-tuple ["[" "]"]
+              :tuple ["(" ")"])
             items (filter |(and (not= :whitespace (first $))
                                 (not= :comment (first $)))
                           (drop 2 an-ast))
