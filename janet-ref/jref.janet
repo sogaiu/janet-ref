@@ -268,9 +268,7 @@
     (when (or (and (opts :doc) (opts :eg))
               (and (nil? (opts :doc))
                    (nil? (opts :eg))
-                   (nil? (opts :quiz))
-                   (nil? (opts :macex1))
-                   (nil? (opts :eval))))
+                   (nil? (opts :quiz))))
       (if (get special-forms-table thing)
         (doc/special-form-doc content)
         (do
