@@ -1,6 +1,6 @@
 # copy-modify of Janet's boot.janet
 
-(import ./show/format :as fmt)
+(import ./format/format :as fmt)
 (import ./highlight/highlight :as hl)
 
 # conditional compilation for reduced os

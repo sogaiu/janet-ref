@@ -4,11 +4,11 @@
 
 (import ./argv :as av)
 (import ./completion :as compl)
+(import ./format/format :as fmt)
 (import ./highlight/highlight :as hl)
 (import ./random :as rnd)
 (import ./show/doc :as doc)
 (import ./show/examples :as ex)
-(import ./show/format :as fmt)
 (import ./show/misc :as misc)
 (import ./show/questions :as qu)
 (import ./show/source :as src)

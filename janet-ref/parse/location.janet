@@ -71,7 +71,8 @@
                          '(sequence "#"
                                     (any (if-not (set "\r\n") 1))))
     #
-    :form (choice # reader macros
+    :form (choice :unreadable
+                  # reader macros
                   :fn
                   :quasiquote
                   :quote
@@ -93,6 +94,12 @@
                   :long-string
                   :keyword
                   :symbol)
+    #
+    :unreadable ,(atom-node :unreadable
+                            '(sequence "<"
+                                       (between 1 32 :name-char)
+                                       :s+
+                                       (thru ">")))
     #
     :fn ,(reader-macro-node :fn "|")
     # :fn (cmt (capture (sequence (line) (column)
@@ -256,6 +263,10 @@
                 (:symbol @{:bc 2 :bl 1
                            :ec 3 :el 1} "x"))
 
+  (get (peg/match loc-grammar "<core/peg 0xdeedabba>") 2)
+  # =>
+  '(:unreadable @{:bc 1 :bl 1 :ec 22 :el 1} "<core/peg 0xdeedabba>")
+
   )
 
 (def loc-top-level-ast
@@ -281,9 +292,6 @@
         (array/insert trees 0
                       :code (make-attrs bl bc el ec)))
       @[:code])))
-
-# XXX: backward compatibility
-(def ast par)
 
 (comment
 
@@ -330,6 +338,8 @@
     :string
     (buffer/push-string buf (in an-ast 2))
     :symbol
+    (buffer/push-string buf (in an-ast 2))
+    :unreadable
     (buffer/push-string buf (in an-ast 2))
     :whitespace
     (buffer/push-string buf (in an-ast 2))
@@ -405,9 +415,6 @@
     # XXX: leave as buffer?
     (string buf)))
 
-# XXX: backward compatibility
-(def code gen)
-
 (comment
 
   (gen
@@ -444,6 +451,13 @@
                           :ec 7 :el 1} "1"))])
   # =>
   "(+ 1 1)"
+
+  (gen
+    '@[:code @{}
+       (:unreadable @{:bc 1 :bl 1 :ec 22 :el 1}
+                    "<core/peg 0xdeedabba>")])
+  # =>
+  "<core/peg 0xdeedabba>"
 
   )
 
