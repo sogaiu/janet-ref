@@ -99,7 +99,13 @@
                             '(sequence "<"
                                        (between 1 32 :name-char)
                                        :s+
-                                       (thru ">")))
+                                       (some (if (choice :name-char
+                                                         :d)
+                                               1))
+                                       (look -1 ">")
+                                       (look 0 (choice -1
+                                                       (not (choice :name-char
+                                                                    :d))))))
     #
     :fn ,(reader-macro-node :fn "|")
     # :fn (cmt (capture (sequence (line) (column)
@@ -266,6 +272,27 @@
   (get (peg/match loc-grammar "<core/peg 0xdeedabba>") 2)
   # =>
   '(:unreadable @{:bc 1 :bl 1 :ec 22 :el 1} "<core/peg 0xdeedabba>")
+
+  (get (peg/match loc-grammar "<function >>") 2)
+  # =>
+  '(:unreadable @{:bc 1 :bl 1 :ec 13 :el 1} "<function >>")
+
+  (get (peg/match loc-grammar "<function ->>>") 2)
+  # =>
+  '(:unreadable @{:bc 1 :bl 1 :ec 15 :el 1} "<function ->>>")
+
+  (get (peg/match loc-grammar "<core/s64 100>") 2)
+  # =>
+  '(:unreadable @{:bc 1 :bl 1 :ec 15 :el 1} "<core/s64 100>")
+
+  (get (peg/match loc-grammar "(+ <core/s64 100> 1)") 2)
+  # =>
+  '(:tuple @{:bc 1 :bl 1 :ec 21 :el 1}
+           (:symbol @{:bc 2 :bl 1 :ec 3 :el 1} "+")
+           (:whitespace @{:bc 3 :bl 1 :ec 4 :el 1} " ")
+           (:unreadable @{:bc 4 :bl 1 :ec 18 :el 1} "<core/s64 100>")
+           (:whitespace @{:bc 18 :bl 1 :ec 19 :el 1} " ")
+           (:number @{:bc 19 :bl 1 :ec 20 :el 1} "1"))
 
   )
 
