@@ -36,6 +36,7 @@
 #   edefer
 #   errorf
 #   for
+#   forever
 #   forv
 #   if-not
 #   if-with
@@ -44,6 +45,7 @@
 #   or
 #   prompt
 #   protect
+#   repeat
 #   return
 #   toggle
 #   try

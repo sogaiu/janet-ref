@@ -20,6 +20,7 @@
   {0 ["comment"
       "cond"
       "do"
+      "forever"
       "protect"
       "try"
       "upscope"]
@@ -33,6 +34,7 @@
       "mapcat"
       "or"
       "prompt"
+      "repeat"
       "set"
       "unless"
       "var"
