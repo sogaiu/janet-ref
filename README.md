@@ -36,6 +36,110 @@ Preliminary Support:
 
 ## Invocation Examples
 
+Look up some docs.
+
+```
+$ jref -d var
+special form
+
+`(var name meta... value)`
+
+`var` binds a value to a symbol.
+
+The symbol can be substituted for the value in subsequent
+expressions for the same result.
+
+A binding made by `var` can be updated using `set`.
+
+For further info, see:
+
+  https://janet-lang.org/docs/specials.html
+```
+
+Show some usages.
+
+```
+$ jref -u mapcat
+(mapcat string [1 2 3])
+# =>
+@["1" "2" "3"]
+
+(mapcat scan-number ["2r111" "0x08" "8r11" "10"])
+# =>
+@[7 8 9 10]
+
+(mapcat identity [["alice" 1] ["bob" 2] ["carol" 3]])
+# =>
+@["alice" 1 "bob" 2 "carol" 3]
+
+(->> [[:a 1] [:b 2] [:c 3]]
+     (mapcat identity)
+     splice
+     table)
+# =>
+@{:a 1 :b 2 :c 3}
+```
+Take a quiz.
+
+```
+$ jref -q label
+(label here
+  (for i 0 2
+    (when (pos? i)
+      (______ here i))))
+# =>
+1
+
+What value could work in the blank?
+```
+
+Pretty-print some data.
+
+```
+$ jref -p "{:a 1 :b {:x 8 :y 9}}"
+{:a 1
+ :b {:x 8
+     :y 9}}
+```
+
+Format some code.
+
+```
+$ jref -f "(defn a [x] (+ x 1)) (print (a 2))"
+(defn a
+  [x]
+  (+ x 1))
+
+(print (a 2))
+```
+
+Evaluate some code.
+
+```
+$ jref -e "(> (length (all-bindings)) 500)"
+true
+```
+
+Expand a macro call.
+
+```
+$ jref -m "(each i [0 1 2] (when (pos? i) (break)))"
+(do
+  (def _0000c3
+    [0 1 2])
+  (var _0000c2
+    (<function next> _0000c3 nil))
+  (while (<function not=> nil _0000c2)
+    (def i
+      (<function in> _0000c3 _0000c2))
+    (when (pos? i)
+      (break))
+    (set _0000c2
+         (<function next> _0000c3 _0000c2))))
+```
+
+Get basic help.
+
 ```
 $ jref -h
 Usage: jref [option] [thing]
