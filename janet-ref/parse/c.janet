@@ -53,7 +53,7 @@ depending on the "search string":
     :non-string (some (choice :a
                               :d
                               # XXX: @, $, and ` not allowed in C?
-                              (set `_+-/*.,=&|!^%?:[]<>#\`)))
+                              (set `_+-/*.,=&|!^~%?:[]<>#\'`)))
     :paren-bound (cmt (sequence "("
                                 (capture (any :input))
                                 (column) (position)
@@ -123,6 +123,25 @@ depending on the "search string":
   (peg/match c-grammar static-src)
   # =>
   '@[(:paren 79 78) (:curly 1 260)]
+
+  (def static-src-2
+    ``
+    static JanetSlot janetc_def(JanetFopts opts, int32_t argn, const Janet *argv) {
+        JanetCompiler *c = opts.compiler;
+        Janet head;
+        opts.flags &= ~JANET_FOPTS_HINT;
+        JanetTable *attr_table = handleattr(c, argn, argv);
+        JanetSlot ret = dohead(c, opts, &head, argn, argv);
+        if (c->result.status == JANET_COMPILE_ERROR)
+            return janetc_cslot(janet_wrap_nil());
+        destructure(c, argv[0], ret, defleaf, attr_table);
+        return ret;
+    }
+    ``)
+
+  (peg/match c-grammar static-src-2)
+  # =>
+  '@[(:paren 77 76) (:curly 1 450)]
 
   (def janet-core-def-src
     ``
