@@ -4,7 +4,7 @@
 
 (import ./argv :as av)
 (import ./completion :as compl)
-(import ./format/format :as fmt)
+(import ./format/data :as data)
 (import ./highlight/highlight :as hl)
 (import ./random :as rnd)
 (import ./show/doc :as doc)
@@ -174,7 +174,7 @@
         thing
         (file/read stdin :all)))
     (->> to-print
-         fmt/fmt
+         data/fmt
          hl/colorize
          print)
     (os/exit 0))
@@ -198,7 +198,7 @@
         (file/read stdin :all)))
     (->> (eval-string to-handle)
          (string/format "%n")
-         fmt/fmt
+         data/fmt
          hl/colorize
          print)
     (os/exit 0))

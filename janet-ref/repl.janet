@@ -1,6 +1,6 @@
 # copy-modify of Janet's boot.janet
 
-(import ./format/format :as fmt)
+(import ./format/data :as data)
 (import ./highlight/highlight :as hl)
 
 # conditional compilation for reduced os
@@ -213,7 +213,7 @@
             (when true
               (put env '_ @{:value x})
               (print "# =>")
-              (print (hl/colorize (fmt/fmt (string/format "%n" x))))
+              (print (hl/colorize (data/fmt (string/format "%n" x))))
               (print)
               (flush))
             (do
