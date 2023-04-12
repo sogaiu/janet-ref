@@ -4,8 +4,10 @@
 
 (import ./argv :as av)
 (import ./completion :as compl)
+(import ./format/code :as code)
 (import ./format/data :as data)
 (import ./highlight/highlight :as hl)
+(import ./jandent/indent :as indent)
 (import ./random :as rnd)
 (import ./show/doc :as doc)
 (import ./show/examples :as ex)
@@ -187,7 +189,11 @@
         (file/read stdin :all)))
     (->> (string "(macex1 '" to-handle ")")
          eval-string
-         (printf "%n"))
+         (string/format "%n")
+         code/fmt
+         indent/format
+         hl/colorize
+         print)
     (os/exit 0))
 
   # XXX: organize this later
