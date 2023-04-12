@@ -1,20 +1,70 @@
 (import ../parse/location :as loc)
 
+# keys are numbers that represent which element of a call (involving
+# the symbol associatated with the name) is the first one to have a
+# newline after it.  all subsequent things have newlines after them
+# for simplicity.
+#
+# e.g. "do" is associated with 0 because in a "do" form:
+#
+#      (do
+#        form-1
+#        form-2
+#        ...
+#        form-n)
+#
+#      the 0-th item ("do") is the first element of the call (tuple)
+#      with a newline after it, and all subsequent elements have
+#      newlines after them.
+(def nl-things
+  {0 ["comment"
+      "cond"
+      "do"
+      "protect"
+      "try"
+      "upscope"]
+   1 ["and" "assert"
+      "case"
+      "def" "defer" "defn"
+      "edefer"
+      "fn"
+      "if" "if-let" "if-not" "if-with"
+      "label" "let"
+      "mapcat"
+      "or"
+      "prompt"
+      "set"
+      "unless"
+      "var"
+      "when" "when-let" "when-with" "while" "with" "with-syms"]
+   2 ["each" "eachk" "eachp"]
+   3 ["for" "forv"]
+   # means don't use newlines -- here for book-keeping
+   -1 ["break"
+       "chr"
+       "dec"
+       "default"
+       # XXX
+       "errorf"
+       "inc"
+       "interpose"
+       # XXX
+       #"mapcat"
+       "quasiquote"
+       "quote"
+       "return"
+       "splice"
+       "toggle"
+       "unquote"]})
+
 (def nl-tbl
-  {"def" (fn [i] (pos? i))
-   "do" (fn [i] true)
-   # XXX: nicer if can handle optional name?
-   "fn" (fn [i] (pos? i))
-   "if" (fn [i] (case i
-                  1 true
-                  2 true
-                  nil))
-   # XXX: can let show up in macroexpansions?
-   "let" (fn [i] (pos? i))
-   "set" (fn [i] (one? i))
-   "upscope" (fn [i] true)
-   "var" (fn [i] (pos? i))
-   "while" (fn [i] (pos? i))})
+  (let [tbl @{}]
+    (eachp [num names] nl-things
+      (when (>= num 0)
+        (each name names
+          (put tbl
+               name (fn [i] (>= i num))))))
+    tbl))
 
 (defn fmt
   [src]
