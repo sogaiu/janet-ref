@@ -4,8 +4,9 @@ Multi-purpose [Janet](https://janet-lang.org) info tool for:
 
 * doc and source lookups
 * usages and quizzes
-* pretty-printing, indenting, and formatting
+* data pretty-printing, code indenting and formatting
 * quick evaluation and macro-expansion
+* creating readable repl session / usage content
 
 ## Status
 
@@ -15,14 +16,23 @@ Adding:
 
 Preliminary Support:
 
-* Some docs, usages, and quizzes for functions, macros, etc.
-* Pretty-printing (--pretty-print, -p)
-* Code formatting (--format, -f)
-* Code Indenting (--indent, -i)
-* Macro-expansion (--macex1, -m)
-* Source lookup (--src, -s)
-* Expression evaluation (--eval, -e)
-* Demo-oriented repl (--repl, -r)
+* Functions, Macros, etc.
+  * Doc lookup (--doc, -d)
+  * Source lookup (--src, -s)
+  * Usage (--usage, -u)
+  * Quizzes (--quiz, -q)
+
+* Data
+  * Pretty-printing (--pretty-print, -p)
+
+* Code
+  * Formatting (--format, -f)
+  * Indenting (--indent, -i)
+  * Expression evaluation (--eval, -e)
+  * Macro-expansion (--macex1, -m)
+
+* Demo / Usage Creation
+  * Tweaked Repl (--repl, -r)
 
 ## Invocation Examples
 
