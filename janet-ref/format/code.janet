@@ -28,8 +28,14 @@
     (def the-type (first an-ast))
     (cond
       (= :code the-type)
-      (each elt (drop 2 an-ast)
-        (fmt* elt buf))
+      (let [items (filter |(and (not= :whitespace (first $))
+                                (not= :comment (first $)))
+                          (drop 2 an-ast))]
+        (each elt items
+          (fmt* elt buf)
+          (buffer/push-string buf "\n\n"))
+        (when (string/has-suffix? "\n\n" buf)
+          (buffer/popn buf 2)))
       #
       (= :tuple the-type)
       (let [open-delim "("
@@ -291,6 +297,21 @@
   @``
    (fn [x]
    (+ x 1))
+   ``
+
+  (def src-7
+    ``
+    (def a 1) (while true (break))
+    ``)
+
+  (fmt src-7)
+  # =>
+  @``
+   (def a
+   1)
+
+   (while true
+   (break))
    ``
 
   )
