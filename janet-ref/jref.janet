@@ -26,24 +26,24 @@
     -h, --help                  show this output
 
     -d, --doc [<thing>]         show doc
-    -x, --eg [<thing>]          show examples
     -q, --quiz [<thing>]        show quiz question
+    -u, --usage [<thing>]       show usages
 
     --bash-completion           output bash-completion bits
     --fish-completion           output fish-completion bits
     --zsh-completion            output zsh-completion bits
     --raw-all                   show all things to help completion
 
-  With a thing, but no options, show docs and examples.
+  With a thing, but no options, show docs and usages.
 
   With the `-d` or `--doc` option, show docs for thing, or if none
   specified, for a randomly chosen one.
 
-  With the `-x` or `--eg` option, show examples for specified thing,
-  or if none specified, for a randomly chosen one.
-
   With the `-q` or `--quiz` option, show quiz question for specified
   thing, or if none specified, for a randonly chosen one.
+
+  With the `-u` or `--usage` option, show usages for specified thing,
+  or if none specified, for a randomly chosen one.
 
   With no arguments, lists all things.
 
@@ -209,6 +209,31 @@
          print)
     (os/exit 0))
 
+  # XXX: organize this later
+  (when (opts :format)
+    (def to-handle
+      (if thing
+        thing
+        (file/read stdin :all)))
+    (->> to-handle
+         code/fmt
+         indent/format
+         hl/colorize
+         print)
+    (os/exit 0))
+
+  # XXX: organize this later
+  (when (opts :indent)
+    (def to-handle
+      (if thing
+        thing
+        (file/read stdin :all)))
+    (->> to-handle
+         indent/format
+         hl/colorize
+         print)
+    (os/exit 0))
+
   # if no thing found and no options, show info about all things
   (when (and (nil? thing)
              (empty? opts))
@@ -271,9 +296,9 @@
     (def content
       (slurp file-path))
 
-    (when (or (and (opts :doc) (opts :eg))
+    (when (or (and (opts :doc) (opts :usage))
               (and (nil? (opts :doc))
-                   (nil? (opts :eg))
+                   (nil? (opts :usage))
                    (nil? (opts :quiz))))
       (if (get special-forms-table thing)
         (doc/special-form-doc content)
@@ -292,7 +317,7 @@
         (doc/thing-doc thing)))
 
     (cond
-      (opts :eg)
+      (opts :usage)
       (ex/thing-examples content)
       #
       (opts :quiz)

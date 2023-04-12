@@ -21,50 +21,49 @@
         (get {"--raw-all" true} arg)
         (put opts :raw-all true)
         #
-        (get {"--doc" true
-              "-d" true}
+        (get {"--doc" true "-d" true}
              arg)
         (put opts :doc true)
         #
-        (get {"--eg" true
-              "-x" true}
-             arg)
-        (put opts :eg true)
-        #
-        (get {"--quiz" true
-              "-q" true}
-             arg)
-        (put opts :quiz true)
-        #
-        (get {"--macex1" true
-              "-m" true}
-             arg)
-        (put opts :macex1 true)
-        #
-        (get {"--eval" true
-              "-e" true}
+        (get {"--eval" true "-e" true}
              arg)
         (put opts :eval true)
         #
-        (get {"--repl" true
-              "-r" true}
+        (get {"--format" true "-f" true}
              arg)
-        (put opts :repl true)
+        (put opts :format true)
         #
-        (get {"--src" true
-              "-s" true}
+        (get {"--help" true "-h" true}
              arg)
-        (put opts :src true)
+        (put opts :help true)
         #
-        (get {"--pretty-print" true
-              "-p" true}
+        (get {"--indent" true "-i" true}
+             arg)
+        (put opts :indent true)
+        #
+        (get {"--macex1" true "-m" true}
+             arg)
+        (put opts :macex1 true)
+        #
+        (get {"--pretty-print" true "-p" true}
              arg)
         (put opts :pretty-print true)
         #
-        (get {"--help" true
-              "-h" true}
+        (get {"--quiz" true "-q" true}
              arg)
-        (put opts :help true)
+        (put opts :quiz true)
+        #
+        (get {"--repl" true "-r" true}
+             arg)
+        (put opts :repl true)
+        #
+        (get {"--src" true "-s" true}
+             arg)
+        (put opts :src true)
+        #
+        (get {"--usage" true "-u" true}
+             arg)
+        (put opts :usage true)
         #
         (array/push rest arg))
       (++ i)))

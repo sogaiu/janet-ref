@@ -3,26 +3,28 @@
 Multi-purpose [Janet](https://janet-lang.org) info tool for:
 
 * doc and source lookups
-* examples and quizzes
-* pretty-printing
+* usages and quizzes
+* pretty-printing, indenting, and formatting
 * quick evaluation and macro-expansion
 
 ## Status
 
 Adding:
 
-* Examples and quizzes for more functions, macros, etc.
+* Usages and quizzes for more functions, macros, etc.
 
 Preliminary Support:
 
-* Some docs, examples, and quizzes for functions, macros, etc.
+* Some docs, usages, and quizzes for functions, macros, etc.
 * Pretty-printing (--pretty-print, -p)
+* Code formatting (--format, -f)
+* Code Indenting (--indent, -i)
 * Macro-expansion (--macex1, -m)
 * Source lookup (--src, -s)
 * Expression evaluation (--eval, -e)
 * Demo-oriented repl (--repl, -r)
 
-## Usages Examples
+## Invocation Examples
 
 ```
 $ jref -h
@@ -34,24 +36,24 @@ special forms, etc.
   -h, --help                  show this output
 
   -d, --doc [<thing>]         show doc
-  -x, --eg [<thing>]          show examples
   -q, --quiz [<thing>]        show quiz question
+  -u, --usage [<thing>]       show usages
 
   --bash-completion           output bash-completion bits
   --fish-completion           output fish-completion bits
   --zsh-completion            output zsh-completion bits
   --raw-all                   show all things to help completion
 
-With a thing, but no options, show docs and examples.
+With a thing, but no options, show docs and usages.
 
 With the `-d` or `--doc` option, show docs for thing, or if none
 specified, for a randomly chosen one.
 
-With the `-x` or `--eg` option, show examples for specified thing,
-or if none specified, for a randomly chosen one.
-
 With the `-q` or `--quiz` option, show quiz question for specified
 thing, or if none specified, for a randonly chosen one.
+
+With the `-u` or `--usage` option, show usages for specified thing,
+or if none specified, for a randomly chosen one.
 
 With no arguments, lists all things.
 
