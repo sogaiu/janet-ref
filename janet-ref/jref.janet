@@ -23,16 +23,26 @@
   View Janet information for things such as functions, macros,
   special forms, etc.
 
-    -h, --help                  show this output
+    -h, --help                   show this output
 
-    -d, --doc [<thing>]         show doc
-    -q, --quiz [<thing>]        show quiz question
-    -u, --usage [<thing>]       show usages
+    -d, --doc [<thing>]          show doc
+    -q, --quiz [<thing>]         show quiz question
+    -s, --source [<thing>]       show source
+    -u, --usage [<thing>]        show usages
 
-    --bash-completion           output bash-completion bits
-    --fish-completion           output fish-completion bits
-    --zsh-completion            output zsh-completion bits
-    --raw-all                   show all things to help completion
+    -p, --pprint [<data>]        pretty-print data
+
+    -f, --format [<code>]        format code
+    -i, --indent [<code>]        indent code
+    -e, --eval [<code>]          evaluate code
+    -m, --macex1 [<code>]        macroexpand code
+
+    -r, --repl                   run a repl
+
+    --bash-completion            output bash-completion bits
+    --fish-completion            output fish-completion bits
+    --zsh-completion             output zsh-completion bits
+    --raw-all                    show all things to help completion
 
   With a thing, but no options, show docs and usages.
 
@@ -42,6 +52,9 @@
   With the `-q` or `--quiz` option, show quiz question for specified
   thing, or if none specified, for a randonly chosen one.
 
+  With the `-s` or `--src` option, show source code for specified
+  thing, or if none specified, for a randonly chosen one [1].
+
   With the `-u` or `--usage` option, show usages for specified thing,
   or if none specified, for a randomly chosen one.
 
@@ -50,6 +63,24 @@
   Be careful to quote shortnames (e.g. *, ->, >, <-, etc.)
   appropriately so the shell doesn't process them in an undesired
   fashion.
+
+  ---
+
+  [1] For source code lookups to work, the Janet source code needs to
+  be available locally and a suitable `TAGS` file needs to exist.
+
+  1. Once the source is obtained, set the `JREF_JANET_SRC_PATH` env var
+     to point at it.
+
+  2. To create the `TAGS` file, use the `idk-janet` script from
+     https://github.com/sogaiu/index-janet-source with the env var
+     `IJS_OUTPUT_FORMAT` set to `etags`.  Note that universal ctags
+     is necessary for `idk-janet` to work.
+
+  3. Run `idk-janet` in the janet source repository directory, this
+     should create the `TAGS` file.
+
+  Sorry for the yak-shaving...I hope it's worth it.
   ``)
 
 (def special-forms-table
@@ -170,7 +201,7 @@
     (os/exit 0))
 
   # XXX: organize this later
-  (when (opts :pretty-print)
+  (when (opts :pprint)
     (def to-print
       (if thing
         thing

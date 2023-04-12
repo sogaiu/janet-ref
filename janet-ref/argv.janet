@@ -45,9 +45,9 @@
              arg)
         (put opts :macex1 true)
         #
-        (get {"--pretty-print" true "-p" true}
+        (get {"--pprint" true "-p" true}
              arg)
-        (put opts :pretty-print true)
+        (put opts :pprint true)
         #
         (get {"--quiz" true "-q" true}
              arg)
