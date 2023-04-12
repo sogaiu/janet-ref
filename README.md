@@ -193,18 +193,17 @@ fashion.
 [1] For source code lookups to work, the Janet source code needs to
 be available locally and a suitable `TAGS` file needs to exist.
 
-1. Once the source is obtained, set the `JREF_JANET_SRC_PATH` env var
-   to point at it.
+The `ensure-tags` jpm task can perform most of this setup, but
+universal ctags needs to be installed as well.
 
-2. To create the `TAGS` file, use the `idk-janet` script from
-   https://github.com/sogaiu/index-janet-source with the env var
-   `IJS_OUTPUT_FORMAT` set to `etags`.  Note that universal ctags
-   is necessary for `idk-janet` to work.
+Once universal ctags installation has been verified, invoke:
 
-3. Run `idk-janet` in the janet source repository directory, this
-   should create the `TAGS` file.
+  `jpm run ensure-tags`
 
-Sorry for the yak-shaving...I hope it's worth it.
+This should clone the janet source + some extra bits to create the
+`TAGS` file.  Once cloning is complete, the TAGS file should get
+created automatically (this is where universal ctags is used).
+The `TAGS` file should end up in the `janet` subdirectory.
 ```
 
 ## Credits
