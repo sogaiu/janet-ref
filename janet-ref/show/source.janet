@@ -85,7 +85,7 @@
       #(print (hl/c-colorize (string/slice src position (inc end-pos))))
       (print (dedent (string/slice src position (inc end-pos))))
       (print)
-      (print "//" id-name)
+      (print "// " id-name)
       (printf "+%d %s\n" line full-path)
       true)
     #
@@ -104,7 +104,7 @@
       #(print (hl/c-colorize (string/slice src position (inc end-pos))))
       (print (dedent (string/slice src position (inc end-pos))))
       (print)
-      (print "//" id-name)
+      (print "// " id-name)
       (printf "+%d %s\n" line full-path)
       true)
     # "core/peg" and friends
@@ -125,7 +125,7 @@
       #(print (hl/c-colorize (string/slice src start-pos (inc end-pos))))
       (print (dedent (string/slice src start-pos (inc end-pos))))
       (print)
-      (print "//" id-name)
+      (print "// " id-name)
       (printf "+%d %s\n" line full-path)
       true)
     # XXX: should not get here
@@ -144,7 +144,7 @@
       (do
         (print (hl/colorize (loc/gen (first m))))
         (print)
-        (print "#" id-name)
+        (print "# " id-name)
         (printf "+%d %s\n" line full-path)
         true)
       (do
