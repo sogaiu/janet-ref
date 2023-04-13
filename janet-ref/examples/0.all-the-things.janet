@@ -43,6 +43,7 @@
 #   forever
 #   forv
 #   generate
+#   if-let
 #   if-not
 #   if-with
 #   label
