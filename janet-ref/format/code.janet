@@ -30,7 +30,7 @@
       "edefer"
       "fn"
       "if" "if-let" "if-not" "if-with"
-      "label" "let"
+      "label" "let" "loop"
       "mapcat"
       "or"
       "prompt"

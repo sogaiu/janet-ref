@@ -42,6 +42,7 @@
 #   if-with
 #   label
 #   let
+#   loop
 #   or
 #   prompt
 #   protect
