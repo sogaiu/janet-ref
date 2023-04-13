@@ -4,6 +4,7 @@
 
 (import ./argv :as av)
 (import ./completion :as compl)
+(import ./format/bindings :as bind)
 (import ./format/code :as code)
 (import ./format/data :as data)
 (import ./highlight/highlight :as hl)
@@ -221,6 +222,7 @@
          eval-string
          (string/format "%n")
          code/fmt
+         bind/process-binding-forms
          indent/format
          hl/colorize
          print)
