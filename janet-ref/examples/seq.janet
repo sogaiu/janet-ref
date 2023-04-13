@@ -89,7 +89,7 @@
   @[0 1 8 27 64 125]
 
   (do
-    (var buf @"")
+    (def buf @"")
     (flatten
       (seq [i :range [0 3]
             :before (buffer/push-string buf "!")]
@@ -98,7 +98,7 @@
   @["!" 0 "!!" 1 "!!!" 2]
 
   (do
-    (var buf @"")
+    (def buf @"")
     (flatten
       (seq [i :range [0 3]
             :after (buffer/push-string buf "!")]

@@ -125,7 +125,7 @@
     5 125}
 
   (do
-    (var buf @"")
+    (def buf @"")
     (tabseq [i :range [0 3]
              :before (buffer/push-string buf "!")]
       i (string buf)))
@@ -135,7 +135,7 @@
     2 "!!!"}
 
   (do
-    (var buf @"")
+    (def buf @"")
     (tabseq [i :range [0 3]
              :after (buffer/push-string buf "!")]
       i (string buf)))

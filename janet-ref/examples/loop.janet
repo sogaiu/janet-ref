@@ -140,7 +140,7 @@
 
   (do
     (def arr @[])
-    (var buf @"")
+    (def buf @"")
     (loop [i :range [0 3]
            :before (buffer/push-string buf "!")]
       (array/push arr (string buf))
@@ -151,7 +151,7 @@
 
   (do
     (def arr @[])
-    (var buf @"")
+    (def buf @"")
     (loop [i :range [0 3]
            :after (buffer/push-string buf "!")]
       (array/push arr (string buf))
