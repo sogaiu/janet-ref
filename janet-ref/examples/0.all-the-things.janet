@@ -17,6 +17,7 @@
 # Functions
 #   comp
 #   dec
+#   identity
 #   inc
 #   interpose
 #   mapcat

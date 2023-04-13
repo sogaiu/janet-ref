@@ -51,6 +51,7 @@
        "default"
        # XXX
        "errorf"
+       "identity"
        "inc"
        "interpose"
        # XXX
