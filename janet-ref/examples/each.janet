@@ -33,4 +33,12 @@
   # =>
   @"ant!bee!"
 
+  (do
+    (def arr @[])
+    (each v {:a 2 :e 6}
+      (array/push arr v))
+    (sort arr))
+  # =>
+  @[2 6]
+
   )
