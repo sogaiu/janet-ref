@@ -5,7 +5,7 @@
 (defn rgb-theme
   [node-type]
   (cond
-    (= :constant node-type)
+    (= :unreadable node-type)
     rgb/magenta
     #
     (= :symbol node-type)
@@ -25,7 +25,7 @@
 (defn color-theme
   [node-type]
   (cond
-    (= :constant node-type)
+    (= :unreadable node-type)
     color/magenta
     #
     (= :symbol node-type)

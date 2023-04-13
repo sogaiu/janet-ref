@@ -9,7 +9,7 @@
   (let [jca (table ;(kvs jg))]
     # override things that need to be captured
     (each kwd [:buffer :comment :constant :keyword :long-buffer
-               :long-string :number :string :symbol :whitespace]
+               :long-string :number :string :symbol :unreadable :whitespace]
       (put jca kwd
                ~(cmt (capture ,(in jca kwd))
                      ,|[kwd $])))
@@ -73,6 +73,10 @@
   '@[(:table
        (:keyword ":a") (:whitespace " ")
        (:number "1"))]
+
+  (peg/match jg-capture-ast "<core/peg 0x559B7E81FC30>")
+  # =>
+  '@[(:unreadable "<core/peg 0x559B7E81FC30>")]
 
   )
 
@@ -151,6 +155,10 @@
     (buffer/push-string buf ((dyn :jref-hl-str mono-str)
                               (in an-ast 1)
                               ((dyn :jref-theme mono-theme) :symbol)))
+    :unreadable
+    (buffer/push-string buf ((dyn :jref-hl-str mono-str)
+                              (in an-ast 1)
+                              ((dyn :jref-theme mono-theme) :unreadable)))
     :whitespace
     (buffer/push-string buf (in an-ast 1))
     #
@@ -269,6 +277,11 @@
        (:number "1")))
   # =>
   "{:a 1}"
+
+  (gen
+    '@(:unreadable "<core/peg 0xdeedabba>"))
+  # =>
+  "<core/peg 0xdeedabba>"
 
   )
 
