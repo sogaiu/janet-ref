@@ -164,8 +164,7 @@
             (case the-type
               :array ["@(" ")"]
               :bracket-array ["@[" "]"]
-              :bracket-tuple ["[" "]"]
-              :tuple ["(" ")"])
+              :bracket-tuple ["[" "]"])
             items (filter |(and (not= :whitespace (first $))
                                 (not= :comment (first $)))
                           (drop 2 an-ast))
