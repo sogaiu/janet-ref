@@ -55,6 +55,7 @@
        # XXX
        #"mapcat"
        "mean"
+       "product"
        "quasiquote"
        "quote"
        "return"

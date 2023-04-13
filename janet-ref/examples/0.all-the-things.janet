@@ -20,6 +20,7 @@
 #   interpose
 #   mapcat
 #   mean
+#   product
 #   sum
 #
 # Macros
