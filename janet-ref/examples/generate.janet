@@ -192,9 +192,12 @@
   (do
     (def rng
       (math/rng (bor (os/clock) math/int-max)))
+    (def lower
+      (- (math/rng-int rng 3) 5))
+    (def upper
+      (+ (math/rng-int rng 3) 5))
     (def fib
-      (generate [i :in (range (- (math/rng-int rng 3) 3)
-                              (+ (math/rng-int rng 3) 3))
+      (generate [i :in (range lower upper)
                  :when (even? i)]
         i))
     (even?
