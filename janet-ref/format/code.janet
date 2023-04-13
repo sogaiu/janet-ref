@@ -25,7 +25,7 @@
       "try"
       "upscope"]
    1 ["and" "assert"
-      "case"
+      "case" "coro"
       "def" "defer" "defn"
       "edefer"
       "fn"

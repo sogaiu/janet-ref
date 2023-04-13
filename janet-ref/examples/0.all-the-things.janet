@@ -27,6 +27,7 @@
 #   chr
 #   comment
 #   cond
+#   coro
 #   default
 #   defer
 #   defn
