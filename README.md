@@ -208,9 +208,9 @@ The `TAGS` file should end up in the `janet` subdirectory.
 
 ## Credits
 
-Significant portions of the code and documentation come from Janet and
-the janet-lang.org website.  Thus the following license applies to at
-least those portions.
+Significant portions of the code and documentation come from Janet,
+spork, and the janet-lang.org website.  Thus the following license
+applies to at least those portions.
 
 ```
 Copyright (c) 2019, 2020, 2021, 2022, 2023 Calvin Rose and contributors
