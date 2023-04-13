@@ -48,6 +48,7 @@
 #   protect
 #   repeat
 #   return
+#   seq
 #   toggle
 #   try
 #   unless

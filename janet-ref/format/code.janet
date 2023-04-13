@@ -35,7 +35,7 @@
       "or"
       "prompt"
       "repeat"
-      "set"
+      "seq" "set"
       "unless"
       "var"
       "when" "when-let" "when-with" "while" "with" "with-syms"]
