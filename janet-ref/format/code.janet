@@ -54,6 +54,7 @@
        "interpose"
        # XXX
        #"mapcat"
+       "mean"
        "quasiquote"
        "quote"
        "return"
