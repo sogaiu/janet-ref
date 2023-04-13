@@ -38,6 +38,7 @@
 #   for
 #   forever
 #   forv
+#   generate
 #   if-not
 #   if-with
 #   label

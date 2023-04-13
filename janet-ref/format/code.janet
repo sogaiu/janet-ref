@@ -29,6 +29,7 @@
       "def" "defer" "defn"
       "edefer"
       "fn"
+      "generate"
       "if" "if-let" "if-not" "if-with"
       "label" "let" "loop"
       "mapcat"
