@@ -19,6 +19,7 @@
 #   inc
 #   interpose
 #   mapcat
+#   sum
 #
 # Macros
 #   and

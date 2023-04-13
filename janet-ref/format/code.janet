@@ -58,6 +58,7 @@
        "quote"
        "return"
        "splice"
+       "sum"
        "toggle"
        "unquote"]})
 
