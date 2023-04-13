@@ -5,7 +5,7 @@
 
 (defn deprintf
   [fmt & args]
-  (when (os/getenv "VERBOSE")
+  (when (os/getenv "JREF_VERBOSE")
     (eprintf fmt ;args)))
 
 # outline
