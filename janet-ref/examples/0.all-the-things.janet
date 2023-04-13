@@ -15,6 +15,7 @@
 #   (upscope & body)
 #
 # Functions
+#   comp
 #   dec
 #   inc
 #   interpose

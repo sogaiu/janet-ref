@@ -46,6 +46,7 @@
    # means don't use newlines -- here for book-keeping
    -1 ["break"
        "chr"
+       "comp"
        "dec"
        "default"
        # XXX
