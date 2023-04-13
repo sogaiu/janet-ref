@@ -49,6 +49,7 @@
 #   repeat
 #   return
 #   seq
+#   tabseq
 #   toggle
 #   try
 #   unless
