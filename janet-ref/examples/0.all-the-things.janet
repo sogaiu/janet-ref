@@ -60,6 +60,7 @@
 #   try
 #   unless
 #   when
+#   when-let
 #   when-with
 #   with
 #   with-syms
