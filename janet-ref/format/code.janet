@@ -47,6 +47,7 @@
    -1 ["break"
        "chr"
        "comp"
+       "complement"
        "dec"
        "default"
        # XXX

@@ -16,6 +16,7 @@
 #
 # Functions
 #   comp
+#   complement
 #   dec
 #   identity
 #   inc
