@@ -98,23 +98,28 @@
       j/right
       j/right
       # should be one target whitespace
-      (j/edit |(do $
-                 [:whitespace @{} "\n"]))
+      (j/replace [:whitespace @{:message "hello"} "\n"])
       j/right
       j/right
       j/right
       j/right
       # should be another target whitespace
-      (j/edit |(do $
-                 [:whitespace @{} "\n"]))
-      j/root
-      l/gen)
+      (j/replace [:whitespace @{:message "smile!"} "\n"])
+      j/up
+      j/node)
   # =>
-  ``
-  (let [x 1
-  y 2
-  z 3] (+ x y z))
-  ``
+  '(:bracket-tuple @{:bc 6 :bl 1 :ec 19 :el 1}
+                   (:symbol @{:bc 7 :bl 1 :ec 8 :el 1} "x")
+                   (:whitespace @{:bc 8 :bl 1 :ec 9 :el 1} " ")
+                   (:number @{:bc 9 :bl 1 :ec 10 :el 1} "1")
+                   (:whitespace @{:message "hello"} "\n")
+                   (:symbol @{:bc 11 :bl 1 :ec 12 :el 1} "y")
+                   (:whitespace @{:bc 12 :bl 1 :ec 13 :el 1} " ")
+                   (:number @{:bc 13 :bl 1 :ec 14 :el 1} "2")
+                   (:whitespace @{:message "smile!"} "\n")
+                   (:symbol @{:bc 15 :bl 1 :ec 16 :el 1} "z")
+                   (:whitespace @{:bc 16 :bl 1 :ec 17 :el 1} " ")
+                   (:number @{:bc 17 :bl 1 :ec 18 :el 1} "3"))
 
   (-> binding-zloc-2
       j/down
@@ -122,21 +127,32 @@
       j/right
       j/right
       # should be one target whitespace
-      (j/replace [:whitespace @{} "\n"])
+      (j/edit |(let [[_ tbl _] $]
+                 [:whitespace (put tbl :message "hello") "\n"]))
       j/right
       j/right
       j/right
       j/right
       # should be another target whitespace
-      (j/replace [:whitespace @{} "\n"])
-      j/root
-      l/gen)
+      (j/edit |(let [[_ tbl _] $]
+                 [:whitespace (put tbl :message "smile!") "\n"]))
+      j/up
+      j/node)
   # =>
-  ``
-  (let [x 1
-  y 2
-  z 3] (+ x y z))
-  ``
+  '(:bracket-tuple @{:bc 6 :bl 1 :ec 19 :el 1}
+                   (:symbol @{:bc 7 :bl 1 :ec 8 :el 1} "x")
+                   (:whitespace @{:bc 8 :bl 1 :ec 9 :el 1} " ")
+                   (:number @{:bc 9 :bl 1 :ec 10 :el 1} "1")
+                   (:whitespace
+                     @{:bc 10 :bl 1 :ec 11 :el 1 :message "hello"} "\n")
+                   (:symbol @{:bc 11 :bl 1 :ec 12 :el 1} "y")
+                   (:whitespace @{:bc 12 :bl 1 :ec 13 :el 1} " ")
+                   (:number @{:bc 13 :bl 1 :ec 14 :el 1} "2")
+                   (:whitespace
+                     @{:bc 14 :bl 1 :ec 15 :el 1 :message "smile!"} "\n")
+                   (:symbol @{:bc 15 :bl 1 :ec 16 :el 1} "z")
+                   (:whitespace @{:bc 16 :bl 1 :ec 17 :el 1} " ")
+                   (:number @{:bc 17 :bl 1 :ec 18 :el 1} "3"))
 
   )
 
