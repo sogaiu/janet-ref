@@ -187,7 +187,8 @@
              j/right
              j/right
              j/right
-             (j/replace [:whitespace @{} "\n"])
+             (j/edit |(let [[_ tbl _] $]
+                        [:whitespace tbl "\n"]))
              j/right)))
   # return the rightmost node
   (j/rightmost curr-zloc))
