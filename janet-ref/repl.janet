@@ -1,7 +1,6 @@
 # copy-modify of Janet's boot.janet
 
 (import ./format/data :as data)
-(import ./highlight/highlight :as hl)
 
 # conditional compilation for reduced os
 (def- getenv-alias (if-let [entry (in root-env 'os/getenv)] (entry :value) (fn [&])))
@@ -213,7 +212,7 @@
             (when true
               (put env '_ @{:value x})
               (print "# =>")
-              (print (hl/colorize (data/fmt (string/format "%n" x))))
+              (print (data/fmt (string/format "%n" x)))
               (print)
               (flush))
             (do

@@ -1,5 +1,3 @@
-(import ../highlight/highlight :as hl)
-
 # XXX: not sure if this quoting will work on windows...
 (defn escape
   [a-str]

@@ -1,4 +1,3 @@
-(import ../highlight/highlight :as hl)
 (import ../parse/c :as c)
 (import ../parse/etags :as etags)
 (import ../parse/location :as loc)
@@ -81,8 +80,6 @@
       (def [_ col end-pos] (find |(= :curly (first $)) m))
       (assert (= col 1)
               (string/format "Unexpected col value: %d" col))
-      # XXX: need c-colorize
-      #(print (hl/c-colorize (string/slice src position (inc end-pos))))
       (print (dedent (string/slice src position (inc end-pos))))
       (print)
       (print "// " id-name)
@@ -100,8 +97,6 @@
                  id-name full-path)
         (break nil))
       (def [_ col end-pos] (find |(= :semi-colon (first $)) m))
-      # XXX: need c-colorize
-      #(print (hl/c-colorize (string/slice src position (inc end-pos))))
       (print (dedent (string/slice src position (inc end-pos))))
       (print)
       (print "// " id-name)
@@ -121,8 +116,6 @@
                  id-name full-path)
         (break nil))
       (def [_ col end-pos] (find |(= :semi-colon (first $)) m))
-      # XXX: need c-colorize
-      #(print (hl/c-colorize (string/slice src start-pos (inc end-pos))))
       (print (dedent (string/slice src start-pos (inc end-pos))))
       (print)
       (print "// " id-name)
@@ -142,7 +135,7 @@
                    src position)]
     (if m
       (do
-        (print (hl/colorize (loc/gen (first m))))
+        (print (loc/gen (first m)))
         (print)
         (print "# " id-name)
         (printf "+%d %s\n" line full-path)

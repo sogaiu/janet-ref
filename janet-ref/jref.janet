@@ -7,7 +7,6 @@
 (import ./format/bindings :as bind)
 (import ./format/code :as code)
 (import ./format/data :as data)
-(import ./highlight/highlight :as hl)
 (import ./jandent/indent :as indent)
 (import ./random :as rnd)
 (import ./show/doc :as doc)
@@ -15,7 +14,6 @@
 (import ./show/misc :as misc)
 (import ./show/questions :as qu)
 (import ./show/source :as src)
-(import ./view :as view)
 
 (def usage
   ``
@@ -151,6 +149,7 @@
 
 (defn main
   [& argv]
+  (setdyn :jref-width 68)
   (setdyn :jref-rng
           (math/rng (os/cryptorand 8)))
   (setdyn :jref-janet-src-path
@@ -158,8 +157,6 @@
             j-src-path
             (string (os/getenv "HOME")
                     "/src/janet")))
-
-  (view/configure)
 
   (def [opts rest]
     (av/parse-argv argv))
@@ -208,7 +205,6 @@
         (file/read stdin :all)))
     (->> to-print
          data/fmt
-         hl/colorize
          print)
     (os/exit 0))
 
@@ -224,7 +220,6 @@
          code/fmt
          bind/process-binding-forms
          indent/format
-         hl/colorize
          print)
     (os/exit 0))
 
@@ -237,7 +232,6 @@
     (->> (eval-string to-handle)
          (string/format "%n")
          data/fmt
-         hl/colorize
          print)
     (os/exit 0))
 
@@ -250,7 +244,6 @@
     (->> to-handle
          code/fmt
          indent/format
-         hl/colorize
          print)
     (os/exit 0))
 
@@ -262,7 +255,6 @@
         (file/read stdin :all)))
     (->> to-handle
          indent/format
-         hl/colorize
          print)
     (os/exit 0))
 

@@ -1,4 +1,3 @@
-(import ../highlight/highlight :as hl)
 (import ./misc :as misc)
 (import ../parse/tests :as tests)
 
