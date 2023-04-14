@@ -1,128 +1,26 @@
 (import ./color :prefix "")
-(import ./grammar :prefix "")
+(import ../parse/location :as loc)
 (import ./mono :prefix "")
 (import ./rgb :prefix "")
 (import ./theme :prefix "")
 
-(def jg-capture-ast
-  # jg is a struct, need something mutable
-  (let [jca (table ;(kvs jg))]
-    # override things that need to be captured
-    (each kwd [:buffer :comment :constant :keyword :long-buffer
-               :long-string :number :string :symbol :unreadable :whitespace]
-      (put jca kwd
-               ~(cmt (capture ,(in jca kwd))
-                     ,|[kwd $])))
-    (each kwd [:fn :quasiquote :quote :splice :unquote]
-      (put jca kwd
-               ~(cmt (capture ,(in jca kwd))
-                     ,|[kwd ;(slice $& 0 -2)])))
-    (each kwd [:array :bracket-array :bracket-tuple :table :tuple :struct]
-      (put jca kwd
-           (tuple # array needs to be converted
-                  ;(put (array ;(in jca kwd))
-                        2 ~(cmt (capture ,(get-in jca [kwd 2]))
-                                ,|[kwd ;(slice $& 0 -2)])))))
-    # tried using a table with a peg but had a problem, so use a struct
-    (table/to-struct jca)))
-
-(comment
-
-  (peg/match jg-capture-ast "")
-  # =>
-  nil
-
-  (peg/match jg-capture-ast ".0")
-  # =>
-  @[[:number ".0"]]
-
-  (peg/match jg-capture-ast "@\"i am a buffer\"")
-  # =>
-  @[[:buffer "@\"i am a buffer\""]]
-
-  (peg/match jg-capture-ast "# hello")
-  # =>
-  @[[:comment "# hello"]]
-
-  (peg/match jg-capture-ast ":a")
-  # =>
-  @[[:keyword ":a"]]
-
-  (peg/match jg-capture-ast "@``i am a long buffer``")
-  # =>
-  @[[:long-buffer "@``i am a long buffer``"]]
-
-  (peg/match jg-capture-ast "``hello``")
-  # =>
-  @[[:long-string "``hello``"]]
-
-  (peg/match jg-capture-ast "\"\\u0001\"")
-  # =>
-  @[[:string "\"\\u0001\""]]
-
-  (peg/match jg-capture-ast "|(+ $ 2)")
-  # =>
-  '@[(:fn
-       (:tuple
-         (:symbol "+") (:whitespace " ")
-         (:symbol "$") (:whitespace " ")
-         (:number "2")))]
-
-  (peg/match jg-capture-ast "@{:a 1}")
-  # =>
-  '@[(:table
-       (:keyword ":a") (:whitespace " ")
-       (:number "1"))]
-
-  (peg/match jg-capture-ast "<core/peg 0x559B7E81FC30>")
-  # =>
-  '@[(:unreadable "<core/peg 0x559B7E81FC30>")]
-
-  )
-
-(def jg-capture-top-level-ast
-  # jg is a struct, need something mutable
-  (let [jca (table ;(kvs jg-capture-ast))]
-    (put jca
-         :main ~(sequence :input (position)))
-    # tried using a table with a peg but had a problem, so use a struct
-    (table/to-struct jca)))
-
-(defn par
-  [src &opt start single]
-  (default start 0)
-  (if single
-    (if-let [[tree position]
-             (peg/match jg-capture-top-level-ast src start)]
-      [@[:code tree] position]
-      [@[:code] nil])
-    (if-let [tree (peg/match jg-capture-ast src start)]
-      (array/insert tree 0 :code)
-      @[:code])))
-
-(comment
-
-  (par "(+ 1 1)")
-  # =>
-  '@[:code
-     (:tuple
-       (:symbol "+") (:whitespace " ")
-       (:number "1") (:whitespace " ")
-       (:number "1"))]
-
-  )
-
 (defn maybe-color
   [an-ast a-type]
   ((dyn :jref-hl-str mono-str)
-    (in an-ast 1)
+    (in an-ast 2)
     ((dyn :jref-theme mono-theme) a-type)))
+
+(defn maybe-color-symbol
+  [an-ast]
+  ((dyn :jref-hl-str mono-str)
+    (in an-ast 2)
+    ((dyn :jref-theme mono-theme) :symbol)))
 
 (defn gen*
   [an-ast buf]
   (case (first an-ast)
     :code
-    (each elt (drop 1 an-ast)
+    (each elt (drop 2 an-ast)
       (gen* elt buf))
     #
     :buffer
@@ -142,73 +40,73 @@
     :string
     (buffer/push-string buf (maybe-color an-ast :string))
     :symbol
-    (buffer/push-string buf (maybe-color an-ast :symbol))
+    (buffer/push-string buf (maybe-color-symbol an-ast))
     :unreadable
     (buffer/push-string buf (maybe-color an-ast :unreadable))
     :whitespace
-    (buffer/push-string buf (in an-ast 1))
+    (buffer/push-string buf (in an-ast 2))
     #
     :array
     (do
       (buffer/push-string buf "@(")
-      (each elt (drop 1 an-ast)
+      (each elt (drop 2 an-ast)
         (gen* elt buf))
       (buffer/push-string buf ")"))
     :bracket-array
     (do
       (buffer/push-string buf "@[")
-      (each elt (drop 1 an-ast)
+      (each elt (drop 2 an-ast)
         (gen* elt buf))
       (buffer/push-string buf "]"))
     :bracket-tuple
     (do
       (buffer/push-string buf "[")
-      (each elt (drop 1 an-ast)
+      (each elt (drop 2 an-ast)
         (gen* elt buf))
       (buffer/push-string buf "]"))
     :tuple
     (do
       (buffer/push-string buf "(")
-      (each elt (drop 1 an-ast)
+      (each elt (drop 2 an-ast)
         (gen* elt buf))
       (buffer/push-string buf ")"))
     :struct
     (do
       (buffer/push-string buf "{")
-      (each elt (drop 1 an-ast)
+      (each elt (drop 2 an-ast)
         (gen* elt buf))
       (buffer/push-string buf "}"))
     :table
     (do
       (buffer/push-string buf "@{")
-      (each elt (drop 1 an-ast)
+      (each elt (drop 2 an-ast)
         (gen* elt buf))
       (buffer/push-string buf "}"))
     #
     :fn
     (do
       (buffer/push-string buf "|")
-      (each elt (drop 1 an-ast)
+      (each elt (drop 2 an-ast)
         (gen* elt buf)))
     :quasiquote
     (do
       (buffer/push-string buf "~")
-      (each elt (drop 1 an-ast)
+      (each elt (drop 2 an-ast)
         (gen* elt buf)))
     :quote
     (do
       (buffer/push-string buf "'")
-      (each elt (drop 1 an-ast)
+      (each elt (drop 2 an-ast)
         (gen* elt buf)))
     :splice
     (do
       (buffer/push-string buf ";")
-      (each elt (drop 1 an-ast)
+      (each elt (drop 2 an-ast)
         (gen* elt buf)))
     :unquote
     (do
       (buffer/push-string buf ",")
-      (each elt (drop 1 an-ast)
+      (each elt (drop 2 an-ast)
         (gen* elt buf)))
     ))
 
@@ -226,46 +124,39 @@
   ""
 
   (gen
-    [:code
-     [:buffer "@\"buffer me\""]])
+    '(:whitespace @{:bc 1 :bl 1
+                    :ec 2 :el 1} " "))
   # =>
-  `@"buffer me"`
+  " "
 
   (gen
-    [:comment "# i am a comment"])
+    '(:buffer @{:bc 1 :bl 1
+                :ec 12 :el 1} "@\"a buffer\""))
   # =>
-  "# i am a comment"
+  `@"a buffer"`
 
   (gen
-    [:long-string "```longish string```"])
+    '@[:code @{:bc 1 :bl 1
+               :ec 8 :el 1}
+       (:tuple @{:bc 1 :bl 1
+                 :ec 8 :el 1}
+               (:symbol @{:bc 2 :bl 1
+                          :ec 3 :el 1} "+")
+               (:whitespace @{:bc 3 :bl 1
+                              :ec 4 :el 1} " ")
+               (:number @{:bc 4 :bl 1
+                          :ec 5 :el 1} "1")
+               (:whitespace @{:bc 5 :bl 1
+                              :ec 6 :el 1} " ")
+               (:number @{:bc 6 :bl 1
+                          :ec 7 :el 1} "1"))])
   # =>
-  "```longish string```"
+  "(+ 1 1)"
 
   (gen
-    '(:fn
-       (:tuple
-         (:symbol "-") (:whitespace " ")
-         (:symbol "$") (:whitespace " ")
-         (:number "8"))))
-  # =>
-  "|(- $ 8)"
-
-  (gen
-    '(:array
-       (:keyword ":a") (:whitespace " ")
-       (:keyword ":b")))
-  # =
-  "@(:a :b)"
-
-  (gen
-    '@(:struct
-       (:keyword ":a") (:whitespace " ")
-       (:number "1")))
-  # =>
-  "{:a 1}"
-
-  (gen
-    '@(:unreadable "<core/peg 0xdeedabba>"))
+    '@[:code @{}
+       (:unreadable @{:bc 1 :bl 1 :ec 22 :el 1}
+                    "<core/peg 0xdeedabba>")])
   # =>
   "<core/peg 0xdeedabba>"
 
@@ -273,7 +164,7 @@
 
 (defn colorize
   [src]
-  (gen (par src)))
+  (gen (loc/par src)))
 
 (comment
 
