@@ -147,6 +147,44 @@
     (string/slice file-name 0
                   (last (string/find-all "." file-name)))))
 
+(defn pipe-to
+  [src]
+  (cond
+    (= "rouge" (dyn :jref-pipe-to))
+    (let [p
+          (os/spawn ["rougify"
+                     "highlight" "--lexer" (dyn :jref-pipe-lang)]
+                    :px {:in :pipe :out :pipe})]
+      (:write (p :in) src)
+      (:close (p :in))
+      (def output
+        (:read (p :out) :all))
+      (print output))
+    #
+    (= "nvim" (dyn :jref-pipe-to))
+    (let [p
+          (os/spawn ["nvim"
+                     "-c"
+                     (string "setl filetype=" (dyn :jref-pipe-lang))
+                     "-"]
+                    :px {:in :pipe})]
+      (:write (p :in) src)
+      (:close (p :in))
+      (:wait p))
+    #
+    (= "kak" (dyn :jref-pipe-to))
+    (let [p
+          (os/spawn ["kak"
+                     "-e"
+                     (string "set-option buffer filetype "
+                             (dyn :jref-pipe-lang))]
+                    :px {:in :pipe})]
+      (:write (p :in) src)
+      (:close (p :in))
+      (:wait p))
+    #
+    (print src)))
+
 (defn main
   [& argv]
   (setdyn :jref-width 68)
@@ -157,6 +195,10 @@
             j-src-path
             (string (os/getenv "HOME")
                     "/src/janet")))
+  (setdyn :jref-pipe-to
+          (when-let [val (os/getenv "JREF_PIPE_TO")]
+            val))
+  (setdyn :jref-pipe-lang "janet")
 
   (def [opts rest]
     (av/parse-argv argv))
@@ -205,7 +247,7 @@
         (file/read stdin :all)))
     (->> to-print
          data/fmt
-         print)
+         pipe-to)
     (os/exit 0))
 
   # XXX: organize this later
@@ -220,7 +262,7 @@
          code/fmt
          bind/process-binding-forms
          indent/format
-         print)
+         pipe-to)
     (os/exit 0))
 
   # XXX: organize this later
@@ -232,7 +274,7 @@
     (->> (eval-string to-handle)
          (string/format "%n")
          data/fmt
-         print)
+         pipe-to)
     (os/exit 0))
 
   # XXX: organize this later
@@ -244,7 +286,7 @@
     (->> to-handle
          code/fmt
          indent/format
-         print)
+         pipe-to)
     (os/exit 0))
 
   # XXX: organize this later
@@ -255,7 +297,7 @@
         (file/read stdin :all)))
     (->> to-handle
          indent/format
-         print)
+         pipe-to)
     (os/exit 0))
 
   # if no thing found and no options, show info about all things
