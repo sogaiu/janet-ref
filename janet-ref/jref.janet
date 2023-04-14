@@ -285,6 +285,7 @@
         (file/read stdin :all)))
     (->> to-handle
          code/fmt
+         bind/process-binding-forms
          indent/format
          pipe-to)
     (os/exit 0))
