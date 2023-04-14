@@ -112,6 +112,12 @@
 
   )
 
+(defn maybe-color
+  [an-ast a-type]
+  ((dyn :jref-hl-str mono-str)
+    (in an-ast 1)
+    ((dyn :jref-theme mono-theme) a-type)))
+
 (defn gen*
   [an-ast buf]
   (case (first an-ast)
@@ -120,45 +126,25 @@
       (gen* elt buf))
     #
     :buffer
-    (buffer/push-string buf ((dyn :jref-hl-str mono-str)
-                              (in an-ast 1)
-                              ((dyn :jref-theme mono-theme) :buffer)))
+    (buffer/push-string buf (maybe-color an-ast :buffer))
     :comment
-    (buffer/push-string buf ((dyn :jref-hl-str mono-str)
-                              (in an-ast 1)
-                              ((dyn :jref-theme mono-theme) :comment)))
+    (buffer/push-string buf (maybe-color an-ast :comment))
     :constant
-    (buffer/push-string buf ((dyn :jref-hl-str mono-str)
-                              (in an-ast 1)
-                              ((dyn :jref-theme mono-theme) :constant)))
+    (buffer/push-string buf (maybe-color an-ast :constant))
     :keyword
-    (buffer/push-string buf ((dyn :jref-hl-str mono-str)
-                              (in an-ast 1)
-                              ((dyn :jref-theme mono-theme) :keyword)))
+    (buffer/push-string buf (maybe-color an-ast :keyword))
     :long-buffer
-    (buffer/push-string buf ((dyn :jref-hl-str mono-str)
-                              (in an-ast 1)
-                              ((dyn :jref-theme mono-theme) :long-buffer)))
+    (buffer/push-string buf (maybe-color an-ast :long-buffer))
     :long-string
-    (buffer/push-string buf ((dyn :jref-hl-str mono-str)
-                              (in an-ast 1)
-                              ((dyn :jref-theme mono-theme) :long-string)))
+    (buffer/push-string buf (maybe-color an-ast :long-string))
     :number
-    (buffer/push-string buf ((dyn :jref-hl-str mono-str)
-                              (in an-ast 1)
-                              ((dyn :jref-theme mono-theme) :number)))
+    (buffer/push-string buf (maybe-color an-ast :number))
     :string
-    (buffer/push-string buf ((dyn :jref-hl-str mono-str)
-                              (in an-ast 1)
-                              ((dyn :jref-theme mono-theme) :string)))
+    (buffer/push-string buf (maybe-color an-ast :string))
     :symbol
-    (buffer/push-string buf ((dyn :jref-hl-str mono-str)
-                              (in an-ast 1)
-                              ((dyn :jref-theme mono-theme) :symbol)))
+    (buffer/push-string buf (maybe-color an-ast :symbol))
     :unreadable
-    (buffer/push-string buf ((dyn :jref-hl-str mono-str)
-                              (in an-ast 1)
-                              ((dyn :jref-theme mono-theme) :unreadable)))
+    (buffer/push-string buf (maybe-color an-ast :unreadable))
     :whitespace
     (buffer/push-string buf (in an-ast 1))
     #
