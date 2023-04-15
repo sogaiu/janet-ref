@@ -52,6 +52,7 @@
        "default"
        # XXX
        "errorf"
+       "extreme"
        "identity"
        "inc"
        "interpose"

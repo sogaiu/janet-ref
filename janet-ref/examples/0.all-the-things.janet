@@ -18,6 +18,7 @@
 #   comp
 #   complement
 #   dec
+#   extreme
 #   identity
 #   inc
 #   interpose
