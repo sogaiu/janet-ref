@@ -229,6 +229,7 @@
   (setdyn :jref-pipe-to (os/getenv "JREF_PIPE_TO"))
   (setdyn :jref-pipe-lang "janet")
   (setdyn :jref-repos-root "repos")
+  (setdyn :jref-colorizer (os/getenv "JREF_COLORIZER"))
 
   (def [opts rest]
     (av/parse-argv argv))
