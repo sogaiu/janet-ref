@@ -464,7 +464,10 @@
         (us/thing-usages content limit))
       (if res
         (do
-          (print buf))
+          (def jpl (dyn :jref-pipe-lang))
+          (setdyn :jref-pipe-lang "janet")
+          (pipe-to buf)
+          (setdyn :jref-pipe-lang jpl))
         (do
           (eprint buf)
           (os/exit 1))))
