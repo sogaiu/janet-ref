@@ -5,9 +5,14 @@
   (cond
     (= "rougify" (dyn :jref-colorizer))
     (let [p
-          (os/spawn ["rougify"
-                     "highlight" "--lexer" "janet"]
-                    :px {:in :pipe :out :pipe})]
+          (try
+            (os/spawn ["rougify"
+                       "highlight" "--lexer" "janet"]
+                      :px {:in :pipe :out :pipe})
+            ([e]
+              # XXX
+              (eprintf "os/spawn failed, not coloring: %s" e)
+              (break src)))]
       (:write (p :in) src)
       (:close (p :in))
       #

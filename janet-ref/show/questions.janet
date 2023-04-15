@@ -17,29 +17,26 @@
 
 (defn handle-eval-comparison
   [prog-ans user-ans]
-  (if (deep= user-ans prog-ans)
+  (if (deep= prog-ans user-ans)
     (do
       (print "Nice, our answers both evaluate to:")
       (print)
-      # XXX: pretty print?
-      (printf "%m" prog-ans)
+      (misc/print-nicely (string/format "%m" prog-ans))
       true)
     (do
       (printf "Sorry, our answers evaluate differently.")
       (print)
       (print "My answer evaluates to:")
       (print)
-      # XXX: pretty print?
-      (printf "%m" prog-ans)
+      (misc/print-nicely (string/format "%m" prog-ans))
       (print)
       (print "Your answer evaluates to:")
       (print)
-      (printf "%m" user-ans)
+      (misc/print-nicely (string/format "%m" user-ans))
       false)))
 
 (defn handle-plain-response
   [ans resp]
-  (print)
   (print "My answer is:")
   (print)
   (misc/print-nicely ans)
@@ -54,8 +51,8 @@
   (print "Our answers differ, but perhaps yours works too.")
   (print)
   (try
-    (let [result (eval-string resp)
-          evaled-ans (eval-string ans)]
+    (let [evaled-ans (eval-string ans)
+          result (eval-string resp)]
       (handle-eval-comparison evaled-ans result))
     ([e]
       (handle-eval-failure resp e)
@@ -95,6 +92,8 @@
   # choose a question and answer pair
   (let [[ques ans] (rnd/choose tests)
         trimmed-ans (string/trim ans)]
+    (print "# What does the following evaluate to?")
+    (print)
     # show the question
     (misc/print-nicely ques)
     (print "# =>")
@@ -117,7 +116,6 @@
 
 (defn handle-fill-in-response
   [ques blank-ques blanked-item ans resp]
-  (print)
   (print "One complete picture is: ")
   (print)
   (misc/print-nicely ques)
@@ -146,8 +144,8 @@
               resp
               (string/slice blank-ques (inc tail-idx))))
     (try
-      (let [result (eval-string resp-code)
-            evaled-ans (eval-string ans)]
+      (let [evaled-ans (eval-string ans)
+            result (eval-string resp-code)]
         (handle-eval-comparison evaled-ans result))
       ([e]
         (handle-eval-failure resp-code e)
