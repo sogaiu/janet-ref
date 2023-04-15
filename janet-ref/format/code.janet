@@ -17,8 +17,7 @@
 #      with a newline after it, and all subsequent elements have
 #      newlines after them.
 (def nl-things
-  {0 ["comment"
-      "cond"
+  {0 ["comment" "cond"
       "do"
       "forever"
       "protect"
@@ -45,30 +44,18 @@
    3 ["for" "forv"]
    # means don't use newlines -- here for book-keeping
    -1 ["break"
-       "chr"
-       "comp"
-       "complement"
-       "dec"
-       "default"
+       "chr" "comp" "complement"
+       "dec" "default"
        # XXX
-       "errorf"
-       "extreme"
-       "identity"
-       "inc"
-       "interpose"
+       "errorf" "extreme"
+       "identity" "inc" "interpose"
        # XXX
        #"mapcat"
-       "max"
-       "max-of"
-       "mean"
-       "min"
-       "min-of"
+       "max" "max-of" "mean" "min" "min-of"
        "product"
-       "quasiquote"
-       "quote"
+       "quasiquote" "quote"
        "return"
-       "splice"
-       "sum"
+       "splice" "sum"
        "toggle"
        "unquote"]})
 
