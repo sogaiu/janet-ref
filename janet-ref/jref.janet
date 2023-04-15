@@ -423,6 +423,12 @@
 
     (unless file-path
       (eprintf "Did not find file for `%s`" thing)
+      # XXX: temporary hack until examples are filled in?
+      (eprint "Trying to show source instead.")
+      (eprint)
+      (main "restart" "-s" ;(drop 1 argv))
+      # XXX: end of hack
+      # XXX: won't get here because of line above
       (os/exit 1))
 
     (unless (os/stat file-path)
