@@ -36,11 +36,23 @@
           evaled-ans (eval-string ans)]
       (if (deep= result evaled-ans)
         (do
-          (printf "Nice, our answers both evaluate to: %M"
-                  evaled-ans)
+          (print "Nice, our answers both evaluate to:")
+          (print)
+          # XXX: pretty print?
+          (printf "%m" evaled-ans)
           true)
         (do
-          (printf "Sorry, your answer evaluates to: %M" result)
+          (printf "Sorry, our answers evaluate differently.")
+          (print)
+          (print "My answer evaluates to:")
+          (print)
+          # XXX: pretty print?
+          (printf "%m" evaled-ans)
+          (print)
+          (print "Your answer evaluates to:")
+          (print)
+          # XXX: pretty print?
+          (printf "%m" result)
           false)))
     ([e]
       (handle-eval-failure resp e)
@@ -135,15 +147,22 @@
             evaled-ans (eval-string ans)]
         (if (deep= result evaled-ans)
           (do
-            (printf "Nice, our answers both evaluate to: %M"
-                    evaled-ans)
+            (print "Nice, our answers both evaluate to:")
+            (print)
+            # XXX: pretty print?
+            (printf "%m" evaled-ans)
             true)
           (do
             (printf "Sorry, our answers evaluate differently.")
             (print)
-            (printf "My answer evaluates to: %M" result)
+            (print "My answer evaluates to:")
             (print)
-            (printf "Your answer evaluates to: %M" evaled-ans)
+            # XXX: pretty print?
+            (printf "%m" evaled-ans)
+            (print)
+            (print "Your answer evaluates to:")
+            (print)
+            (printf "%m" result)
             false)))
       ([e]
         (handle-eval-failure resp-code e)
