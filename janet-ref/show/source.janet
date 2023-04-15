@@ -82,8 +82,10 @@
               (string/format "Unexpected col value: %d" col))
       (print (dedent (string/slice src position (inc end-pos))))
       (print)
-      (print "// " id-name)
-      (printf "+%d %s\n" line full-path)
+      (print "/* ")
+      (print "   " id-name)
+      (printf "   +%d %s" line full-path)
+      (print "*/")
       true)
     #
     (or (string/has-prefix? "JANET_CORE_DEF" trimmed-search-str)
@@ -99,8 +101,10 @@
       (def [_ col end-pos] (find |(= :semi-colon (first $)) m))
       (print (dedent (string/slice src position (inc end-pos))))
       (print)
-      (print "// " id-name)
-      (printf "+%d %s\n" line full-path)
+      (print "/* ")
+      (print "   " id-name)
+      (printf "   +%d %s" line full-path)
+      (print "*/")
       true)
     # "core/peg" and friends
     (and (string/has-prefix? `"` trimmed-search-str)
@@ -118,8 +122,10 @@
       (def [_ col end-pos] (find |(= :semi-colon (first $)) m))
       (print (dedent (string/slice src start-pos (inc end-pos))))
       (print)
-      (print "// " id-name)
-      (printf "+%d %s\n" line full-path)
+      (print "/* ")
+      (print "   " id-name)
+      (printf "   +%d %s" line full-path)
+      (print "*/")
       true)
     # XXX: should not get here
     (do
@@ -137,11 +143,13 @@
       (do
         (print (loc/gen (first m)))
         (print)
-        (print "# " id-name)
-        (printf "+%d %s\n" line full-path)
+        (print "``")
+        (print "  " id-name)
+        (printf "  +%d %s" line full-path)
+        (print "``")
         true)
       (do
-        (printf "Sorry, failed to find definition for: %s" id-name)
+        (eprintf "Sorry, failed to find definition for: %s" id-name)
         false))))
 
 (defn definition
