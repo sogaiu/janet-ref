@@ -10,9 +10,14 @@
   :main "jref"
   :is-janet true)
 
+(def janet-src-path
+  (if-let [jsp (os/getenv "JREF_JANET_SRC_PATH")]
+    jsp
+    (string (os/cwd) "/janet")))
+
 (task "ensure-janet-src" []
   :tags [:dep]
-  (unless (os/stat "janet")
+  (unless (os/stat janet-src-path)
     (def dir (os/cwd))
     (os/execute ["git"
                  "clone"
@@ -32,17 +37,22 @@
 
 (task "ensure-tags" ["ensure-index-janet-source"]
   :tags [:dep]
-  (unless (os/stat "janet/TAGS")
-    (def dir (os/cwd))
-    (os/cd "janet")
-    (os/setenv "IJS_OUTPUT_FORMAT" "etags")
-    (os/execute ["janet"
-                 "../index-janet-source/index-janet-source/idk-janet"]
-                :p)
-    (os/cd dir))
-  (def janet-src-path
-    (string (os/cwd) "/janet"))
-  (printf "Set `JREF_JANET_SRC_PATH` env var to %s." janet-src-path)
+  (def tags-path
+    (string janet-src-path "/TAGS"))
+  (def dir (os/cwd))
+  (os/cd janet-src-path)
+  (os/setenv "IJS_OUTPUT_FORMAT" "etags")
+  (os/execute ["janet"
+               "../index-janet-source/index-janet-source/idk-janet"]
+              :px)
+  (unless (os/stat tags-path)
+    (eprint "Something went wrong, `TAGS` file may not have been created.")
+    (os/exit 1))
+  #
+  (os/cd dir)
+  (print "`TAGS` file created.")
+  (print)
+  (printf "Ensure `JREF_JANET_SRC_PATH` env var is set to `%s`." janet-src-path)
   (print)
   (print "For example:")
   (print)

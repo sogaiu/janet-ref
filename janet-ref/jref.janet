@@ -194,8 +194,8 @@
   (setdyn :jref-janet-src-path
           (if-let [j-src-path (os/getenv "JREF_JANET_SRC_PATH")]
             j-src-path
-            (string (os/getenv "HOME")
-                    "/src/janet")))
+            # XXX
+            (string (os/getenv "HOME") "/src/janet")))
   (setdyn :jref-pipe-to
           (when-let [val (os/getenv "JREF_PIPE_TO")]
             val))
@@ -343,9 +343,13 @@
     (def etags-file-path
       (string j-src-path "/TAGS"))
     (when (not (os/stat etags-file-path))
-      (eprintf "Failed to find TAGS file in Janet source directory: %s"
+      (eprintf "Failed to find `TAGS` file in Janet source directory: %s"
                j-src-path)
-      (eprintf "Hint: use index-janet-source's idk-janet to create it")
+      (eprint)
+      (eprint "To create the `TAGS` file:")
+      (eprint)
+      (eprint "1. Ensure universal ctags is installed, and")
+      (eprint "2. Invoke `jpm run ensure-tags`")
       (os/exit 1))
     #
     (def etags-content
