@@ -43,7 +43,7 @@
   (os/cd janet-src-path)
   (os/setenv "IJS_OUTPUT_FORMAT" "etags")
   (os/execute ["janet"
-               "../index-janet-source/index-janet-source/idk-janet"]
+               (string dir "/index-janet-source/index-janet-source/idk-janet")]
               :px)
   (unless (os/stat tags-path)
     (eprint "Something went wrong, `TAGS` file may not have been created.")
