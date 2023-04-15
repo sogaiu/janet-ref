@@ -15,6 +15,28 @@
   (print)
   (print resp))
 
+(defn handle-eval-comparison
+  [prog-ans user-ans]
+  (if (deep= user-ans prog-ans)
+    (do
+      (print "Nice, our answers both evaluate to:")
+      (print)
+      # XXX: pretty print?
+      (printf "%m" prog-ans)
+      true)
+    (do
+      (printf "Sorry, our answers evaluate differently.")
+      (print)
+      (print "My answer evaluates to:")
+      (print)
+      # XXX: pretty print?
+      (printf "%m" prog-ans)
+      (print)
+      (print "Your answer evaluates to:")
+      (print)
+      (printf "%m" user-ans)
+      false)))
+
 (defn handle-plain-response
   [ans resp]
   (print)
@@ -27,33 +49,14 @@
   (misc/print-nicely resp)
   (print)
   (when (deep= ans resp)
-    (print "Yay, our answers agree :)")
+    (print "Yay, the answers agree :)")
     (break true))
   (print "Our answers differ, but perhaps yours works too.")
   (print)
   (try
     (let [result (eval-string resp)
           evaled-ans (eval-string ans)]
-      (if (deep= result evaled-ans)
-        (do
-          (print "Nice, our answers both evaluate to:")
-          (print)
-          # XXX: pretty print?
-          (printf "%m" evaled-ans)
-          true)
-        (do
-          (printf "Sorry, our answers evaluate differently.")
-          (print)
-          (print "My answer evaluates to:")
-          (print)
-          # XXX: pretty print?
-          (printf "%m" evaled-ans)
-          (print)
-          (print "Your answer evaluates to:")
-          (print)
-          # XXX: pretty print?
-          (printf "%m" result)
-          false)))
+      (handle-eval-comparison evaled-ans result))
     ([e]
       (handle-eval-failure resp e)
       false)))
@@ -145,25 +148,7 @@
     (try
       (let [result (eval-string resp-code)
             evaled-ans (eval-string ans)]
-        (if (deep= result evaled-ans)
-          (do
-            (print "Nice, our answers both evaluate to:")
-            (print)
-            # XXX: pretty print?
-            (printf "%m" evaled-ans)
-            true)
-          (do
-            (printf "Sorry, our answers evaluate differently.")
-            (print)
-            (print "My answer evaluates to:")
-            (print)
-            # XXX: pretty print?
-            (printf "%m" evaled-ans)
-            (print)
-            (print "Your answer evaluates to:")
-            (print)
-            (printf "%m" result)
-            false)))
+        (handle-eval-comparison evaled-ans result))
       ([e]
         (handle-eval-failure resp-code e)
         false))))
