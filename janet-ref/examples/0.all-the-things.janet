@@ -23,6 +23,7 @@
 #   inc
 #   interpose
 #   mapcat
+#   max
 #   mean
 #   product
 #   sum

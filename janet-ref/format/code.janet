@@ -58,6 +58,7 @@
        "interpose"
        # XXX
        #"mapcat"
+       "max"
        "mean"
        "product"
        "quasiquote"
