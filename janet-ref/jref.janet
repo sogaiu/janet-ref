@@ -226,9 +226,7 @@
             j-src-path
             # XXX
             (string (os/getenv "HOME") "/src/janet")))
-  (setdyn :jref-pipe-to
-          (when-let [val (os/getenv "JREF_PIPE_TO")]
-            val))
+  (setdyn :jref-pipe-to (os/getenv "JREF_PIPE_TO"))
   (setdyn :jref-pipe-lang "janet")
   (setdyn :jref-repos-root "repos")
 
