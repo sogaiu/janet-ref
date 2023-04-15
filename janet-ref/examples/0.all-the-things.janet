@@ -25,6 +25,7 @@
 #   mapcat
 #   max
 #   mean
+#   min
 #   product
 #   sum
 #

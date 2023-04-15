@@ -60,6 +60,7 @@
        #"mapcat"
        "max"
        "mean"
+       "min"
        "product"
        "quasiquote"
        "quote"
