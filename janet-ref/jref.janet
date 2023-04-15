@@ -10,10 +10,10 @@
 (import ./jandent/indent :as indent)
 (import ./random :as rnd)
 (import ./show/doc :as doc)
-(import ./show/examples :as ex)
 (import ./show/misc :as misc)
 (import ./show/questions :as qu)
 (import ./show/source :as src)
+(import ./show/usages :as us)
 
 (def usage
   ``
@@ -404,15 +404,17 @@
         (print line)))
 
     (when (opts :usage)
+      (var limit nil)
       # some special behavior
       (when (opts :doc)
+        (set limit 3)
         (unless (get special-forms-table thing)
           (print))
         (misc/print-separator)
         (print))
       #
       (def [res buf]
-        (ex/thing-examples content))
+        (us/thing-usages content limit))
       (if res
         (do
           (print buf))
