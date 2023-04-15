@@ -31,7 +31,7 @@ search-string,idline,offset-from-start
 
 (def etags-grammar
   ~{:main (sequence (any (sequence :section-sep :section)) -1)
-    :section-sep (sequence ,form-feed "\n")
+    :section-sep (sequence ,form-feed :eol)
     :section (cmt (sequence :file-line (any :tag-line))
                   ,(fn [path & rest]
                      (merge ;(keep (fn [m]
@@ -41,9 +41,9 @@ search-string,idline,offset-from-start
                                        (put m
                                             id (array/push val path))))
                                    rest))))
-    :file-line (sequence (capture :path) "," :d+ "\n")
-    # \n is here to bound the matching to the current line
-    :path (some (if-not (set ",\n") 1))
+    :file-line (sequence (capture :path) "," :d+ :eol)
+    # \r, \n are here to bound the matching to the current line
+    :path (some (if-not (set ",\r\n") 1))
     :tag-line (cmt (sequence (capture :search-str)
                              :tag-line-sep-1
                              (capture :id)
@@ -51,12 +51,13 @@ search-string,idline,offset-from-start
                              (number :d+)
                              ","
                              (number :d+)
-                             "\n")
+                             :eol)
                    ,|@{$1 @[$2 $3 $0]})
-    # \n is here to bound the matching to the current line
-    :search-str (some (if-not (choice :tag-line-sep-1 "\n") 1))
-    # \n is here to bound the matching to the current line
-    :id (some (if-not (choice :tag-line-sep-2 "\n") 1))
+    # \r, \n are here to bound the matching to the current line
+    :search-str (some (if-not (choice :tag-line-sep-1 :eol) 1))
+    # \r, \n are here to bound the matching to the current line
+    :id (some (if-not (choice :tag-line-sep-2 :eol) 1))
+    :eol (choice "\r\n" "\n")
     :tag-line-sep-1 ,delete
     :tag-line-sep-2 ,start-of-heading})
 
