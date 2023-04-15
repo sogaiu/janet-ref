@@ -26,7 +26,7 @@
 
     -d, --doc [<thing>]          show doc
     -q, --quiz [<thing>]         show quiz question
-    -s, --source [<thing>]       show source
+    -s, --source [<thing>]       show source [1]
     -u, --usage [<thing>]        show usages
 
     -p, --pprint [<data>]        pretty-print data
@@ -334,22 +334,42 @@
 
   # XXX: organize this later
   (when (opts :src)
-    (src/definition thing)
-    (os/exit 0))
+    (def j-src-path
+      (dyn :jref-janet-src-path))
+    (when (not (os/stat j-src-path))
+      (eprintf "Janet source not available at: %s" j-src-path)
+      (eprint "Set JREF_JANET_SRC_PATH to Janet source directory?")
+      (os/exit 1))
+    (def etags-file-path
+      (string j-src-path "/TAGS"))
+    (when (not (os/stat etags-file-path))
+      (eprintf "Failed to find TAGS file in Janet source directory: %s"
+               j-src-path)
+      (eprintf "Hint: use index-janet-source's idk-janet to create it")
+      (os/exit 1))
+    #
+    (def etags-content
+      (try
+        (slurp etags-file-path)
+        ([e]
+          (eprintf "Failed to read TAGS file: %s" etags-file-path)
+          (os/exit 1))))
+    (def [res lang buf]
+      (src/definition thing etags-content j-src-path))
+    (if res
+      (do
+        (def jpl (dyn :jref-pipe-lang))
+        (setdyn :jref-pipe-lang lang)
+        (pipe-to buf)
+        (setdyn :jref-pipe-lang jpl)
+        (os/exit 0))
+      (do
+        (eprint buf)
+        (os/exit 1))))
 
-  # show docs, examples, and/or quizzes for a thing
+  # show docs, usages, or quizzes for a thing
   (let [[file-path _]
         (module/find (string "janet-ref/examples/" thing))]
-
-    # XXX: remove this hack later?
-    (when (and (one? (length opts))
-               (opts :doc))
-      (if (get special-forms-table thing)
-        # XXX: should check file existence, but will be removing this
-        #      code anyway
-        (doc/special-form-doc (slurp file-path))
-        (doc/thing-doc thing))
-      (os/exit 0))
 
     (unless file-path
       (eprintf "Did not find file for `%s`" thing)
@@ -360,34 +380,42 @@
                file-path)
       (os/exit 1))
 
-    # XXX: could check for failure here
     (def content
-      (slurp file-path))
+      (try
+        (slurp file-path)
+        ([e]
+          (eprintf "Failed to read file: %s" file-path)
+          (os/exit 1))))
 
-    (when (or (and (opts :doc) (opts :usage))
-              (and (nil? (opts :doc))
-                   (nil? (opts :usage))
-                   (nil? (opts :quiz))))
-      (if (get special-forms-table thing)
-        (doc/special-form-doc content)
-        (do
-          (doc/thing-doc thing)
-          (print)))
-      (misc/print-separator)
-      (print)
-      (print)
-      (ex/thing-examples content)
-      (os/exit 0))
+    (when (empty? opts)
+      (put opts :doc true)
+      (put opts :usage true))
 
     (when (opts :doc)
-      (if (get special-forms-table thing)
-        (doc/special-form-doc content)
-        (doc/thing-doc thing)))
+      (def lines
+        (if (get special-forms-table thing)
+          (doc/special-form-doc content)
+          (doc/thing-doc thing)))
+      (each line lines
+        (print line)))
 
-    (cond
-      (opts :usage)
-      (ex/thing-examples content)
+    (when (opts :usage)
+      # some special behavior
+      (when (opts :doc)
+        (unless (get special-forms-table thing)
+          (print))
+        (misc/print-separator)
+        (print))
       #
-      (opts :quiz)
+      (def [res buf]
+        (ex/thing-examples content))
+      (if res
+        (do
+          (print buf))
+        (do
+          (eprint buf)
+          (os/exit 1))))
+
+    (when (opts :quiz)
       (qu/thing-quiz content))))
 

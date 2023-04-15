@@ -61,11 +61,8 @@
   [content]
   (def lines
     (string/split "\n" content))
-  (def m-lines
-    (massage-lines-for-special lines))
   #
-  (each line m-lines
-    (print line)))
+  (massage-lines-for-special lines))
 
 (defn massage-lines
   [lines]
@@ -94,7 +91,13 @@
         (set indent (length (first matches)))
         (break))))
   #
-  [(array/slice lines i (inc j)) indent])
+  (def m-lines @[])
+  (each line (array/slice lines i (inc j))
+    (if (>= (length line) indent)
+      (array/push m-lines (string/slice line indent))
+      (array/push m-lines line)))
+  #
+  m-lines)
 
 (defn thing-doc
   [thing]
@@ -110,11 +113,6 @@
   #
   (def lines
     (string/split "\n" buf))
-  (def [m-lines indent]
-    (massage-lines lines))
   #
-  (each line m-lines
-    (if (>= (length line) indent)
-      (print (string/slice line indent))
-      (print line))))
+  (massage-lines lines))
 

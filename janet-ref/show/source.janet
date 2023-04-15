@@ -153,51 +153,58 @@
         false))))
 
 (defn definition
-  [id-name]
-  # XXX: dir existence check? better to do before calling?
-  (def j-src-path
-    (dyn :jref-janet-src-path))
-
-  (when (not (os/stat j-src-path))
-    (eprintf "Janet source not available at: %s" j-src-path)
-    (eprint "Set JREF_JANET_SRC_PATH to Janet source directory?")
-    (break nil))
-
-  (def etags-file-path
-    (string j-src-path "/TAGS"))
-
-  (when (not (os/stat etags-file-path))
-    (eprintf "Failed to find TAGS file in Janet source directory: %s"
-             j-src-path)
-    (eprintf "Hint: use index-janet-source's idk-janet to create it")
-    (break nil))
-
-  (def etags-content
-    (slurp etags-file-path))
-
+  [id-name etags-content j-src-path]
   (def etags-table
     (merge ;(peg/match etags/etags-grammar etags-content)))
 
-  (def [line position search-str src-path]
-    (etags-table id-name))
+  (def result (etags-table id-name))
+
+  (unless result
+    (break [nil nil
+            (string/format "Failed to find: %s" id-name)]))
+
+  (def [line position search-str src-path] result)
 
   (def full-path
-    (string j-src-path
-            "/"
-            src-path))
+    (string j-src-path "/" src-path))
 
   (when (not (os/stat full-path))
-    (eprintf "Failed to find: %s" full-path)
-    (break nil))
+    (break [nil nil
+            (string/format "Failed to find: %s" full-path)]))
 
-  (def src (slurp full-path))
+  (def src
+    (try
+      (slurp full-path)
+      ([e]
+        (break [nil nil e]))))
 
   (cond
     (string/has-suffix? ".c" src-path)
-    (handle-c id-name line position search-str full-path src)
+    (do
+      (def buf @"")
+      (def ebuf @"")
+      (def res
+        (with-dyns [*out* buf
+                    *err* ebuf]
+          (handle-c id-name
+                    line position search-str full-path src)))
+      (if res
+        [res "c" buf]
+        [nil nil ebuf]))
     #
     (string/has-suffix? ".janet" src-path)
-    (handle-janet id-name line position search-str full-path src)
+    (do
+      (def buf @"")
+      (def ebuf @"")
+      (def res
+        (with-dyns [*out* buf
+                    *err* ebuf]
+          (handle-janet id-name
+                        line position search-str full-path src)))
+      (if res
+        [res "janet" buf]
+        [nil nil ebuf]))
     #
-    (errorf "Don't know how to handle file: %s" src-path)))
+    [nil nil
+     (string/format "Don't know how to handle file: %s" src-path)]))
 
