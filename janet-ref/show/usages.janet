@@ -11,8 +11,7 @@
             "Sorry, didn't find any material to make a quiz from."]))
   (default limit (length tests))
   (def buf @"")
-  (def res
-    (with-dyns [*out* buf]
+  (with-dyns [*out* buf]
       # question and answer pairs
       (each [ques ans] (array/slice tests 0
                                     (min limit (length tests)))
@@ -21,7 +20,7 @@
         (misc/print-nicely ques)
         (print "# =>")
         (misc/print-nicely ans)
-        (print))))
+        (print)))
   #
-  [res buf])
+  [true buf])
 
