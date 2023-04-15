@@ -230,6 +230,7 @@
           (when-let [val (os/getenv "JREF_PIPE_TO")]
             val))
   (setdyn :jref-pipe-lang "janet")
+  (setdyn :jref-repos-root "repos")
 
   (def [opts rest]
     (av/parse-argv argv))
@@ -361,6 +362,22 @@
       (os/exit 1))
     (set thing
       (choose-random-thing file-names)))
+
+  # XXX: organize this later
+  (when (opts :grep)
+    (def repos-path
+      (dyn :jref-repos-root))
+    # XXX
+    (os/execute ["rg"
+                 thing
+                 "--max-columns" "120"
+                 "--max-columns-preview"
+                 "--glob" "*.janet"
+                 "--glob" "*.jdn"
+                 "--glob" "*.cgen"
+                 repos-path]
+                :px)
+    (os/exit 0))
 
   # XXX: organize this later
   (when (opts :src)

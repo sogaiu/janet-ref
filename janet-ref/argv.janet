@@ -33,6 +33,10 @@
              arg)
         (put opts :format true)
         #
+        (get {"--grep" true "-g" true}
+             arg)
+        (put opts :grep true)
+        #
         (get {"--help" true "-h" true}
              arg)
         (put opts :help true)
