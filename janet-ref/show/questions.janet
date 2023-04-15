@@ -135,6 +135,7 @@
     (break true))
   (print "Our answers differ, but perhaps yours works too.")
   (print)
+  # XXX: this could be a problem for actual use of `_` as an identifier
   (let [indeces (string/find-all "_" blank-ques)
         head-idx (first indeces)
         tail-idx (last indeces)]
