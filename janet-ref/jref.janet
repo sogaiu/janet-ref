@@ -150,7 +150,7 @@
 (defn pipe-to
   [src]
   (cond
-    (= "rouge" (dyn :jref-pipe-to))
+    (= "rougify" (dyn :jref-pipe-to))
     (let [p
           (os/spawn ["rougify"
                      "highlight" "--lexer" (dyn :jref-pipe-lang)]
