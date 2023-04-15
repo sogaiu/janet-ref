@@ -184,6 +184,36 @@
       (:close (p :in))
       (:wait p))
     #
+    (= "emacs" (dyn :jref-pipe-to))
+    (when-let [file-path
+               (string "jref-" (os/clock) "." (dyn :jref-pipe-lang))
+               _ (try
+                   (do
+                     (spit file-path src)
+                     true)
+                   ([e]
+                     (eprint "Failed to create file for emacs")
+                     (os/exit 1)))]
+      (def p
+        (os/spawn ["emacs" file-path] :px))
+      (:wait p)
+      (os/rm file-path))
+    #
+    (= "emacs-nw" (dyn :jref-pipe-to))
+    (when-let [file-path
+               (string "jref-" (os/clock) "." (dyn :jref-pipe-lang))
+               _ (try
+                   (do
+                     (spit file-path src)
+                     true)
+                   ([e]
+                     (eprint "Failed to create file for emacs")
+                     (os/exit 1)))]
+      (def p
+        (os/spawn ["emacs" "-nw" file-path] :px))
+      (:wait p)
+      (os/rm file-path))
+    #
     (print src)))
 
 (defn main
