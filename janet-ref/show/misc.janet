@@ -16,7 +16,10 @@
       (:write (p :in) src)
       (:close (p :in))
       #
-      (:read (p :out) :all))
+      (def res
+        (:read (p :out) :all))
+      (os/proc-kill p)
+      res)
     #
     src))
 
