@@ -161,9 +161,10 @@
         (:read (p :out) :all))
       (print output))
     #
-    (= "nvim" (dyn :jref-pipe-to))
+    (or (= "nvim" (dyn :jref-pipe-to))
+        (= "vim" (dyn :jref-pipe-to)))
     (let [p
-          (os/spawn ["nvim"
+          (os/spawn [(dyn :jref-pipe-to)
                      "-c"
                      (string "setl filetype=" (dyn :jref-pipe-lang))
                      "-"]
