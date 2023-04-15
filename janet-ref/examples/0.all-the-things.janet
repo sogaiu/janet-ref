@@ -24,8 +24,10 @@
 #   interpose
 #   mapcat
 #   max
+#   max-of
 #   mean
 #   min
+#   min-of
 #   product
 #   sum
 #
