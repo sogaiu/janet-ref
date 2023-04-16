@@ -39,7 +39,7 @@
          first
          print)))
 
-# assumes example file for special form has certain structure
+# assumes usage file for special form has certain structure
 (defn massage-lines-for-special
   [lines]
   (def m-lines @[])

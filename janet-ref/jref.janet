@@ -105,10 +105,10 @@
    ";" "splice"
    "," "unquote"})
 
-(defn all-example-file-names
+(defn all-usage-file-names
   []
   (let [[file-path _]
-        (module/find "janet-ref/examples/0.all-the-things")]
+        (module/find "janet-ref/usages/0.all-the-things")]
     (when file-path
       (let [dir-path
             (string/slice file-path 0
@@ -188,7 +188,7 @@
   (when (opts :raw-all)
     (def file-names
       (try
-        (all-example-file-names)
+        (all-usage-file-names)
         ([e]
           (eprint "Problem determining all things.")
           (eprint e)
@@ -282,7 +282,7 @@
   (when (and (nil? thing)
              (empty? opts))
     (if-let [[file-path _]
-             (module/find "janet-ref/examples/0.all-the-things")]
+             (module/find "janet-ref/usages/0.all-the-things")]
       (do
         (unless (os/stat file-path)
           (eprintf "Failed to find file: %s" file-path)
@@ -297,7 +297,7 @@
   (unless thing
     (def file-names
       (try
-        (all-example-file-names)
+        (all-usage-file-names)
         ([e]
           (eprint "Problem determining all things.")
           (eprint e)
@@ -362,11 +362,11 @@
 
   # show docs, usages, or quizzes for a thing
   (let [[file-path _]
-        (module/find (string "janet-ref/examples/" thing))]
+        (module/find (string "janet-ref/usages/" thing))]
 
     (unless file-path
       (eprintf "Did not find file for `%s`" thing)
-      # XXX: temporary hack until examples are filled in?
+      # XXX: temporary hack until usages are filled in?
       (eprint "Trying to show source instead.")
       (eprint)
       (main "restart" "-s" ;(drop 1 argv))
