@@ -102,14 +102,13 @@
 (defn thing-doc
   [thing]
   (def buf @"")
-  (def lines
-    (cond
-      ((curenv) (symbol thing))
-      (with-dyns [*out* buf]
-        (eval-string (string/format `(doc %s)` thing)))
-      #
-      (with-dyns [*out* buf]
-        (eval-string (string/format `(doc "%s")` thing)))))
+  (cond
+    ((curenv) (symbol thing))
+    (with-dyns [*out* buf]
+      (eval-string (string/format `(doc %s)` thing)))
+    #
+    (with-dyns [*out* buf]
+      (eval-string (string/format `(doc "%s")` thing))))
   #
   (def lines
     (string/split "\n" buf))
