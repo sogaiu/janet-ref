@@ -15,6 +15,7 @@
 #   (upscope & body)
 #
 # Functions
+#   asm
 #   comp
 #   compare
 #   complement
