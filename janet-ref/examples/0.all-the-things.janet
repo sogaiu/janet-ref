@@ -19,9 +19,11 @@
 #   complement
 #   dec
 #   extreme
+#   first
 #   identity
 #   inc
 #   interpose
+#   last
 #   mapcat
 #   max
 #   max-of

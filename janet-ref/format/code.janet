@@ -48,7 +48,9 @@
        "dec" "default"
        # XXX
        "errorf" "extreme"
+       "first"
        "identity" "inc" "interpose"
+       "last"
        # XXX
        #"mapcat"
        "max" "max-of" "mean" "min" "min-of"
