@@ -207,11 +207,11 @@
 
   # XXX: organize this later
   (when (opts :pprint)
-    (def to-print
+    (def to-handle
       (if thing
         thing
         (file/read stdin :all)))
-    (->> to-print
+    (->> to-handle
          data/fmt
          col/colorize
          print)
