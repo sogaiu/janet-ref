@@ -33,6 +33,7 @@
 #   min
 #   min-of
 #   product
+#   sort
 #   sum
 #
 # Macros
