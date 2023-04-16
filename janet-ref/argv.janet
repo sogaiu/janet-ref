@@ -21,52 +21,40 @@
         (get {"--raw-all" true} arg)
         (put opts :raw-all true)
         #
-        (get {"--doc" true "-d" true}
-             arg)
+        (get {"--doc" true "-d" true} arg)
         (put opts :doc true)
         #
-        (get {"--eval" true "-e" true}
-             arg)
+        (get {"--eval" true "-e" true} arg)
         (put opts :eval true)
         #
-        (get {"--format" true "-f" true}
-             arg)
+        (get {"--format" true "-f" true} arg)
         (put opts :format true)
         #
-        (get {"--grep" true "-g" true}
-             arg)
+        (get {"--grep" true "-g" true} arg)
         (put opts :grep true)
         #
-        (get {"--help" true "-h" true}
-             arg)
+        (get {"--help" true "-h" true} arg)
         (put opts :help true)
         #
-        (get {"--indent" true "-i" true}
-             arg)
+        (get {"--indent" true "-i" true} arg)
         (put opts :indent true)
         #
-        (get {"--macex1" true "-m" true}
-             arg)
+        (get {"--macex1" true "-m" true} arg)
         (put opts :macex1 true)
         #
-        (get {"--pprint" true "-p" true}
-             arg)
+        (get {"--pprint" true "-p" true} arg)
         (put opts :pprint true)
         #
-        (get {"--quiz" true "-q" true}
-             arg)
+        (get {"--quiz" true "-q" true} arg)
         (put opts :quiz true)
         #
-        (get {"--repl" true "-r" true}
-             arg)
+        (get {"--repl" true "-r" true} arg)
         (put opts :repl true)
         #
-        (get {"--src" true "-s" true}
-             arg)
+        (get {"--src" true "-s" true} arg)
         (put opts :src true)
         #
-        (get {"--usage" true "-u" true}
-             arg)
+        (get {"--usage" true "-u" true} arg)
         (put opts :usage true)
         #
         (array/push rest arg))
