@@ -105,6 +105,15 @@
    ";" "splice"
    "," "unquote"})
 
+# XXX: need to add a lot here or use some kind of
+#      pattern matching?
+# XXX: anything platform-specific?
+(def escape-table
+  {"'"   true "*"  true ";" true
+   "->>" true "->" true ">" true
+   "<-"  true "<"  true
+   "|"   true "~"  true}  )
+
 (defn all-usage-file-names
   []
   (let [[file-path _]
@@ -196,7 +205,14 @@
     (unless file-names
       (eprintf "Failed to find all things.")
       (os/exit 1))
-    (doc/all-things (all-things file-names))
+    # XXX: not sure if this quoting will work on windows...
+    (defn print-escaped-maybe
+      [a-str]
+      (if (get escape-table a-str)
+        (print `"` a-str `"`)
+        (print a-str)))
+    (each thing (sort (all-things file-names))
+      (print-escaped-maybe thing))
     (os/exit 0))
 
   # check if there was a thing specified

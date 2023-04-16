@@ -1,31 +1,3 @@
-# XXX: not sure if this quoting will work on windows...
-(defn escape
-  [a-str]
-  (string "\""
-          a-str
-          "\""))
-
-(defn all-things
-  [things]
-  # print all things
-  (each thing (sort things)
-    # XXX: need to add a lot here or use some kind of
-    #      pattern matching?
-    # XXX: anything platform-specific?
-    (if (get {"'" true
-              "*" true
-              "->>" true
-              "->" true
-              ";" true
-              "<-" true
-              "<" true
-              ">" true
-              "|" true
-              "~" true}
-             thing)
-      (print (escape thing))
-      (print thing))))
-
 (defn doc
   [content]
   (def lines
