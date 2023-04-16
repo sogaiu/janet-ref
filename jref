@@ -1,6 +1,6 @@
-(import janet-ref/jref)
+(import janet-ref/main)
 
 (defn main
   [& argv]
-  (jref/main ;argv))
+  (main/main ;argv))
 
