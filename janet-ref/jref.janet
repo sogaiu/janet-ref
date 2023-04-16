@@ -153,12 +153,18 @@
   (setdyn :jref-width 68)
   (setdyn :jref-rng
           (math/rng (os/cryptorand 8)))
+  # XXX
+  (def src-root
+    (string (os/getenv "HOME") "/src"))
   (setdyn :jref-janet-src-path
           (if-let [j-src-path (os/getenv "JREF_JANET_SRC_PATH")]
             j-src-path
-            # XXX
-            (string (os/getenv "HOME") "/src/janet")))
-  (setdyn :jref-repos-root "repos")
+            (string src-root "/janet")))
+  (setdyn :jref-repos-root
+          (if-let [repos-path (os/getenv "JREF_REPOS_PATH")]
+            repos-path
+            (string src-root "/janet-repos")))
+  #
   (setdyn :jref-colorizer (os/getenv "JREF_COLORIZER"))
   # XXX: only applies for pygmentize -- `pygmentize -L styles`
   (setdyn :jref-colorizer-style
