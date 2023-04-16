@@ -1,6 +1,6 @@
-(import ../parse/c :as c)
-(import ../parse/etags :as etags)
-(import ../parse/location :as loc)
+(import ./parse/c :as c)
+(import ./parse/etags :as etags)
+(import ./parse/location :as loc)
 
 (defn scan-back
   [a-str a-char start n-times]

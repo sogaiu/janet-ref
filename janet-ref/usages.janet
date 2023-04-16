@@ -1,5 +1,5 @@
-(import ./misc :as misc)
-(import ../parse/tests :as tests)
+(import ./show/misc :as misc)
+(import ./parse/tests :as tests)
 
 (defn thing-usages
   [content &opt limit]

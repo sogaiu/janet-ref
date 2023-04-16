@@ -10,11 +10,11 @@
 (import ./format/data :as data)
 (import ./format/jandent/indent :as indent)
 (import ./random :as rnd)
-(import ./show/doc :as doc)
+(import ./doc :as doc)
 (import ./show/misc :as misc)
-(import ./show/questions :as qu)
-(import ./show/source :as src)
-(import ./show/usages :as us)
+(import ./show/quiz :as qu)
+(import ./src :as src)
+(import ./usages :as us)
 
 (def usage
   ``
@@ -156,6 +156,22 @@
     # return name without extension
     (string/slice file-name 0
                   (last (string/find-all "." file-name)))))
+
+(defn all-the-sharp-things
+  [content]
+  (def m-lines @[])
+  (def lines
+    (string/split "\n" content))
+  (when (empty? (array/peek lines))
+    (array/pop lines))
+  (each line lines
+    (array/push m-lines
+                (->> line
+                     (peg/match ~(sequence "# "
+                                           (capture (to -1))))
+                     first)))
+  #
+  m-lines)
 
 (defn main
   [& argv]
@@ -310,7 +326,7 @@
               (eprintf "Failed to read file: %s" file-path)
               (os/exit 1))))
         (def lines
-          (doc/doc content))
+          (all-the-sharp-things content))
         (each line lines
           (print line))
         (os/exit 0))
