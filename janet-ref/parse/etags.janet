@@ -57,7 +57,7 @@ search-string,idline,offset-from-start
     :search-str (some (if-not (choice :tag-line-sep-1 :eol) 1))
     # \r, \n are here to bound the matching to the current line
     :id (some (if-not (choice :tag-line-sep-2 :eol) 1))
-    :eol (choice "\r\n" "\n")
+    :eol (choice "\r\n" "\r" "\n")
     :tag-line-sep-1 ,delete
     :tag-line-sep-2 ,start-of-heading})
 
