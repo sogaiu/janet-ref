@@ -1,6 +1,6 @@
 (defn choose
   [things]
-  (let [idx (math/rng-int (dyn :pdoc-rng
+  (let [idx (math/rng-int (dyn :jref-rng
                                (math/rng (os/cryptorand 8)))
                           (length things))]
     (get things idx)))
@@ -11,7 +11,7 @@
     (def things
       [:a :b :c :x :y :z])
 
-    (setdyn :pdoc-rng
+    (setdyn :jref-rng
             (math/rng (os/cryptorand 8)))
 
     (var result true)
