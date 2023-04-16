@@ -27,7 +27,7 @@
 
     -d, --doc [<thing>]          show doc
     -q, --quiz [<thing>]         show quiz question
-    -s, --source [<thing>]       show source [1]
+    -s, --src [<thing>]          show source [1]
     -u, --usage [<thing>]        show usages
 
     -p, --pprint [<data>]        pretty-print data
