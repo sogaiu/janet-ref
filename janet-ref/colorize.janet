@@ -1,44 +1,45 @@
+(defn xform-with-process
+  [a-str cmd-tup]
+  (def p
+    (try
+      (os/spawn cmd-tup
+                :px {:in :pipe :out :pipe})
+      ([e]
+        # XXX
+        (eprintf "os/spawn failed, not coloring: %s" e)
+        (break a-str))))
+  #
+  (ev/write (p :in) a-str)
+  (ev/close (p :in))
+  #
+  (def buf @"")
+  (try
+    # XXX: this is async -- provide a timeout?
+    (ev/read (p :out) :all buf)
+    ([e]
+      (eprintf "ev/read failed, not coloring: %s" e)
+      (break a-str)))
+  # in this case, following should wait as well
+  (os/proc-close p)
+  #
+  buf)
+
 (defn colorize
   [src &opt lang]
   (default lang "janet")
   (cond
     (= "rougify" (dyn :jref-colorizer))
-    (let [p
-          (try
-            (os/spawn ["rougify"
-                       "highlight" "--lexer" lang]
-                      :px {:in :pipe :out :pipe})
-            ([e]
-              # XXX
-              (eprintf "os/spawn failed, not coloring: %s" e)
-              (break src)))]
-      (:write (p :in) src)
-      (:close (p :in))
-      #
-      (def res
-        (:read (p :out) :all))
-      (os/proc-kill p)
-      res)
+    (xform-with-process src
+                        ["rougify"
+                         "highlight" "--lexer" lang])
     #
     (= "pygmentize" (dyn :jref-colorizer))
-    (let [p
-          (try
-            (os/spawn ["pygmentize"
-                       "-P" (string "style=" (dyn :jref-colorizer-style))
-                       "-l" (if (= "janet" lang)
-                              "clojure"
-                              lang)]
-                      :px {:in :pipe :out :pipe})
-            ([e]
-              # XXX
-              (eprintf "os/spawn failed, not coloring: %s" e)
-              (break src)))]
-      (:write (p :in) src)
-      (:close (p :in))
-      #
-      (def res
-        (:read (p :out) :all))
-      (:wait p)
-      res)
+    (xform-with-process src
+                        ["pygmentize"
+                         "-P" (string "style=" (dyn :jref-colorizer-style))
+                         "-l" (if (= "janet" lang)
+                                "clojure"
+                                lang)])
     #
     src))
+
