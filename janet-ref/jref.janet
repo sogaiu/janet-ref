@@ -97,7 +97,7 @@
    "unquote" true
    "upscope" true})
 
-(def examples-table
+(def aliases-table
   # XXX: what's missing?
   {"|" "fn"
    "~" "quasiquote"
@@ -128,8 +128,8 @@
          # only keep things that have names
          (filter |(not (string/has-prefix? "0." $)))))
   # add aliases
-  (each alias (keys examples-table)
-    (let [thing (get examples-table alias)]
+  (each alias (keys aliases-table)
+    (let [thing (get aliases-table alias)]
       (unless (string/has-prefix? "0." thing)
         (when (index-of thing things)
           (array/push things alias)))))
@@ -202,7 +202,7 @@
   # check if there was a thing specified
   (var thing
     (let [cand (first rest)]
-      (if-let [alias (get examples-table cand)]
+      (if-let [alias (get aliases-table cand)]
         alias
         cand)))
 
