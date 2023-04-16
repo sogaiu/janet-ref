@@ -161,6 +161,18 @@
         (:read (p :out) :all))
       (print output))
     #
+    (= "pygmentize" (dyn :jref-pipe-to))
+    (let [p
+          (os/spawn ["pygmentize"
+                     "-P" (string "style=" (dyn :jref-colorizer-style))
+                     "-l" "clojure"]
+                    :px {:in :pipe :out :pipe})]
+      (:write (p :in) src)
+      (:close (p :in))
+      (def output
+        (:read (p :out) :all))
+      (print output))
+    #
     (or (= "nvim" (dyn :jref-pipe-to))
         (= "vim" (dyn :jref-pipe-to)))
     (let [p
@@ -230,6 +242,11 @@
   (setdyn :jref-pipe-lang "janet")
   (setdyn :jref-repos-root "repos")
   (setdyn :jref-colorizer (os/getenv "JREF_COLORIZER"))
+  # XXX: only applies for pygmentize
+  (setdyn :jref-colorizer-style
+          (if-let [colorizer-style (os/getenv "JREF_COLORIZER_STYLE")]
+            colorizer-style
+            "dracula"))
 
   (def [opts rest]
     (av/parse-argv argv))
@@ -468,11 +485,7 @@
       (def [res buf]
         (us/thing-usages content limit))
       (if res
-        (do
-          (def jpl (dyn :jref-pipe-lang))
-          (setdyn :jref-pipe-lang "janet")
-          (pipe-to buf)
-          (setdyn :jref-pipe-lang jpl))
+        (print buf)
         (do
           (eprint buf)
           (os/exit 1))))
