@@ -54,6 +54,9 @@
         (get {"--src" true "-s" true} arg)
         (put opts :src true)
         #
+        (get {"--todo" true "-t" true} arg)
+        (put opts :todo true)
+        #
         (get {"--usage" true "-u" true} arg)
         (put opts :usage true)
         #

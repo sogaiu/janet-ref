@@ -210,7 +210,7 @@
     (os/exit 0))
 
   # help completion by showing a raw list of relevant things
-  (when (opts :raw-all)
+  (when (or (opts :raw-all) (opts :todo))
     (def file-names
       (try
         (all-usage-file-names)
@@ -221,14 +221,37 @@
     (unless file-names
       (eprintf "Failed to find all things.")
       (os/exit 1))
-    # XXX: not sure if this quoting will work on windows...
-    (defn print-escaped-maybe
-      [a-str]
-      (if (get escape-table a-str)
-        (print `"` a-str `"`)
-        (print a-str)))
-    (each thing (sort (all-things file-names))
-      (print-escaped-maybe thing))
+    (def things
+      (sort (all-things file-names)))
+    (cond
+      (opts :raw-all)
+      (do
+        # XXX: not sure if this quoting will work on windows...
+        (defn print-escaped-maybe
+          [a-str]
+          (if (get escape-table a-str)
+            (print `"` a-str `"`)
+            (print a-str)))
+        (each thing things
+          (print-escaped-maybe thing)))
+      #
+      (opts :todo)
+      (do
+        (def tbl
+          (table ;(interpose true
+                             (map symbol things))
+                 true))
+        (each item (all-bindings)
+          (unless (get tbl item)
+            (print item))))
+      #
+      (do
+        (eprintf "Should not have gotten here...opts: %p" opts)
+        (os/exit 1)))
+    (os/exit 0))
+
+  (when (opts :todo)
+
     (os/exit 0))
 
   # check if there was a thing specified
