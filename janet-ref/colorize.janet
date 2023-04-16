@@ -28,11 +28,6 @@
   [src &opt lang]
   (default lang "janet")
   (cond
-    (= "rougify" (dyn :jref-colorizer))
-    (xform-with-process src
-                        ["rougify"
-                         "highlight" "--lexer" lang])
-    #
     (= "pygmentize" (dyn :jref-colorizer))
     (xform-with-process src
                         ["pygmentize"
@@ -40,6 +35,11 @@
                          "-l" (if (= "janet" lang)
                                 "clojure"
                                 lang)])
+    #
+    (= "rougify" (dyn :jref-colorizer))
+    (xform-with-process src
+                        ["rougify"
+                         "highlight" "--lexer" lang])
     #
     src))
 
