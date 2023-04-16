@@ -16,6 +16,7 @@
 #
 # Functions
 #   comp
+#   compare
 #   complement
 #   dec
 #   extreme

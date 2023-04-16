@@ -44,7 +44,7 @@
    3 ["for" "forv"]
    # means don't use newlines -- here for book-keeping
    -1 ["break"
-       "chr" "comp" "complement"
+       "chr" "comp" "compare" "complement"
        "dec" "default"
        # XXX
        "errorf" "extreme"
