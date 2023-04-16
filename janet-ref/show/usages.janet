@@ -17,9 +17,9 @@
                                     (min limit (length tests)))
         (def trimmed-ans (string/trim ans))
         # show the question
-        (misc/print-nicely ques)
+        (misc/print-nicely-mono ques)
         (print "# =>")
-        (misc/print-nicely ans)
+        (misc/print-nicely-mono ans)
         (print)))
   #
   [true buf])

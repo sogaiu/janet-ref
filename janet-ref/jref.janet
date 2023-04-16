@@ -3,6 +3,7 @@
 # * depends on structure of files in margaret's examples directory
 
 (import ./argv :as av)
+(import ./colorize :as col)
 (import ./completion :as compl)
 (import ./format/bindings :as bind)
 (import ./format/code :as code)
@@ -147,87 +148,6 @@
     (string/slice file-name 0
                   (last (string/find-all "." file-name)))))
 
-(defn pipe-to
-  [src]
-  (cond
-    (= "rougify" (dyn :jref-pipe-to))
-    (let [p
-          (os/spawn ["rougify"
-                     "highlight" "--lexer" (dyn :jref-pipe-lang)]
-                    :px {:in :pipe :out :pipe})]
-      (:write (p :in) src)
-      (:close (p :in))
-      (def output
-        (:read (p :out) :all))
-      (print output))
-    #
-    (= "pygmentize" (dyn :jref-pipe-to))
-    (let [p
-          (os/spawn ["pygmentize"
-                     "-P" (string "style=" (dyn :jref-colorizer-style))
-                     "-l" "clojure"]
-                    :px {:in :pipe :out :pipe})]
-      (:write (p :in) src)
-      (:close (p :in))
-      (def output
-        (:read (p :out) :all))
-      (print output))
-    #
-    (or (= "nvim" (dyn :jref-pipe-to))
-        (= "vim" (dyn :jref-pipe-to)))
-    (let [p
-          (os/spawn [(dyn :jref-pipe-to)
-                     "-c"
-                     (string "setl filetype=" (dyn :jref-pipe-lang))
-                     "-"]
-                    :px {:in :pipe})]
-      (:write (p :in) src)
-      (:close (p :in))
-      (:wait p))
-    #
-    (= "kak" (dyn :jref-pipe-to))
-    (let [p
-          (os/spawn ["kak"
-                     "-e"
-                     (string "set-option buffer filetype "
-                             (dyn :jref-pipe-lang))]
-                    :px {:in :pipe})]
-      (:write (p :in) src)
-      (:close (p :in))
-      (:wait p))
-    #
-    (= "emacs" (dyn :jref-pipe-to))
-    (when-let [file-path
-               (string "jref-" (os/clock) "." (dyn :jref-pipe-lang))
-               _ (try
-                   (do
-                     (spit file-path src)
-                     true)
-                   ([e]
-                     (eprint "Failed to create file for emacs")
-                     (os/exit 1)))]
-      (def p
-        (os/spawn ["emacs" file-path] :px))
-      (:wait p)
-      (os/rm file-path))
-    #
-    (= "emacs-nw" (dyn :jref-pipe-to))
-    (when-let [file-path
-               (string "jref-" (os/clock) "." (dyn :jref-pipe-lang))
-               _ (try
-                   (do
-                     (spit file-path src)
-                     true)
-                   ([e]
-                     (eprint "Failed to create file for emacs")
-                     (os/exit 1)))]
-      (def p
-        (os/spawn ["emacs" "-nw" file-path] :px))
-      (:wait p)
-      (os/rm file-path))
-    #
-    (print src)))
-
 (defn main
   [& argv]
   (setdyn :jref-width 68)
@@ -238,8 +158,6 @@
             j-src-path
             # XXX
             (string (os/getenv "HOME") "/src/janet")))
-  (setdyn :jref-pipe-to (os/getenv "JREF_PIPE_TO"))
-  (setdyn :jref-pipe-lang "janet")
   (setdyn :jref-repos-root "repos")
   (setdyn :jref-colorizer (os/getenv "JREF_COLORIZER"))
   # XXX: only applies for pygmentize
@@ -295,7 +213,8 @@
         (file/read stdin :all)))
     (->> to-print
          data/fmt
-         pipe-to)
+         col/colorize
+         print)
     (os/exit 0))
 
   # XXX: organize this later
@@ -310,7 +229,8 @@
          code/fmt
          bind/process-binding-forms
          indent/format
-         pipe-to)
+         col/colorize
+         print)
     (os/exit 0))
 
   # XXX: organize this later
@@ -322,7 +242,8 @@
     (->> (eval-string to-handle)
          (string/format "%n")
          data/fmt
-         pipe-to)
+         col/colorize
+         print)
     (os/exit 0))
 
   # XXX: organize this later
@@ -335,7 +256,8 @@
          code/fmt
          bind/process-binding-forms
          indent/format
-         pipe-to)
+         col/colorize
+         print)
     (os/exit 0))
 
   # XXX: organize this later
@@ -346,7 +268,8 @@
         (file/read stdin :all)))
     (->> to-handle
          indent/format
-         pipe-to)
+         col/colorize
+         print)
     (os/exit 0))
 
   # if no thing found and no options, show info about all things
@@ -425,10 +348,7 @@
       (src/definition thing etags-content j-src-path))
     (if res
       (do
-        (def jpl (dyn :jref-pipe-lang))
-        (setdyn :jref-pipe-lang lang)
-        (pipe-to buf)
-        (setdyn :jref-pipe-lang jpl)
+        (print (col/colorize buf lang))
         (os/exit 0))
       (do
         (eprint buf)
@@ -485,7 +405,7 @@
       (def [res buf]
         (us/thing-usages content limit))
       (if res
-        (print buf)
+        (print (col/colorize buf))
         (do
           (eprint buf)
           (os/exit 1))))
