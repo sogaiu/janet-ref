@@ -1,15 +1,18 @@
 (defn doc
   [content]
+  (def m-lines @[])
   (def lines
     (string/split "\n" content))
   (when (empty? (array/peek lines))
     (array/pop lines))
   (each line lines
-    (->> line
-         (peg/match ~(sequence "# "
-                               (capture (to -1))))
-         first
-         print)))
+    (array/push m-lines
+                (->> line
+                     (peg/match ~(sequence "# "
+                                           (capture (to -1))))
+                     first)))
+  #
+  m-lines)
 
 # assumes usage file for special form has certain structure
 (defn massage-lines-for-special

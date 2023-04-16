@@ -303,7 +303,16 @@
         (unless (os/stat file-path)
           (eprintf "Failed to find file: %s" file-path)
           (os/exit 1))
-        (doc/doc (slurp file-path))
+        (def content
+          (try
+            (slurp file-path)
+            ([e]
+              (eprintf "Failed to read file: %s" file-path)
+              (os/exit 1))))
+        (def lines
+          (doc/doc content))
+        (each line lines
+          (print line))
         (os/exit 0))
       (do
         (eprint "Hmm, something is wrong, failed to find all the things.")
