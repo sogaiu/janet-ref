@@ -160,11 +160,11 @@
             (string (os/getenv "HOME") "/src/janet")))
   (setdyn :jref-repos-root "repos")
   (setdyn :jref-colorizer (os/getenv "JREF_COLORIZER"))
-  # XXX: only applies for pygmentize
+  # XXX: only applies for pygmentize -- `pygmentize -L styles`
   (setdyn :jref-colorizer-style
           (if-let [colorizer-style (os/getenv "JREF_COLORIZER_STYLE")]
             colorizer-style
-            "dracula"))
+            "rrt")) # dracula, one-dark, monokai, gruvbox-dark
 
   (def [opts rest]
     (av/parse-argv argv))
