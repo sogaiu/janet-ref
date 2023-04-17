@@ -34,7 +34,7 @@
       "mapcat"
       "or"
       "prompt"
-      "repeat"
+      "reduce" "repeat"
       "seq" "set"
       "tabseq"
       "unless"

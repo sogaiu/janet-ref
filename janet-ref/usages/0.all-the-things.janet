@@ -33,6 +33,7 @@
 #   min
 #   min-of
 #   product
+#   reduce
 #   sort
 #   sort-by
 #   sorted
