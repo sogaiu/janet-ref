@@ -36,24 +36,18 @@ Preliminary Support:
 
 ## Invocation Examples
 
-Look up some docs.
+Take a quiz.
 
 ```
-$ jref -d var
-special form
+$ jref -q label
+(label here
+  (for i 0 2
+    (when (pos? i)
+      (______ here i))))
+# =>
+1
 
-`(var name meta... value)`
-
-`var` binds a value to a symbol.
-
-The symbol can be substituted for the value in subsequent
-expressions for the same result.
-
-A binding made by `var` can be updated using `set`.
-
-For further info, see:
-
-  https://janet-lang.org/docs/specials.html
+What value could work in the blank?
 ```
 
 Show some usages.
@@ -79,18 +73,25 @@ $ jref -u mapcat
 # =>
 @{:a 1 :b 2 :c 3}
 ```
-Take a quiz.
+
+Look up some docs.
 
 ```
-$ jref -q label
-(label here
-  (for i 0 2
-    (when (pos? i)
-      (______ here i))))
-# =>
-1
+$ jref -d var
+special form
 
-What value could work in the blank?
+`(var name meta... value)`
+
+`var` binds a value to a symbol.
+
+The symbol can be substituted for the value in subsequent
+expressions for the same result.
+
+A binding made by `var` can be updated using `set`.
+
+For further info, see:
+
+  https://janet-lang.org/docs/specials.html
 ```
 
 Pretty-print some data.
@@ -113,13 +114,6 @@ $ jref -f "(defn a [x] (+ x 1)) (print (a 2))"
 (print (a 2))
 ```
 
-Evaluate some code.
-
-```
-$ jref -e "(> (length (all-bindings)) 500)"
-true
-```
-
 Expand a macro call.
 
 ```
@@ -136,6 +130,13 @@ $ jref -m "(each i [0 1 2] (when (pos? i) (break)))"
       (break))
     (set _0000c2
          (<function next> _0000c3 _0000c2))))
+```
+
+Evaluate some code.
+
+```
+$ jref -e "(> (length (all-bindings)) 500)"
+true
 ```
 
 Get basic help.
