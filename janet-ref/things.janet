@@ -204,3 +204,26 @@
 
   )
 
+# XXX: need to add a lot here or use some kind of pattern matching?
+# XXX: anything platform-specific?
+(def term-escape-table
+  {"'"   true "*"  true ";" true
+   "->>" true "->" true ">" true
+   "<-"  true "<"  true
+   "|"   true "~"  true})
+
+(def special-forms-table
+  {"def" true
+   "var" true
+   "fn" true
+   "do" true
+   "quote" true
+   "if" true
+   "splice" true
+   "while" true
+   "break" true
+   "set" true
+   "quasiquote" true
+   "unquote" true
+   "upscope" true})
+

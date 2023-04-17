@@ -14,7 +14,7 @@
 (import ./quiz :as qu)
 (import ./src :as src)
 (import ./things :as things)
-(import ./usages :as us)
+(import ./usages :as usages)
 
 (def usage
   ``
@@ -82,43 +82,6 @@
   The `TAGS` file should end up in the `janet` subdirectory.
   ``)
 
-(def special-forms-table
-  {"def" true
-   "var" true
-   "fn" true
-   "do" true
-   "quote" true
-   "if" true
-   "splice" true
-   "while" true
-   "break" true
-   "set" true
-   "quasiquote" true
-   "unquote" true
-   "upscope" true})
-
-# XXX: need to add a lot here or use some kind of
-#      pattern matching?
-# XXX: anything platform-specific?
-(def escape-table
-  {"'"   true "*"  true ";" true
-   "->>" true "->" true ">" true
-   "<-"  true "<"  true
-   "|"   true "~"  true}  )
-
-(defn all-usage-file-names
-  []
-  (let [[file-path _]
-        (module/find "janet-ref/usages/0.all-the-things")]
-    (when file-path
-      (let [dir-path
-            (string/slice file-path 0
-                          (last (string/find-all "/" file-path)))]
-        (unless (os/stat dir-path)
-          (errorf "Unexpected directory non-existence:" dir-path))
-        #
-        (os/dir dir-path)))))
-
 (defn all-the-sharp-things
   [content]
   (def m-lines @[])
@@ -185,7 +148,7 @@
   (when (or (opts :raw-all) (opts :todo))
     (def file-names
       (try
-        (all-usage-file-names)
+        (usages/all-file-names)
         ([e]
           (eprint "Problem determining all things.")
           (eprint e)
@@ -201,7 +164,7 @@
         # XXX: not sure if this quoting will work on windows...
         (defn print-escaped-maybe
           [a-str]
-          (if (get escape-table a-str)
+          (if (get things/term-escape-table a-str)
             (print `"` a-str `"`)
             (print a-str)))
         (each thing things
@@ -329,7 +292,7 @@
   (unless thing
     (def file-names
       (try
-        (all-usage-file-names)
+        (usages/all-file-names)
         ([e]
           (eprint "Problem determining all things.")
           (eprint e)
@@ -394,7 +357,8 @@
 
   # show docs, usages, or quizzes for a thing
   (let [[file-path _]
-        (module/find (string "janet-ref/usages/" (escape-sym-name thing)))]
+        (module/find (string "janet-ref/usages/"
+                             (things/escape-sym-name thing)))]
 
     (unless file-path
       (eprintf "Did not find file for `%s`" thing)
@@ -424,7 +388,7 @@
 
     (when (opts :doc)
       (def lines
-        (if (get special-forms-table thing)
+        (if (get things/special-forms-table thing)
           (doc/special-form-doc content)
           (doc/thing-doc thing)))
       (each line lines
@@ -435,13 +399,13 @@
       # some special behavior
       (when (opts :doc)
         (set limit 3)
-        (unless (get special-forms-table thing)
+        (unless (get things/special-forms-table thing)
           (print))
         (pr/print-separator)
         (print))
       #
       (def [res buf]
-        (us/thing-usages content limit))
+        (usages/thing-usages content limit))
       (if res
         (print (col/colorize buf))
         (do

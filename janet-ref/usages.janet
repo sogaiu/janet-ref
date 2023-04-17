@@ -1,6 +1,19 @@
 (import ./print :as pr)
 (import ./parse/tests :as tests)
 
+(defn all-file-names
+  []
+  (let [[file-path _]
+        (module/find "janet-ref/usages/0.all-the-things")]
+    (when file-path
+      (let [dir-path
+            (string/slice file-path 0
+                          (last (string/find-all "/" file-path)))]
+        (unless (os/stat dir-path)
+          (errorf "Unexpected directory non-existence:" dir-path))
+        #
+        (os/dir dir-path)))))
+
 (defn thing-usages
   [content &opt limit]
   # extract first set of tests from content
