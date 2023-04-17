@@ -9,11 +9,11 @@
 (import ./format/code :as code)
 (import ./format/data :as data)
 (import ./format/jandent/indent :as indent)
-(import ./random :as rnd)
 (import ./doc :as doc)
 (import ./print :as pr)
 (import ./quiz :as qu)
 (import ./src :as src)
+(import ./things :as things)
 (import ./usages :as us)
 
 (def usage
@@ -97,14 +97,6 @@
    "unquote" true
    "upscope" true})
 
-(def aliases-table
-  # XXX: what's missing?
-  {"|" "fn"
-   "~" "quasiquote"
-   "'" "quote"
-   ";" "splice"
-   "," "unquote"})
-
 # XXX: need to add a lot here or use some kind of
 #      pattern matching?
 # XXX: anything platform-specific?
@@ -126,202 +118,6 @@
           (errorf "Unexpected directory non-existence:" dir-path))
         #
         (os/dir dir-path)))))
-
-# wanted an escaping scheme that satisfied the following constraints:
-#
-# * works with janet symbols
-# * works with windows and *nix
-# * can be easily adapted for use in urls
-# * relatively readable / typable
-# * relatively brief
-#
-# result was:
-#
-# * use square brackets to surround abbreviated character entity ref names
-# * thus:
-#   * / -> [sol]
-#   * < -> [lt]
-#   * > -> [gt]
-#   * * -> [ast]
-#   * % -> [per]
-#   * : -> [col]
-#   * ? -> [que]
-(def sym-char-escapes
-  {"/" "sol"
-   "<" "lt"
-   ">" "gt"
-   "*" "ast"
-   "%" "per"
-   ":" "col"
-   "?" "que"})
-
-(defn escape-sym-name
-  [sym-name]
-  (def esc-grammar
-    (peg/compile
-      ~(accumulate
-         (some
-           (choice (replace (capture (set "/<>*%:?"))
-                            ,(fn [char-str]
-                               (string "["
-                                       (get sym-char-escapes char-str)
-                                       "]")))
-                   (capture 1))))))
-  (first (peg/match esc-grammar sym-name)))
-
-(comment
-
-  (escape-sym-name "string/replace")
-  # =>
-  "string[sol]replace"
-
-  (escape-sym-name "<")
-  # =>
-  "[lt]"
-
-  (escape-sym-name "->")
-  # =>
-  "-[gt]"
-
-  (escape-sym-name "import*")
-  # =>
-  "import[ast]"
-
-  (escape-sym-name "%=")
-  # =>
-  "[per]="
-
-  (escape-sym-name "uncommon:symbol")
-  # =>
-  "uncommon[col]symbol"
-
-  (escape-sym-name "nan?")
-  # =>
-  "nan[que]"
-
-  )
-
-(def sym-char-unescapes
-  (invert sym-char-escapes))
-
-(defn unescape-file-name
-  [file-name]
-  (def unesc-grammar
-    (peg/compile
-      ~(accumulate
-         (some
-           (choice (replace (sequence "["
-                                      (capture (to "]"))
-                                      "]")
-                            ,sym-char-unescapes)
-                   (capture 1))))))
-  (first (peg/match unesc-grammar file-name)))
-
-(comment
-
-  (unescape-file-name "string[sol]replace")
-  # =>
-  "string/replace"
-
-  (unescape-file-name "[lt]")
-  # =>
-  "<"
-
-  (unescape-file-name "-[gt]")
-  # =>
-  "->"
-
-  (unescape-file-name "import[ast]")
-  # =>
-  "import*"
-
-  (unescape-file-name "[per]=")
-  # =>
-  "%="
-
-  (unescape-file-name "uncommon[col]symbol")
-  # =>
-  "uncommon:symbol"
-
-  (unescape-file-name "nan[que]")
-  # =>
-  "nan?"
-
-  )
-
-(defn all-things
-  [file-names]
-  (def things
-    (->> file-names
-         # drop .janet extension
-         (map |(string/slice $ 0
-                             (last (string/find-all "." $))))
-         # only keep things that have names
-         (filter |(not (string/has-prefix? "0." $)))
-         (keep unescape-file-name)))
-  # add aliases
-  (each alias (keys aliases-table)
-    (let [thing (get aliases-table alias)]
-      (unless (string/has-prefix? "0." thing)
-        (when (index-of thing things)
-          (array/push things alias)))))
-  #
-  things)
-
-(comment
-
-  (all-things ["[lt].janet"
-               "mapcat.janet"
-               "nan[que].janet"
-               "string[sol]format.janet"])
-  # =>
-  @["<" "mapcat" "nan?" "string/format"]
-
-  (all-things ["0.all-the-things.janet"
-               "-[gt].janet"
-               "array[sol]push.janet"
-               "map.janet"
-               "nan[que].janet"])
-  # =>
-  @["->" "array/push" "map" "nan?"]
-
-  )
-
-(defn choose-random-thing
-  [file-names]
-  (def all-idx
-    (index-of "0.all-the-things.janet" file-names))
-  (def choice-names
-    (array/slice file-names))
-  (when all-idx
-    (array/remove choice-names all-idx))
-  (def file-name
-    (rnd/choose choice-names))
-  # return name without extension
-  (->> (string/slice file-name 0
-                     (last (string/find-all "." file-name)))
-       unescape-file-name))
-
-(comment
-
-  (let [file-names
-        @["[lt].janet"
-          "nan[que].janet"
-          "string[sol]format.janet"]
-        thing-names
-        (map |(let [name-only
-                    (string/slice $
-                                  0 (last (string/find-all "." $)))]
-                (unescape-file-name name-only))
-             file-names)
-        thing
-        (choose-random-thing file-names)]
-    [(truthy? (index-of thing thing-names))
-     (string/find "[" thing)])
-  # =>
-  [true nil]
-
-  )
 
 (defn all-the-sharp-things
   [content]
@@ -398,7 +194,7 @@
       (eprintf "Failed to find all things.")
       (os/exit 1))
     (def things
-      (sort (all-things file-names)))
+      (sort (things/all-things file-names)))
     (cond
       (opts :raw-all)
       (do
@@ -429,7 +225,7 @@
   # check if there was a thing specified
   (var thing
     (let [cand (first rest)]
-      (if-let [alias (get aliases-table cand)]
+      (if-let [alias (get things/aliases-table cand)]
         alias
         cand)))
 
@@ -542,7 +338,7 @@
       (eprintf "Failed to find all things.")
       (os/exit 1))
     (set thing
-      (choose-random-thing file-names)))
+      (things/choose-random-thing file-names)))
 
   # XXX: organize this later
   (when (opts :grep)
