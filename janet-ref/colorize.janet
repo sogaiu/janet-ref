@@ -28,6 +28,16 @@
   [src &opt lang]
   (default lang "janet")
   (cond
+    (= "bat" (dyn :jref-colorizer))
+    (xform-with-process src
+                        ["bat"
+                         "--paging=never"
+                         "--force-colorization"
+                         "--theme" (dyn :jref-colorizer-style)
+                         "-l" (if (= "janet" lang)
+                                "clojure"
+                                lang)])
+    #
     (= "pygmentize" (dyn :jref-colorizer))
     (xform-with-process src
                         ["pygmentize"
