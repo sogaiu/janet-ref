@@ -22,6 +22,7 @@
 #   complement
 #   dec
 #   extreme
+#   filter
 #   first
 #   identity
 #   inc

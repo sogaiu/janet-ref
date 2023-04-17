@@ -27,7 +27,7 @@
       "case" "coro"
       "def" "defer" "defn"
       "edefer"
-      "fn"
+      "filter" "fn"
       "generate"
       "if" "if-let" "if-not" "if-with"
       "label" "let" "loop"
