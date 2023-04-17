@@ -127,6 +127,125 @@
         #
         (os/dir dir-path)))))
 
+# wanted an escaping scheme that satisfied the following constraints:
+#
+# * works with janet symbols
+# * works with windows and *nix
+# * can be easily adapted for use in urls
+# * relatively readable / typable
+# * relatively brief
+#
+# result was:
+#
+# * use square brackets to surround abbreviated character entity ref names
+# * thus:
+#   * / -> [sol]
+#   * < -> [lt]
+#   * > -> [gt]
+#   * * -> [ast]
+#   * % -> [per]
+#   * : -> [col]
+#   * ? -> [que]
+(def sym-char-escapes
+  {"/" "sol"
+   "<" "lt"
+   ">" "gt"
+   "*" "ast"
+   "%" "per"
+   ":" "col"
+   "?" "que"})
+
+(defn escape-sym-name
+  [sym-name]
+  (var escaped-name sym-name)
+  # XXX: use a peg?
+  (eachp [char-str name] sym-char-escapes
+    (set escaped-name
+         (string/replace-all char-str
+                             (string "[" name "]")
+                             escaped-name)))
+  #
+  escaped-name)
+
+(comment
+
+  (escape-sym-name "string/replace")
+  # =>
+  "string[sol]replace"
+
+  (escape-sym-name "<")
+  # =>
+  "[lt]"
+
+  (escape-sym-name "->")
+  # =>
+  "-[gt]"
+
+  (escape-sym-name "import*")
+  # =>
+  "import[ast]"
+
+  (escape-sym-name "%=")
+  # =>
+  "[per]="
+
+  (escape-sym-name "uncommon:symbol")
+  # =>
+  "uncommon[col]symbol"
+
+  (escape-sym-name "nan?")
+  # =>
+  "nan[que]"
+
+  )
+
+(def sym-char-unescapes
+  (invert sym-char-escapes))
+
+(defn unescape-file-name
+  [sym-name]
+  (var unescaped-name sym-name)
+  # XXX: use a peg?
+  (eachp [name char-str] sym-char-unescapes
+    (set unescaped-name
+         (string/replace-all (string "[" name "]")
+                             char-str
+                             unescaped-name)))
+  #
+  unescaped-name)
+
+(comment
+
+  (unescape-file-name "string[sol]replace")
+  # =>
+  "string/replace"
+
+  (unescape-file-name "[lt]")
+  # =>
+  "<"
+
+  (unescape-file-name "-[gt]")
+  # =>
+  "->"
+
+  (unescape-file-name "import[ast]")
+  # =>
+  "import*"
+
+  (unescape-file-name "[per]=")
+  # =>
+  "%="
+
+  (unescape-file-name "uncommon[col]symbol")
+  # =>
+  "uncommon:symbol"
+
+  (unescape-file-name "nan[que]")
+  # =>
+  "nan?"
+
+  )
+
 (defn all-things
   [file-names]
   (def things
@@ -135,7 +254,8 @@
          (map |(string/slice $ 0
                              (last (string/find-all "." $))))
          # only keep things that have names
-         (filter |(not (string/has-prefix? "0." $)))))
+         (filter |(not (string/has-prefix? "0." $)))
+         (keep unescape-file-name)))
   # add aliases
   (each alias (keys aliases-table)
     (let [thing (get aliases-table alias)]
@@ -145,17 +265,60 @@
   #
   things)
 
+(comment
+
+  (all-things ["[lt].janet"
+               "mapcat.janet"
+               "nan[que].janet"
+               "string[sol]format.janet"])
+  # =>
+  @["<" "mapcat" "nan?" "string/format"]
+
+  (all-things ["0.all-the-things.janet"
+               "-[gt].janet"
+               "array[sol]push.janet"
+               "map.janet"
+               "nan[que].janet"])
+  # =>
+  @["->" "array/push" "map" "nan?"]
+
+  )
+
 (defn choose-random-thing
   [file-names]
-  (let [all-idx (index-of "0.all-the-things.janet" file-names)]
-    (unless all-idx
-      (errorf "Unexpected failure to find file with all the things: %M"
-              file-names))
-    (def file-name
-      (rnd/choose (array/remove file-names all-idx)))
-    # return name without extension
-    (string/slice file-name 0
-                  (last (string/find-all "." file-name)))))
+  (def all-idx
+    (index-of "0.all-the-things.janet" file-names))
+  (def choice-names
+    (array/slice file-names))
+  (when all-idx
+    (array/remove choice-names all-idx))
+  (def file-name
+    (rnd/choose choice-names))
+  # return name without extension
+  (->> (string/slice file-name 0
+                     (last (string/find-all "." file-name)))
+       unescape-file-name))
+
+(comment
+
+  (let [file-names
+        @["[lt].janet"
+          "nan[que].janet"
+          "string[sol]format.janet"]
+        thing-names
+        (map |(let [name-only
+                    (string/slice $
+                                  0 (last (string/find-all "." $)))]
+                (unescape-file-name name-only))
+             file-names)
+        thing
+        (choose-random-thing file-names)]
+    [(truthy? (index-of thing thing-names))
+     (string/find "[" thing)])
+  # =>
+  [true nil]
+
+  )
 
 (defn all-the-sharp-things
   [content]
@@ -432,7 +595,7 @@
 
   # show docs, usages, or quizzes for a thing
   (let [[file-path _]
-        (module/find (string "janet-ref/usages/" thing))]
+        (module/find (string "janet-ref/usages/" (escape-sym-name thing)))]
 
     (unless file-path
       (eprintf "Did not find file for `%s`" thing)
