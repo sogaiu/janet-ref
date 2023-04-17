@@ -34,6 +34,7 @@
 #   mean
 #   min
 #   min-of
+#   nan?
 #   product
 #   reduce
 #   sort

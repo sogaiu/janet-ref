@@ -32,6 +32,7 @@
       "if" "if-let" "if-not" "if-with"
       "label" "let" "loop"
       "map" "mapcat"
+      "nan?"
       "or"
       "prompt"
       "reduce" "repeat"
