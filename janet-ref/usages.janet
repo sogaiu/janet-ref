@@ -1,4 +1,4 @@
-(import ./show/misc :as misc)
+(import ./print :as pr)
 (import ./parse/tests :as tests)
 
 (defn thing-usages
@@ -17,9 +17,9 @@
                                     (min limit (length tests)))
         (def trimmed-ans (string/trim ans))
         # show the question
-        (misc/print-nicely-mono ques)
+        (pr/print-nicely-mono ques)
         (print "# =>")
-        (misc/print-nicely-mono ans)
+        (pr/print-nicely-mono ans)
         (print)))
   #
   [true buf])

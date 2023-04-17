@@ -11,8 +11,8 @@
 (import ./format/jandent/indent :as indent)
 (import ./random :as rnd)
 (import ./doc :as doc)
-(import ./show/misc :as misc)
-(import ./show/quiz :as qu)
+(import ./print :as pr)
+(import ./quiz :as qu)
 (import ./src :as src)
 (import ./usages :as us)
 
@@ -469,7 +469,7 @@
         (set limit 3)
         (unless (get special-forms-table thing)
           (print))
-        (misc/print-separator)
+        (pr/print-separator)
         (print))
       #
       (def [res buf]

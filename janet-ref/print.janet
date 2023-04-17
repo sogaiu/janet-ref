@@ -1,5 +1,5 @@
-(import ../format/jandent/indent)
-(import ../colorize :as col)
+(import ./format/jandent/indent)
+(import ./colorize :as col)
 
 (defn print-nicely
   [expr-str]

@@ -1,7 +1,7 @@
-(import ./misc :as misc)
-(import ../parse/quiz :as qu)
-(import ../parse/tests :as tests)
-(import ../random :as rnd)
+(import ./print :as pr)
+(import ./parse/quiz :as qu)
+(import ./parse/tests :as tests)
+(import ./random :as rnd)
 
 (defn handle-eval-failure
   [resp e]
@@ -21,29 +21,29 @@
     (do
       (print "Nice, our answers both evaluate to:")
       (print)
-      (misc/print-nicely (string/format "%m" prog-ans))
+      (pr/print-nicely (string/format "%m" prog-ans))
       true)
     (do
       (printf "Sorry, our answers evaluate differently.")
       (print)
       (print "My answer evaluates to:")
       (print)
-      (misc/print-nicely (string/format "%m" prog-ans))
+      (pr/print-nicely (string/format "%m" prog-ans))
       (print)
       (print "Your answer evaluates to:")
       (print)
-      (misc/print-nicely (string/format "%m" user-ans))
+      (pr/print-nicely (string/format "%m" user-ans))
       false)))
 
 (defn handle-plain-response
   [ans resp]
   (print "My answer is:")
   (print)
-  (misc/print-nicely ans)
+  (pr/print-nicely ans)
   (print)
   (print "Your answer is:")
   (print)
-  (misc/print-nicely resp)
+  (pr/print-nicely resp)
   (print)
   (when (deep= ans resp)
     (print "Yay, the answers agree :)")
@@ -95,7 +95,7 @@
     (print "# What does the following evaluate to?")
     (print)
     # show the question
-    (misc/print-nicely ques)
+    (pr/print-nicely ques)
     (print "# =>")
     # ask for an answer
     (def buf
@@ -109,7 +109,7 @@
       (break nil))
     # improve perceptibility
     (print)
-    (misc/print-separator)
+    (pr/print-separator)
     (print)
     #
     (handle-plain-response trimmed-ans resp)))
@@ -118,17 +118,17 @@
   [ques blank-ques blanked-item ans resp]
   (print "One complete picture is: ")
   (print)
-  (misc/print-nicely ques)
+  (pr/print-nicely ques)
   (print "# =>")
-  (misc/print-nicely ans)
+  (pr/print-nicely ans)
   (print)
   (print "So one value that works is:")
   (print)
-  (misc/print-nicely blanked-item)
+  (pr/print-nicely blanked-item)
   (print)
   (print "Your answer is:")
   (print)
-  (misc/print-nicely resp)
+  (pr/print-nicely resp)
   (print)
   (when (deep= blanked-item resp)
     (print "Yay, the answers agree :)")
@@ -171,9 +171,9 @@
           blank-ques (tests/indent-node-gen blank-ques-zloc)
           trimmed-ans (string/trim (tests/indent-node-gen ans-zloc))]
       # show the question
-      (misc/print-nicely blank-ques)
+      (pr/print-nicely blank-ques)
       (print "# =>")
-      (misc/print-nicely trimmed-ans)
+      (pr/print-nicely trimmed-ans)
       (print)
       # ask for an answer
       (def buf
@@ -187,7 +187,7 @@
         (break nil))
       # improve perceptibility
       (print)
-      (misc/print-separator)
+      (pr/print-separator)
       (print)
       #
       (handle-fill-in-response ques blank-ques blanked-item
