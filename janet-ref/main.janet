@@ -260,10 +260,6 @@
         (os/exit 1)))
     (os/exit 0))
 
-  (when (opts :todo)
-
-    (os/exit 0))
-
   # check if there was a thing specified
   (var thing
     (let [cand (first rest)]
