@@ -27,6 +27,7 @@
 #   inc
 #   interpose
 #   last
+#   map
 #   mapcat
 #   max
 #   max-of

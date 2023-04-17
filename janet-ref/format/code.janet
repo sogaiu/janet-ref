@@ -31,7 +31,7 @@
       "generate"
       "if" "if-let" "if-not" "if-with"
       "label" "let" "loop"
-      "mapcat"
+      "map" "mapcat"
       "or"
       "prompt"
       "reduce" "repeat"
