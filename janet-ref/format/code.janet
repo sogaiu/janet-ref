@@ -23,7 +23,7 @@
       "protect"
       "try"
       "upscope"]
-   1 ["and" "assert"
+   1 ["accumulate" "and" "assert"
       "case" "coro"
       "def" "defer" "defn"
       "edefer"
