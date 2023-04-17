@@ -35,6 +35,7 @@
 #   product
 #   sort
 #   sort-by
+#   sorted
 #   sum
 #
 # Macros

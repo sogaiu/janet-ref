@@ -58,7 +58,7 @@
        "product"
        "quasiquote" "quote"
        "return"
-       "sort" "sort-by" "splice" "sum"
+       "sort" "sort-by" "sorted" "splice" "sum"
        "toggle"
        "unquote"]})
 
