@@ -115,7 +115,7 @@
     (handle-plain-response trimmed-ans resp)))
 
 (defn handle-fill-in-response
-  [ques blank-ques blanked-item ans resp]
+  [ques blank-ques blanked-item blank-char-str ans resp]
   (print "One complete picture is: ")
   (print)
   (pr/print-nicely ques)
@@ -135,11 +135,10 @@
     (break true))
   (print "Our answers differ, but perhaps yours works too.")
   (print)
-  # XXX: this could be a problem for actual use of `_` as an identifier
-  (let [indeces (string/find-all "_" blank-ques)
+  # eval both sets of code and compare results
+  (let [indeces (string/find-all blank-char-str blank-ques)
         head-idx (first indeces)
         tail-idx (last indeces)]
-    # XXX: cheap method -- more accurate would be to use zippers
     (def resp-code
       (string (string/slice blank-ques 0 head-idx)
               resp
@@ -161,8 +160,10 @@
     (print "Sorry, didn't find any material to make a quiz from.")
     (break nil))
   # choose a question and answer, then make a blanked question
-  (let [[ques-zloc ans-zloc] (rnd/choose test-zloc-pairs)
-        [blank-ques-zloc blanked-item] (qu/rewrite-test-zloc ques-zloc)]
+  (let [[ques-zloc ans-zloc]
+        (rnd/choose test-zloc-pairs)
+        [blank-ques-zloc blanked-item blank-char-str]
+        (qu/rewrite-test-zloc ques-zloc)]
     # XXX: a cheap work-around...evidence of a deeper issue?
     (unless blank-ques-zloc
       (print "Sorry, drew a blank...take a deep breath and try again?")
@@ -177,7 +178,8 @@
       (print)
       # ask for an answer
       (def buf
-        (getline "What value could work in the blank? "))
+        (getline (string/format "What value could work for the `%s`s ? "
+                                blank-char-str)))
       (when (handle-want-to-quit buf)
         (break nil))
       # does the response make some sense?
@@ -190,7 +192,7 @@
       (pr/print-separator)
       (print)
       #
-      (handle-fill-in-response ques blank-ques blanked-item
+      (handle-fill-in-response ques blank-ques blanked-item blank-char-str
                                trimmed-ans resp))))
 
 (defn thing-quiz

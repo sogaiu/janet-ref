@@ -76,7 +76,7 @@
   )
 
 (defn blank-thing
-  [thing-zloc]
+  [thing-zloc blank-char-str]
   (def node-type
     (get (j/node thing-zloc) 0))
   (var blanked-item nil)
@@ -94,7 +94,8 @@
                     (set blanked-item original-item)
                     [node-type
                      (get $ 1)
-                     (string/repeat "_" (length original-item))])))
+                     (string/repeat blank-char-str
+                                    (length original-item))])))
     #
     (do
       (eprintf "Unexpected node-type: %s" node-type)
@@ -115,8 +116,10 @@
     (first (find-things (-> (l/par src)
                             j/zip-down))))
 
+  (def blank-char-str "_")
+
   (def [new-thing blanked-item]
-    (blank-thing thing-zloc))
+    (blank-thing thing-zloc blank-char-str))
 
   (j/node new-thing)
   # =>
@@ -126,7 +129,7 @@
   # =>
   "sequence"
 
-  (->> (blank-thing thing-zloc)
+  (->> (blank-thing thing-zloc blank-char-str)
        first
        j/root
        l/gen)
@@ -149,6 +152,8 @@
   (var chosen-thing-zloc nil)
   (def test-node-type
     (get (j/node test-zloc) 0))
+  # might change depending on what symbols the test has in it
+  (var blank-char-str "_")
   (cond
     (or (= :string test-node-type)
         (= :long-string test-node-type)
@@ -175,9 +180,22 @@
         # XXX
         (eprint "Failed to find a thing")
         (break [nil nil]))
+      # learn the names used to choose good blanking char
+      (def names @{})
       (each thng things
-        (deprintf (l/gen (j/node thng))))
-      (set chosen-thing-zloc
+        (def a-node
+          (j/node thng))
+        (def [a-type _ a-name] a-node)
+        (when (= :symbol a-type)
+          (put names (get thng 2) true))
+        (deprintf (l/gen a-node)))
+      # if necessary, try to find a non-problematic char
+      (when (get names blank-char-str)
+        (each cand-char-str ["?" "-" "~"]
+          (when (not (get names cand-char-str))
+            (set blank-char-str cand-char-str)
+            (break))))
+        (set chosen-thing-zloc
            (rnd/choose things))
       (deprintf "chosen: %s" (l/gen (j/node chosen-thing-zloc))))
     #
@@ -203,8 +221,8 @@
   (deprintf "steps: %d" steps)
   # XXX: check not nil?
   (var [curr-zloc blanked-item]
-    (->> chosen-thing-zloc
-         blank-thing))
+    (-> chosen-thing-zloc
+        (blank-thing blank-char-str)))
   # get back to "test-zloc" position
   (for i 0 steps
     (set curr-zloc
@@ -212,16 +230,17 @@
   # XXX
   #(deprintf "curr-zloc: %M" curr-zloc)
   #
-  [curr-zloc blanked-item])
+  [curr-zloc blanked-item blank-char-str])
 
 (defn rewrite-test
   [test-zloc]
-  (when-let [[rewritten-zloc blanked-item]
+  (when-let [[rewritten-zloc blanked-item blank-char-str]
              (rewrite-test-zloc test-zloc)]
     [(->> rewritten-zloc
          j/root
          l/gen)
-     blanked-item]))
+     blanked-item
+     blank-char-str]))
 
 (comment
 
@@ -231,7 +250,7 @@
                "a")
     ``)
 
-  (def [result blanked-item]
+  (def [result blanked-item blank-char-str]
     (rewrite-test (->> (l/par src)
                        j/zip-down)))
 
