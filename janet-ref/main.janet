@@ -135,6 +135,9 @@
   (def [opts rest]
     (av/parse-argv argv))
 
+  # the code beyond here is longish, but it's straight-forward, mostly
+  # just dispatching based on key-value pair existence in opts
+
   # usage
   (when (opts :help)
     (print usage)
