@@ -34,6 +34,7 @@
 #   min-of
 #   product
 #   sort
+#   sort-by
 #   sum
 #
 # Macros
