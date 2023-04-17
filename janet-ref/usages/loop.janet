@@ -86,9 +86,9 @@
     (loop [[k v] :pairs {:a 1 :b 2}]
       (array/push arr v)
       (array/push arr k))
-    arr)
+    (table ;arr))
   # =>
-  @[1 :a 2 :b]
+  @{1 :a 2 :b}
 
   (do
     (def arr @[])
