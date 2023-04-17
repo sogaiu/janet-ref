@@ -157,15 +157,17 @@
 
 (defn escape-sym-name
   [sym-name]
-  (var escaped-name sym-name)
-  # XXX: use a peg?
-  (eachp [char-str name] sym-char-escapes
-    (set escaped-name
-         (string/replace-all char-str
-                             (string "[" name "]")
-                             escaped-name)))
-  #
-  escaped-name)
+  (def esc-grammar
+    (peg/compile
+      ~(accumulate
+         (some
+           (choice (replace (capture (set "/<>*%:?"))
+                            ,(fn [char-str]
+                               (string "["
+                                       (get sym-char-escapes char-str)
+                                       "]")))
+                   (capture 1))))))
+  (first (peg/match esc-grammar sym-name)))
 
 (comment
 
@@ -203,16 +205,17 @@
   (invert sym-char-escapes))
 
 (defn unescape-file-name
-  [sym-name]
-  (var unescaped-name sym-name)
-  # XXX: use a peg?
-  (eachp [name char-str] sym-char-unescapes
-    (set unescaped-name
-         (string/replace-all (string "[" name "]")
-                             char-str
-                             unescaped-name)))
-  #
-  unescaped-name)
+  [file-name]
+  (def unesc-grammar
+    (peg/compile
+      ~(accumulate
+         (some
+           (choice (replace (sequence "["
+                                      (capture (to "]"))
+                                      "]")
+                            ,sym-char-unescapes)
+                   (capture 1))))))
+  (first (peg/match unesc-grammar file-name)))
 
 (comment
 
