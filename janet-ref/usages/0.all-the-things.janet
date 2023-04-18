@@ -97,3 +97,5 @@
 # Variables
 #   default-peg-grammar
 #
+# Dynamic Variables
+#   *out*
