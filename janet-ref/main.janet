@@ -116,10 +116,9 @@
             (string src-root "/janet-repos")))
   #
   (setdyn :jref-colorizer (os/getenv "JREF_COLORIZER"))
-  # XXX: only applies to:
-  #
-  #      bat -- `bat --list-themes`
-  #      pygmentize -- `pygmentize -L styles`
+  # bat -- `bat --list-themes`
+  # pygmentize -- `pygmentize -L styles`
+  # rougify -- `ls ~/src/rouge/lib/rouge/themes`
   (setdyn :jref-colorizer-style
           (if-let [colorizer-style (os/getenv "JREF_COLORIZER_STYLE")]
             colorizer-style
@@ -130,6 +129,8 @@
               (= "pygmentize" (dyn :jref-colorizer))
               "rrt" # dracula, one-dark, monokai, gruvbox-dark
               #
+              (= "rougify" (dyn :jref-colorizer))
+              "gruvbox" # monokai, thankful_eyes
               "oops")))
 
   (def [opts rest]

@@ -50,7 +50,9 @@
     (= "rougify" (dyn :jref-colorizer))
     (xform-with-process src
                         ["rougify"
-                         "highlight" "--lexer" lang])
+                         "highlight"
+                         "--lexer" lang
+                         "--theme" (dyn :jref-colorizer-style)])
     #
     src))
 
