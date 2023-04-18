@@ -28,6 +28,7 @@
 #   identity
 #   inc
 #   interpose
+#   keep
 #   last
 #   map
 #   mapcat

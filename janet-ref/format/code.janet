@@ -30,6 +30,7 @@
       "filter" "fn"
       "generate"
       "if" "if-let" "if-not" "if-with"
+      "keep"
       "label" "let" "loop"
       "map" "mapcat"
       "nan?"
