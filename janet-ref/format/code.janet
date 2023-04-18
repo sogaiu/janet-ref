@@ -17,14 +17,14 @@
 #      with a newline after it, and all subsequent elements have
 #      newlines after them.
 (def nl-things
-  {0 ["comment" "cond"
+  {0 ["comment" "cond" "coro"
       "do"
       "forever"
       "protect"
       "try"
       "upscope"]
    1 ["accumulate" "and" "assert"
-      "case" "coro"
+      "case"
       "def" "defer" "defn"
       "edefer"
       "filter" "fn"
