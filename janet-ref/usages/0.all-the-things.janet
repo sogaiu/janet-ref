@@ -49,6 +49,7 @@
 #   sorted
 #   sum
 #   take
+#   take-until
 #
 # Macros
 #   and
