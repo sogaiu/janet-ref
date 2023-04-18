@@ -38,7 +38,7 @@
       "prompt"
       "reduce" "repeat"
       "seq" "set"
-      "tabseq" "take-until"
+      "tabseq" "take-until" "take-while"
       "unless"
       "var"
       "when" "when-let" "when-with" "while" "with" "with-syms"]

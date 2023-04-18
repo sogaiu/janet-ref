@@ -50,6 +50,7 @@
 #   sum
 #   take
 #   take-until
+#   take-while
 #
 # Macros
 #   and
