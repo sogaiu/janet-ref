@@ -20,6 +20,7 @@
 #   comp
 #   compare
 #   complement
+#   count
 #   dec
 #   extreme
 #   filter

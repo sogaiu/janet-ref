@@ -24,7 +24,7 @@
       "try"
       "upscope"]
    1 ["accumulate" "and" "assert"
-      "case"
+      "case" "count"
       "def" "defer" "defn"
       "edefer"
       "filter" "fn"
