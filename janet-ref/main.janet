@@ -163,15 +163,8 @@
       (sort (things/all-things file-names)))
     (cond
       (opts :raw-all)
-      (do
-        # XXX: not sure if this quoting will work on windows...
-        (defn print-escaped-maybe
-          [a-str]
-          (if (get things/term-escape-table a-str)
-            (print `"` a-str `"`)
-            (print a-str)))
-        (each thing things
-          (print-escaped-maybe thing)))
+      (each thing things
+        (things/print-escaped-maybe thing))
       #
       (opts :todo)
       (do

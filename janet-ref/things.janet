@@ -212,6 +212,56 @@
    "<-"  true "<"  true
    "|"   true "~"  true})
 
+# XXX: not sure if this quoting will work on windows...
+(defn print-escaped-maybe
+  [a-str]
+  (cond
+    (get term-escape-table a-str)
+    (printf `"%s"` a-str)
+    #
+    (and (string/has-prefix? "*" a-str)
+         (string/has-suffix? "*" a-str))
+    (printf `"%s"` a-str)
+    #
+    (print a-str)))
+
+(comment
+
+  (do
+    (def buf @"")
+    (with-dyns [*out* buf]
+      (print-escaped-maybe "'"))
+    buf)
+  # =>
+  @``
+   "'"
+
+   ``
+
+  (do
+    (def buf @"")
+    (with-dyns [*out* buf]
+      (print-escaped-maybe "*out*"))
+    buf)
+  # =>
+  @``
+   "*out*"
+
+   ``
+
+  (do
+    (def buf @"")
+    (with-dyns [*out* buf]
+      (print-escaped-maybe "map"))
+    buf)
+  # =>
+  @``
+   map
+
+   ``
+
+  )
+
 (def special-forms-table
   {"def" true
    "var" true
