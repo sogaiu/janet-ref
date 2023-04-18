@@ -61,7 +61,7 @@
        "quasiquote" "quote"
        "range" "return"
        "sort" "sort-by" "sorted" "splice" "sum"
-       "toggle"
+       "take" "toggle"
        "unquote"]})
 
 (def nl-tbl

@@ -48,6 +48,7 @@
 #   sort-by
 #   sorted
 #   sum
+#   take
 #
 # Macros
 #   and
