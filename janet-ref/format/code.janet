@@ -59,7 +59,7 @@
        "max" "max-of" "mean" "min" "min-of"
        "product"
        "quasiquote" "quote"
-       "return"
+       "range" "return"
        "sort" "sort-by" "sorted" "splice" "sum"
        "toggle"
        "unquote"]})

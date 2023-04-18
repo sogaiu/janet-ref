@@ -39,6 +39,7 @@
 #   min-of
 #   nan?
 #   product
+#   range
 #   reduce
 #   sort
 #   sort-by
