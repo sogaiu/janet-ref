@@ -49,7 +49,7 @@
        "asm"
        "break"
        "chr" "comp" "compare" "complement"
-       "dec" "default"
+       "dec" "default" "drop"
        # XXX
        "errorf" "extreme"
        "first"

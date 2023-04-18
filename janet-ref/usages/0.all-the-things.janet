@@ -22,6 +22,7 @@
 #   complement
 #   count
 #   dec
+#   drop
 #   extreme
 #   filter
 #   find
