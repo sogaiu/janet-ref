@@ -29,6 +29,7 @@
 #   first
 #   identity
 #   inc
+#   index-of
 #   interpose
 #   keep
 #   last

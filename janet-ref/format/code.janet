@@ -52,7 +52,7 @@
        # XXX
        "errorf" "extreme"
        "first"
-       "identity" "inc" "interpose"
+       "identity" "inc" "index-of" "interpose"
        "last"
        # XXX
        #"mapcat"
