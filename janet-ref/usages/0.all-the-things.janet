@@ -24,6 +24,7 @@
 #   dec
 #   extreme
 #   filter
+#   find
 #   find-index
 #   first
 #   identity

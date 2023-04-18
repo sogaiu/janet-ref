@@ -27,7 +27,7 @@
       "case" "count"
       "def" "defer" "defn"
       "edefer"
-      "filter" "find-index" "fn"
+      "filter" "find" "find-index" "fn"
       "generate"
       "if" "if-let" "if-not" "if-with"
       "keep"
