@@ -106,6 +106,23 @@
       (printf "   +%d %s" line full-path)
       (print "*/")
       true)
+    # some things from math.c
+    (or (string/has-prefix? "JANET_DEFINE_MATHOP" trimmed-search-str)
+        (string/has-prefix? "JANET_DEFINE_NAMED_MATHOP" trimmed-search-str)
+        (string/has-prefix? "JANET_DEFINE_MATH2OP" trimmed-search-str))
+    (let [m (peg/match c/c-grammar src position)]
+      (when (or (nil? m) (empty? m))
+        (eprintf "Failed to find end of definition for %s in %s"
+                 id-name full-path)
+        (break nil))
+      (def [_ col end-pos] (find |(= :paren (first $)) m))
+      (print (dedent (string/slice src position (inc end-pos))))
+      (print)
+      (print "/* ")
+      (print "   " id-name)
+      (printf "   +%d %s" line full-path)
+      (print "*/")
+      true)
     # "core/peg" and friends
     (and (string/has-prefix? `"` trimmed-search-str)
          (string/has-suffix? `",` trimmed-search-str))
