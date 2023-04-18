@@ -31,6 +31,7 @@
     (= "bat" (dyn :jref-colorizer))
     (xform-with-process src
                         ["bat"
+                         "--style=plain"
                          "--paging=never"
                          "--force-colorization"
                          "--theme" (dyn :jref-colorizer-style)
