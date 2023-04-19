@@ -34,6 +34,7 @@
 #   inc
 #   index-of
 #   interpose
+#   juxt*
 #   keep
 #   last
 #   map

@@ -54,6 +54,8 @@
        "errorf" "extreme"
        "first"
        "identity" "inc" "index-of" "interpose"
+       # XXX
+       "juxt*"
        "last"
        # XXX
        #"mapcat"
