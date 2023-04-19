@@ -24,6 +24,7 @@
 #   dec
 #   drop
 #   drop-until
+#   drop-while
 #   extreme
 #   filter
 #   find
