@@ -23,6 +23,7 @@
 #   count
 #   dec
 #   drop
+#   drop-until
 #   extreme
 #   filter
 #   find
