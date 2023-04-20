@@ -46,7 +46,7 @@
    3 ["for" "forv"]
    # means don't use newlines -- here for book-keeping
    -1 ["+="
-       "asm"
+       "array/concat" "asm"
        "break"
        "chr" "comp" "compare" "complement"
        "dec" "default" "drop"
