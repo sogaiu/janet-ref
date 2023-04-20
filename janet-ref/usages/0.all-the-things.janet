@@ -80,6 +80,7 @@
 #   if-let
 #   if-not
 #   if-with
+#   juxt
 #   label
 #   let
 #   loop

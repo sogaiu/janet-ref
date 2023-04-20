@@ -55,7 +55,7 @@
        "first"
        "identity" "inc" "index-of" "interpose"
        # XXX
-       "juxt*"
+       "juxt" "juxt*"
        "last"
        # XXX
        #"mapcat"
