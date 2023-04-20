@@ -45,6 +45,7 @@
 #   min
 #   min-of
 #   nan?
+#   number?
 #   product
 #   range
 #   reduce
