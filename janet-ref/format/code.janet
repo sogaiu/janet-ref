@@ -52,7 +52,7 @@
        "dec" "default" "drop"
        # XXX
        "errorf" "extreme"
-       "first"
+       "fiber?" "first"
        "identity" "inc" "index-of" "interpose"
        # XXX
        "juxt" "juxt*"

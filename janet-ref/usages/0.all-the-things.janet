@@ -27,6 +27,7 @@
 #   drop-until
 #   drop-while
 #   extreme
+#   fiber?
 #   filter
 #   find
 #   find-index
