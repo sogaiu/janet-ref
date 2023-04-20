@@ -66,6 +66,7 @@
 #   cond
 #   coro
 #   default
+#   defdyn
 #   defer
 #   defn
 #   each

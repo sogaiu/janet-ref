@@ -25,7 +25,7 @@
       "upscope"]
    1 ["accumulate" "and" "assert"
       "case" "count"
-      "def" "defer" "defn" "drop-until" "drop-while"
+      "def" "defdyn" "defer" "defn" "drop-until" "drop-while"
       "edefer"
       "filter" "find" "find-index" "fn"
       "generate"
