@@ -61,6 +61,7 @@
        #"mapcat"
        "max" "max-of" "mean" "min" "min-of"
        "number?"
+       "pos?"
        "product"
        "quasiquote" "quote"
        "range" "return"

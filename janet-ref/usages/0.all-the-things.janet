@@ -48,6 +48,7 @@
 #   min-of
 #   nan?
 #   number?
+#   pos?
 #   product
 #   range
 #   reduce
