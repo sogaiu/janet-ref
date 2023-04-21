@@ -63,6 +63,7 @@
 #   zero?
 #
 # Macros
+#   ++
 #   +=
 #   and
 #   assert
