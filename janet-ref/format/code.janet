@@ -66,7 +66,8 @@
        "range" "return"
        "sort" "sort-by" "sorted" "splice" "sum"
        "take" "toggle"
-       "unquote"]})
+       "unquote"
+       "zero?"]})
 
 (def nl-tbl
   (let [tbl @{}]

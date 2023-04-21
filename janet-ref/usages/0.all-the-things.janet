@@ -58,6 +58,7 @@
 #   take
 #   take-until
 #   take-while
+#   zero?
 #
 # Macros
 #   +=
