@@ -60,7 +60,7 @@
        # XXX
        #"mapcat"
        "max" "max-of" "mean" "min" "min-of"
-       "number?"
+       "neg?" "number?"
        "pos?"
        "product"
        "quasiquote" "quote"

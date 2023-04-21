@@ -47,6 +47,7 @@
 #   min
 #   min-of
 #   nan?
+#   neg?
 #   number?
 #   pos?
 #   product
