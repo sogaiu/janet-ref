@@ -50,6 +50,7 @@
 #   nan?
 #   neg?
 #   number?
+#   odd?
 #   one?
 #   pos?
 #   product

@@ -61,7 +61,7 @@
        #"mapcat"
        "max" "max-of" "mean" "min" "min-of"
        "neg?" "number?"
-       "one?"
+       "odd?" "one?"
        "pos?"
        "product"
        "quasiquote" "quote"
