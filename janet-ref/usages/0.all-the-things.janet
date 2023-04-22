@@ -49,6 +49,7 @@
 #   nan?
 #   neg?
 #   number?
+#   one?
 #   pos?
 #   product
 #   range
