@@ -51,7 +51,7 @@
        "chr" "comp" "compare" "complement"
        "dec" "default" "drop"
        # XXX
-       "errorf" "extreme"
+       "errorf" "even?" "extreme"
        "fiber?" "first"
        "identity" "inc" "index-of" "interpose"
        # XXX

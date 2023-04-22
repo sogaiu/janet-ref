@@ -26,6 +26,7 @@
 #   drop
 #   drop-until
 #   drop-while
+#   even?
 #   extreme
 #   fiber?
 #   filter
