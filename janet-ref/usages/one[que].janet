@@ -21,7 +21,7 @@
           (< x-val y-val) -1
           (= x-val y-val) 0
           (> x-val y-val) 1)))
-  (one? {:compare a-cmp :value 1}))
+    (one? {:compare a-cmp :value 1}))
   # =>
   true
 
