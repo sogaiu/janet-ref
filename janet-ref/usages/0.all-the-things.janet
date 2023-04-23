@@ -59,6 +59,7 @@
 #   sort
 #   sort-by
 #   sorted
+#   string?
 #   sum
 #   take
 #   take-until
