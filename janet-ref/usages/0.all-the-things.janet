@@ -68,6 +68,7 @@
 # Macros
 #   ++
 #   +=
+#   --
 #   and
 #   assert
 #   case
