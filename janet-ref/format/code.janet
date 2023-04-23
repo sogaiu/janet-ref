@@ -45,7 +45,7 @@
    2 ["each" "eachk" "eachp"]
    3 ["for" "forv"]
    # means don't use newlines -- here for book-keeping
-   -1 ["++" "+=" "--"
+   -1 ["++" "+=" "--" "-="
        "array/concat" "asm"
        "break"
        "chr" "comp" "compare" "complement"
