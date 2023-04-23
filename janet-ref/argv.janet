@@ -21,6 +21,9 @@
         (get {"--raw-all" true} arg)
         (put opts :raw-all true)
         #
+        (get {"--bindings" true "-b" true} arg)
+        (put opts :bindings true)
+        #
         (get {"--doc" true "-d" true} arg)
         (put opts :doc true)
         #
