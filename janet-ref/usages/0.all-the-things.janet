@@ -61,6 +61,7 @@
 #   sorted
 #   string?
 #   sum
+#   symbol?
 #   take
 #   take-until
 #   take-while
