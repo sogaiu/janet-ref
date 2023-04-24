@@ -207,29 +207,8 @@
 # XXX: not sure if this quoting will work on windows...
 (defn print-escaped-maybe
   [a-str]
-  # XXX: could improve via a peg?
-  (cond
-    (string/find "'" a-str)
+  (if (peg/match ~(to (set "'*;<>|~")) a-str)
     (printf `"%s"` a-str)
-    #
-    (string/find "*" a-str)
-    (printf `"%s"` a-str)
-    #
-    (string/find ";" a-str)
-    (printf `"%s"` a-str)
-    #
-    (string/find "<" a-str)
-    (printf `"%s"` a-str)
-    #
-    (string/find ">" a-str)
-    (printf `"%s"` a-str)
-    #
-    (string/find "|" a-str)
-    (printf `"%s"` a-str)
-    #
-    (string/find "~" a-str)
-    (printf `"%s"` a-str)
-    #
     (print a-str)))
 
 (comment
