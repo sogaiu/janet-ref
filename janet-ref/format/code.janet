@@ -56,6 +56,7 @@
        "identity" "inc" "index-of" "interpose"
        # XXX
        "juxt" "juxt*"
+       "keyword?"
        "last"
        # XXX
        #"mapcat"

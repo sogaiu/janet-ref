@@ -39,6 +39,7 @@
 #   interpose
 #   juxt*
 #   keep
+#   keyword?
 #   last
 #   map
 #   mapcat
