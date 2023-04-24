@@ -204,23 +204,30 @@
 
   )
 
-# XXX: need to add a lot here or use some kind of pattern matching?
-# XXX: anything platform-specific?
-(def term-escape-table
-  {"'"   true "*"  true ";" true
-   "->>" true "->" true ">" true
-   "<-"  true "<"  true
-   "|"   true "~"  true})
-
 # XXX: not sure if this quoting will work on windows...
 (defn print-escaped-maybe
   [a-str]
+  # XXX: could improve via a peg?
   (cond
-    (get term-escape-table a-str)
+    (string/find "'" a-str)
     (printf `"%s"` a-str)
     #
-    (and (string/has-prefix? "*" a-str)
-         (string/has-suffix? "*" a-str))
+    (string/find "*" a-str)
+    (printf `"%s"` a-str)
+    #
+    (string/find ";" a-str)
+    (printf `"%s"` a-str)
+    #
+    (string/find "<" a-str)
+    (printf `"%s"` a-str)
+    #
+    (string/find ">" a-str)
+    (printf `"%s"` a-str)
+    #
+    (string/find "|" a-str)
+    (printf `"%s"` a-str)
+    #
+    (string/find "~" a-str)
     (printf `"%s"` a-str)
     #
     (print a-str)))
