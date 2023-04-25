@@ -47,7 +47,7 @@
    # means don't use newlines -- here for book-keeping
    -1 ["%=" "*=" "++" "+=" "--" "-=" "/="
        "array/concat" "asm"
-       "break"
+       "break" "buffer?"
        "chr" "comp" "compare" "complement"
        "dec" "default" "drop"
        # XXX

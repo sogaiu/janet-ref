@@ -18,6 +18,7 @@
 #   accumulate
 #   array/concat
 #   asm
+#   buffer?
 #   comp
 #   compare
 #   complement
