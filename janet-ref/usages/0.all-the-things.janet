@@ -34,6 +34,7 @@
 #   find
 #   find-index
 #   first
+#   function?
 #   identity
 #   inc
 #   index-of
