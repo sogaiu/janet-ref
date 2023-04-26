@@ -1,18 +1,20 @@
-# special form
+```
+special form
 
-# `(set l-value r-value)`
+`(set l-value r-value)`
 
-# Update the value of the var `l-value` with the new `r-value`.
+Update the value of the var `l-value` with the new `r-value`.
 
-# The `set` special form will then evaluate to `r-value`.
+The `set` special form will then evaluate to `r-value`.
 
-# The `r-value` can be any expression, and the `l-value` should be a
-# bound var or a pair of a data structure and key. This allows `set` to
-# behave like `setf` or `setq` in Common Lisp.
+The `r-value` can be any expression, and the `l-value` should be a
+bound var or a pair of a data structure and key. This allows `set` to
+behave like `setf` or `setq` in Common Lisp.
 
-# For further info, see:
+For further info, see:
 
-#   https://janet-lang.org/docs/specials.html
+  https://janet-lang.org/docs/specials.html
+```
 
 (comment
 

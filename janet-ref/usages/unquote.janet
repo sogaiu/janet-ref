@@ -1,15 +1,17 @@
-# special form
+```
+special form
 
-# `(unquote x)`
+`(unquote x)`
 
-# Unquote a form within a `quasiquote`. Outside of a `quasiquote`,
-# `unquote` is invalid.
+Unquote a form within a `quasiquote`. Outside of a `quasiquote`,
+`unquote` is invalid.
 
-# The shorthand for `(unquote x)` is `,x`.
+The shorthand for `(unquote x)` is `,x`.
 
-# For further info, see:
+For further info, see:
 
-#   https://janet-lang.org/docs/specials.html
+  https://janet-lang.org/docs/specials.html
+```
 
 (comment
 

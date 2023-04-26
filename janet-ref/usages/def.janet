@@ -1,19 +1,21 @@
-# special form
+```
+special form
 
-# `(def name meta... value)`
+`(def name meta... value)`
 
-# `def` binds a value to a symbol.
+`def` binds a value to a symbol.
 
-# The symbol can be substituted for the value in subsequent
-# expressions for the same result.
+The symbol can be substituted for the value in subsequent expressions
+for the same result.
 
-# A binding made by `def` is a constant and cannot be updated.  A
-# symbol can be redefined to a new value, but previous uses of the
-# binding will refer to the previous value of the binding.
+A binding made by `def` is a constant and cannot be updated.  A symbol
+can be redefined to a new value, but previous uses of the binding will
+refer to the previous value of the binding.
 
-# For further info, see:
+For further info, see:
 
-#   https://janet-lang.org/docs/specials.html
+  https://janet-lang.org/docs/specials.html
+```
 
 (comment
 

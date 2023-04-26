@@ -3,15 +3,14 @@
   [lines]
   (def m-lines @[])
   (var i 0)
+  (var docstring-delim-cnt 0)
   (while (< i (length lines))
+    (if (>= docstring-delim-cnt 2)
+      (break))
     (def cur-line (get lines i))
-    # stop at first (comment ...) form
-    (if (peg/match ~(sequence "(comment")
-                     cur-line)
-      (break)
-      (if (string/has-prefix? "# " cur-line)
-        (array/push m-lines (string/slice cur-line 2))
-        (array/push m-lines cur-line)))
+    (if (string/has-prefix? "```" cur-line)
+      (++ docstring-delim-cnt)
+      (array/push m-lines cur-line))
     (++ i))
   #
   m-lines)

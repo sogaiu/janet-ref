@@ -1,16 +1,18 @@
-# special form
+```
+special form
 
-# `(do body...)`
+`(do body...)`
 
-# Execute a series of forms for side effects and evaluates to the
-# final form.
+Execute a series of forms for side effects and evaluates to the final
+form.
 
-# Also introduces a new lexical scope without creating or calling
-# a function.
+Also introduces a new lexical scope without creating or calling a
+function.
 
-# For further info, see:
+For further info, see:
 
-#   https://janet-lang.org/docs/specials.html
+  https://janet-lang.org/docs/specials.html
+```
 
 (comment
 

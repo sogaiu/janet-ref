@@ -1,26 +1,26 @@
-# special form
+```
+special form
 
-# `(break value?)`
+`(break value?)`
 
-# Break from a while loop or return early from a function.
+Break from a `while` loop or return early from a function.
 
-# The `break` special form can only break from the inner-most
-# loop.
+The `break` special form can only break from the inner-most loop.
 
-# Since a `while` loop always returns `nil`, the optional value
-# parameter has no effect when used in a `while` loop, but when
-# returning from a function, the value parameter is the function's
-# return value.
+Since a `while` loop always returns `nil`, the optional value
+parameter has no effect when used in a `while` loop, but when
+returning from a function, the value parameter is the function's
+return value.
 
-# The `break` special form is most useful as a low level construct for
-# macros. You should try to avoid using it in handwritten code,
-# although it can be very useful for handling early exit conditions
-# without requiring deeply indented code (try the cond macro first,
-# though).
+The `break` special form is most useful as a low level construct for
+macros. You should try to avoid using it in handwritten code, although
+it can be very useful for handling early exit conditions without
+requiring deeply indented code (try the `cond` macro first, though).
 
-# For further info, see:
+For further info, see:
 
-#   https://janet-lang.org/docs/specials.html
+  https://janet-lang.org/docs/specials.html
+```
 
 (comment
 

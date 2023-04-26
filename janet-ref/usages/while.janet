@@ -1,19 +1,20 @@
-# special form
+```
+special form
 
-# `(while condition body...)`
+`(while condition body...)`
 
-# The `while` special form compiles to a C-like while loop.
+The `while` special form compiles to a C-like while loop.
 
-# The body of the form will be continuously evaluated until the
-# condition is `false` or `nil`.  Therefore, it is expected that the
-# body will contain some side effects or the loop will go on
-# forever.
+The `body` of the form will be continuously evaluated until the
+condition is `false` or `nil`.  Therefore, it is expected that the
+`body` will contain some side effects or the loop will go on forever.
 
-# The while loop always evaluates to `nil`.
+The `while` loop always evaluates to `nil`.
 
-# For further info, see:
+For further info, see:
 
-#   https://janet-lang.org/docs/specials.html
+  https://janet-lang.org/docs/specials.html
+```
 
 (comment
 

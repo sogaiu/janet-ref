@@ -441,8 +441,7 @@
       # some special behavior
       (when (opts :doc)
         (set limit 3)
-        (unless (get things/special-forms-table thing)
-          (print))
+        (print)
         (pr/print-separator)
         (print))
       #

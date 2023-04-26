@@ -1,18 +1,18 @@
 #
 # Special Forms
-#   (def name meta... value)
-#   (var name meta... value)
-#   (fn name? args body...)
-#   (do body...)
-#   (if condition when-true when-false?)
-#   (quote x)
-#   (splice x)
-#   (while condition body...)
 #   (break value?)
-#   (set l-value r-value)
+#   (def name meta... value)
+#   (do body...)
+#   (fn name? args body...)
+#   (if condition when-true when-false?)
 #   (quasiquote x)
+#   (quote x)
+#   (set l-value r-value)
+#   (splice x)
 #   (unquote x)
 #   (upscope & body)
+#   (var name meta... value)
+#   (while condition body...)
 #
 # Functions
 #   accumulate

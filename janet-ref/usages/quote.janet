@@ -1,18 +1,20 @@
-# special form
+```
+special form
 
-# `(quote x)`
+`(quote x)`
 
-# Evaluates to the literal value of the first argument.
+Evaluates to the literal value of the first argument.
 
-# The argument is not compiled and is simply used as a constant value
-# in the compiled code.
+The argument is not compiled and is simply used as a constant value in
+the compiled code.
 
-# Preceding a form with a single quote is shorthand for `(quote
-# form)`.  Thus `'form` and `(quote form)` are equivalent.
+Preceding a form with a single quote is shorthand for `(quote form)`.
+Thus `'form` and `(quote form)` are equivalent.
 
-# For further info, see:
+For further info, see:
 
-#   https://janet-lang.org/docs/specials.html
+  https://janet-lang.org/docs/specials.html
+```
 
 (comment
 
