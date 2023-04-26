@@ -48,7 +48,7 @@
    -1 ["%=" "*=" "++" "+=" "--" "-=" "/="
        "array/concat" "asm"
        "break" "buffer?"
-       "chr" "comp" "compare" "complement"
+       "cfunction?" "chr" "comp" "compare" "complement"
        "dec" "default" "drop"
        # XXX
        "errorf" "even?" "extreme"
