@@ -66,6 +66,7 @@
 #   string?
 #   sum
 #   symbol?
+#   table?
 #   take
 #   take-until
 #   take-while

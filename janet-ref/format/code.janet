@@ -68,7 +68,7 @@
        "quasiquote" "quote"
        "range" "return"
        "sort" "sort-by" "sorted" "splice" "string?" "sum" "symbol?"
-       "take" "toggle"
+       "table?" "take" "toggle"
        "unquote"
        "zero?"]})
 
