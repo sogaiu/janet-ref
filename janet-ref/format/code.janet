@@ -49,7 +49,7 @@
        "array/concat" "asm"
        "break" "buffer?"
        "cfunction?" "chr" "comp" "compare" "complement"
-       "dec" "default" "drop"
+       "dec" "default" "dictionary?" "drop"
        # XXX
        "errorf" "even?" "extreme"
        "fiber?" "first" "function?"

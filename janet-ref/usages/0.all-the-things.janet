@@ -25,6 +25,7 @@
 #   complement
 #   count
 #   dec
+#   dictionary?
 #   drop
 #   drop-until
 #   drop-while
