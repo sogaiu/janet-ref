@@ -67,7 +67,8 @@
        "product"
        "quasiquote" "quote"
        "range" "return"
-       "sort" "sort-by" "sorted" "splice" "string?" "sum" "symbol?"
+       "sort" "sort-by" "sorted" "splice" "string?" "struct?" "sum"
+       "symbol?"
        "table?" "take" "toggle"
        "unquote"
        "zero?"]})

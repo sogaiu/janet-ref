@@ -64,6 +64,7 @@
 #   sort-by
 #   sorted
 #   string?
+#   struct?
 #   sum
 #   symbol?
 #   table?
