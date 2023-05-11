@@ -65,6 +65,13 @@
 
   )
 
+(defn print-c-location
+  [id line full-path]
+  (print "/* ")
+  (print "   " id)
+  (printf "   +%d %s" line full-path)
+  (print "*/"))
+
 # XXX: need tests for this?
 (defn handle-c
   [id-name line position search-str full-path src]
@@ -82,10 +89,7 @@
               (string/format "Unexpected col value: %d" col))
       (print (dedent (string/slice src position (inc end-pos))))
       (print)
-      (print "/* ")
-      (print "   " id-name)
-      (printf "   +%d %s" line full-path)
-      (print "*/")
+      (print-c-location id-name line full-path)
       true)
     #
     (or (string/has-prefix? "JANET_CORE_DEF" trimmed-search-str)
@@ -100,10 +104,7 @@
       (def [_ col end-pos] (find |(= :semi-colon (first $)) m))
       (print (dedent (string/slice src position (inc end-pos))))
       (print)
-      (print "/* ")
-      (print "   " id-name)
-      (printf "   +%d %s" line full-path)
-      (print "*/")
+      (print-c-location id-name line full-path)
       true)
     # some things from math.c
     (or (string/has-prefix? "JANET_DEFINE_MATHOP" trimmed-search-str)
@@ -117,10 +118,7 @@
       (def [_ col end-pos] (find |(= :paren (first $)) m))
       (print (dedent (string/slice src position (inc end-pos))))
       (print)
-      (print "/* ")
-      (print "   " id-name)
-      (printf "   +%d %s" line full-path)
-      (print "*/")
+      (print-c-location id-name line full-path)
       true)
     # janet_quick_asm things such as apply
     # "core/peg" and friends
@@ -151,10 +149,7 @@
       #
       (print (dedent (string/slice src start-pos (inc end-pos))))
       (print)
-      (print "/* ")
-      (print "   " id-name)
-      (printf "   +%d %s" line full-path)
-      (print "*/")
+      (print-c-location id-name line full-path)
       true)
     # XXX: should not get here
     (do
