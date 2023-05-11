@@ -203,7 +203,7 @@
         (setdyn *lint-warn* error-level)
         # XXX
         #(repl getchunk nil env)
-        # defining the following to customize ouput
+        # defining the following to customize output
         # customized the returned value of debugger-on-status in boot.janet
         (defn onsignal
           [fib x]
