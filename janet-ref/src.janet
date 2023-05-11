@@ -65,13 +65,13 @@
 
   )
 
+# XXX: need tests for this?
 (defn handle-c
   [id-name line position search-str full-path src]
   (def trimmed-search-str
     (string/trim search-str))
   (cond
-    (or (string/has-prefix? "JANET_CORE_FN" trimmed-search-str)
-        (string/has-prefix? "static" trimmed-search-str))
+    (string/has-prefix? "static" trimmed-search-str)
     (let [m (peg/match c/c-grammar src position)]
       (when (or (nil? m) (empty? m))
         (eprintf "Failed to find end of definition for %s in %s"
@@ -89,7 +89,6 @@
       true)
     #
     (or (string/has-prefix? "JANET_CORE_DEF" trimmed-search-str)
-        (string/has-prefix? "janet_quick_asm" trimmed-search-str)
         (string/has-prefix? "janet_def" trimmed-search-str)
         (string/has-prefix? "templatize_comparator" trimmed-search-str)
         (string/has-prefix? "templatize_varop" trimmed-search-str))
@@ -123,9 +122,10 @@
       (printf "   +%d %s" line full-path)
       (print "*/")
       true)
+    # janet_quick_asm things such as apply
     # "core/peg" and friends
-    (and (string/has-prefix? `"` trimmed-search-str)
-         (string/has-suffix? `",` trimmed-search-str))
+    # JANET_CORE_DEF things
+    (string/has-prefix? `"` trimmed-search-str)
     (let [start-pos (scan-back src "\n" position 2)]
       (unless start-pos
         (eprintf "Failed to find start of definiton for %s in %s"
@@ -136,7 +136,19 @@
         (eprintf "Failed to find end of definition for %s in %s"
                  id-name full-path)
         (break nil))
-      (def [_ col end-pos] (find |(= :semi-colon (first $)) m))
+      # XXX: not so nice
+      (var result nil)
+      (unless result
+        (set result (find |(= :semi-colon (first $)) m)))
+      (unless result
+        (set result (find |(= :curly (first $)) m)))
+      (unless result
+        (set result (find |(= :paren (first $)) m)))
+      (unless result
+        (errorf "oops: %p" m))
+      (def col (get result 1))
+      (def end-pos (get result 2))
+      #
       (print (dedent (string/slice src start-pos (inc end-pos))))
       (print)
       (print "/* ")
