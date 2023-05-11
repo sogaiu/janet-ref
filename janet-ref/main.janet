@@ -375,8 +375,7 @@
       (eprint)
       (eprint "To create the `TAGS` file:")
       (eprint)
-      (eprint "1. Ensure universal ctags is installed, and")
-      (eprint "2. Invoke `jpm run ensure-tags`")
+      (eprint "Invoke `jpm run ensure-tags` from the janet-ref repository root.")
       (os/exit 1))
     #
     (def etags-content
