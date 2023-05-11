@@ -27,7 +27,7 @@
 
     -d, --doc [<thing>]          show doc
     -q, --quiz [<thing>]         show quiz question
-    -s, --src [<thing>]          show source [1]
+    -s, --src [<thing>]          show source
     -u, --usage [<thing>]        show usages
 
     -p, --pprint [<data>]        pretty-print data
@@ -53,7 +53,7 @@
   thing, or if none specified, for a randonly chosen one.
 
   With the `-s` or `--src` option, show source code for specified
-  thing, or if none specified, for a randonly chosen one [1].
+  thing, or if none specified, for a randonly chosen one.
 
   With the `-u` or `--usage` option, show usages for specified thing,
   or if none specified, for a randomly chosen one.
@@ -69,16 +69,14 @@
   [1] For source code lookups to work, the Janet source code needs to
   be available locally and a suitable `TAGS` file needs to exist.
 
-  The `ensure-tags` jpm task can perform most of this setup, but
-  universal ctags needs to be installed as well.
-
-  Once universal ctags installation has been verified, invoke:
+  The `ensure-tags` jpm task can perform this setup:
 
     `jpm run ensure-tags`
 
   This should clone the janet source + some extra bits to create the
   `TAGS` file.  Once cloning is complete, the TAGS file should get
-  created automatically (this is where universal ctags is used).
+  created automatically.
+
   The `TAGS` file should end up in the `janet` subdirectory.
   ``)
 

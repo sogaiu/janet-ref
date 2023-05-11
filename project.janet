@@ -25,25 +25,25 @@
                 :p)
     (os/cd dir)))
 
-(task "ensure-index-janet-source" ["ensure-janet-src"]
+(task "ensure-index-janet" ["ensure-janet-src"]
   :tags [:dep]
-  (unless (os/stat "index-janet-source")
+  (unless (os/stat "index-janet")
     (def dir (os/cwd))
     (os/execute ["git"
                  "clone"
-                 "https://github.com/sogaiu/index-janet-source"]
+                 "https://github.com/sogaiu/index-janet"]
                 :p)
     (os/cd dir)))
 
-(task "ensure-tags" ["ensure-index-janet-source"]
+(task "ensure-tags" ["ensure-index-janet"]
   :tags [:dep]
   (def tags-path
     (string janet-src-path "/TAGS"))
   (def dir (os/cwd))
   (os/cd janet-src-path)
-  (os/setenv "IJS_OUTPUT_FORMAT" "etags")
+  (os/setenv "IJ_OUTPUT_FORMAT" "etags")
   (os/execute ["janet"
-               (string dir "/index-janet-source/index-janet-source/idk-janet")]
+               (string dir "/index-janet/index-janet/main.janet")]
               :px)
   (unless (os/stat tags-path)
     (eprint "Something went wrong, `TAGS` file may not have been created.")
