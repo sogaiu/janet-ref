@@ -19,6 +19,7 @@
 #   array/concat
 #   asm
 #   buffer?
+#   bytes?
 #   cfunction?
 #   comp
 #   compare
