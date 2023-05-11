@@ -151,14 +151,14 @@
 
 (defn handle-janet
   [id-name line position search-str full-path src]
-  (let [m
-        (peg/match (-> (struct/to-table loc/loc-grammar)
-                       # customizing grammar to just get one form
-                       (put :main :input))
-                   src position)]
+  (let [m (peg/match loc/loc-grammar src position)]
     (if m
       (do
-        (print (loc/gen (first m)))
+        (def non-ws-tuple
+          (find |(and (tuple? $)
+                      (not= :whitespace (first $)))
+                m))
+        (print (loc/gen non-ws-tuple))
         (print)
         (print "``")
         (print "  " id-name)
