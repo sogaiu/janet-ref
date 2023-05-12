@@ -62,7 +62,7 @@
        #"mapcat"
        "max" "max-of" "mean" "min" "min-of"
        "neg?" "number?"
-       "odd?" "one?"
+       "odd?" "one?" "os/strftime"
        "pos?"
        "product"
        "quasiquote" "quote"

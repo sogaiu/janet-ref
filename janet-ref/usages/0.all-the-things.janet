@@ -58,6 +58,7 @@
 #   number?
 #   odd?
 #   one?
+#   os/strftime
 #   pos?
 #   product
 #   range
