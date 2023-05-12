@@ -58,3 +58,11 @@
   (print)
   (printf "  export JREF_JANET_SRC_PATH=%s" janet-src-path))
 
+(task "cmd-line-tests" []
+  :tags [:test]
+  (os/execute ["janet"
+               "script/run-cmd-line-tests.janet"
+               "data/input"
+               "data/expected"]
+              :p))
+

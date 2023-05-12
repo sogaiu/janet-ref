@@ -1,0 +1,11 @@
+
+    janet_quick_asm(env, JANET_FUN_MODULO,
+                    "mod", 2, 2, 2, 2, modulo_asm, sizeof(modulo_asm),
+                    JDOC("(mod dividend divisor)\n\n"
+                         "Returns the modulo of dividend / divisor."));
+
+/*
+   mod
+   +1075 /home/user/src/janet/src/core/corelib.c
+*/
+

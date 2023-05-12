@@ -1,0 +1,11 @@
+templatize_varop(env, JANET_FUN_DIVIDE, "/", 1, 1, JOP_DIVIDE,
+                 JDOC("(/ & xs)\n\n"
+                      "Returns the quotient of xs. If xs is empty, returns 1. If xs has one value x, returns "
+                      "the reciprocal of x. Otherwise return the first value of xs repeatedly divided by the remaining "
+                      "values."));
+
+/*
+   /
+   +1175 /home/user/src/janet/src/core/corelib.c
+*/
+

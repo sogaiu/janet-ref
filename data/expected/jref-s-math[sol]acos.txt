@@ -1,0 +1,7 @@
+JANET_DEFINE_MATHOP(acos, "Returns the arccosine of x.")
+
+/*
+   math/acos
+   +266 /home/user/src/janet/src/core/math.c
+*/
+

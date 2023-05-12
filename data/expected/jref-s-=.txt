@@ -1,0 +1,9 @@
+templatize_comparator(env, JANET_FUN_EQ, "=", 0, JOP_EQUALS,
+                      JDOC("(= & xs)\n\n"
+                           "Check if all values in xs are equal. Returns a boolean."));
+
+/*
+   =
+   +1216 /home/user/src/janet/src/core/corelib.c
+*/
+

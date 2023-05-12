@@ -1,0 +1,17 @@
+
+JANET_CORE_FN(cfun_string_format,
+              "(string/format format & values)",
+              "Similar to C's `snprintf`, but specialized for operating with Janet values. Returns "
+              "a new string.") {
+    janet_arity(argc, 1, -1);
+    JanetBuffer *buffer = janet_buffer(0);
+    const char *strfrmt = (const char *) janet_getstring(argv, 0);
+    janet_buffer_format(buffer, strfrmt, 0, argc, argv);
+    return janet_stringv(buffer->data, buffer->count);
+}
+
+/*
+   string/format
+   +536 /home/user/src/janet/src/core/string.c
+*/
+

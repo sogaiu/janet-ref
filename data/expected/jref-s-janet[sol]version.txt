@@ -1,0 +1,8 @@
+janet_def(env, "janet/version", janet_cstringv(JANET_VERSION),
+          JDOC("The version number of the running janet program."));
+
+/*
+   janet/version
+   +1224 /home/user/src/janet/src/core/corelib.c
+*/
+

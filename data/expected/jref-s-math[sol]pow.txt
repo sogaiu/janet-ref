@@ -1,0 +1,7 @@
+JANET_DEFINE_MATH2OP(pow, pow, "(math/pow a x)", "Returns a to the power of x.")
+
+/*
+   math/pow
+   +306 /home/user/src/janet/src/core/math.c
+*/
+

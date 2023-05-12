@@ -1,0 +1,7 @@
+JANET_DEFINE_NAMED_MATHOP("log-gamma", lgamma, "Returns log-gamma(x).")
+
+/*
+   math/log-gamma
+   +293 /home/user/src/janet/src/core/math.c
+*/
+

@@ -1,0 +1,21 @@
+
+const JanetAbstractType janet_peg_type = {
+    "core/peg",
+    NULL,
+    peg_mark,
+    cfun_peg_getter,
+    NULL, /* put */
+    peg_marshal,
+    peg_unmarshal,
+    NULL, /* tostring */
+    NULL, /* compare */
+    NULL, /* hash */
+    peg_next,
+    JANET_ATEND_NEXT
+};
+
+/*
+   core/peg
+   +1564 /home/user/src/janet/src/core/peg.c
+*/
+

@@ -1,0 +1,8 @@
+JANET_CORE_DEF(env, "math/pi", janet_wrap_number(3.1415926535897931),
+               "The value pi.");
+
+/*
+   math/pi
+   +403 /home/user/src/janet/src/core/math.c
+*/
+

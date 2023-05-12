@@ -67,94 +67,124 @@
 
 (defn print-c-location
   [id line full-path]
-  (print "/* ")
+  (print "/*")
   (print "   " id)
   (printf "   +%d %s" line full-path)
   (print "*/"))
 
-# XXX: need tests for this?
+# JANET_DEFINE_MATHOP(acos, "Returns the arccosine of x.")
+#
+# JANET_DEFINE_NAMED_MATHOP("log-gamma", lgamma, "Returns log-gamma(x).")
+#
+# JANET_DEFINE_MATH2OP(pow, pow, "(math/pow a x)", "Returns a to the power of x.")
+#
+# static JanetSlot janetc_quote(JanetFopts opts, int32_t argn, const Janet *argv) {
+#
+# janet_quick_asm(env, JANET_FUN_APPLY | JANET_FUNCDEF_FLAG_VARARG,
+#                 "apply", 1, 1, INT32_MAX, 6, apply_asm, sizeof(apply_asm),
+#                 ...);
+#
+# janet_quick_asm(env, JANET_FUN_MODULO,
+#                 "mod", 2, 2, 2, 2, modulo_asm, sizeof(modulo_asm),
+#                 JDOC("(mod dividend divisor)\n\n"
+#                      "Returns the modulo of dividend / divisor."));
+#
+# templatize_varop(env, JANET_FUN_MULTIPLY, "*", 1, 1, JOP_MULTIPLY,
+#                  JDOC("(* & xs)\n\n"
+#                       "Returns the product ... returns 1."));
+#
+# templatize_comparator(env, JANET_FUN_GT, ">", 0, JOP_GREATER_THAN,
+#                       JDOC("(> & xs)\n\n"
+#                       "Check if xs is in ... Returns a boolean."));
+#
+# janet_def(env, "janet/version", janet_cstringv(JANET_VERSION),
+#           JDOC("The version number of the running janet program."));
+#
+# JANET_CORE_FN(cfun_peg_compile,
+#              "(peg/compile peg)", ...)
+#
+# const JanetAbstractType janet... = {
+#     "core/file",
+#     ...
+# };
+#
+# #ifdef JANET_BOOTSTRAP
+#     JANET_CORE_DEF(env, "math/pi", janet_wrap_number(3.1415926535897931),
+#                    ...);
+#
+# note that leading whitespace is elided from sample of io.c below
+#
+# int default_flags = JANET_FILE_NOT_CLOSEABLE | JANET_FILE_SERIALIZABLE;
+# /* stdout */
+# JANET_CORE_DEF(env, "stdout",
+#                ...);
+# /* stderr */
+# JANET_CORE_DEF(env, "stderr",
+#                ...);
+
+(def match-table
+  {"JANET_DEFINE_MATHOP" [:paren]
+   "JANET_DEFINE_NAMED_MATHOP" [:paren]
+   "JANET_DEFINE_MATH2OP" [:paren]
+   "static" [:curly]
+   "janet_quick_asm" [:semi-colon]
+   "templatize_varop" [:semi-colon]
+   "templatize_comparator" [:semi-colon]
+   "janet_def" [:semi-colon]
+   "JANET_CORE_FN" [:curly]
+   "const JanetAbstractType" [:semi-colon]
+   "JANET_CORE_DEF" [:semi-colon]})
+
 (defn handle-c
   [id-name line position search-str full-path src]
   (def trimmed-search-str
     (string/trim search-str))
-  (cond
-    (string/has-prefix? "static" trimmed-search-str)
-    (let [m (peg/match c/c-grammar src position)]
-      (when (or (nil? m) (empty? m))
-        (eprintf "Failed to find end of definition for %s in %s"
-                 id-name full-path)
-        (break nil))
-      (def [_ col end-pos] (find |(= :curly (first $)) m))
-      (assert (= col 1)
-              (string/format "Unexpected col value: %d" col))
-      (print (dedent (string/slice src position (inc end-pos))))
-      (print)
-      (print-c-location id-name line full-path)
-      true)
-    #
-    (or (string/has-prefix? "JANET_CORE_DEF" trimmed-search-str)
-        (string/has-prefix? "janet_def" trimmed-search-str)
-        (string/has-prefix? "templatize_comparator" trimmed-search-str)
-        (string/has-prefix? "templatize_varop" trimmed-search-str))
-    (let [m (peg/match c/c-grammar src position)]
-      (when (or (nil? m) (empty? m))
-        (eprintf "Failed to find end of definition for %s in %s"
-                 id-name full-path)
-        (break nil))
-      (def [_ col end-pos] (find |(= :semi-colon (first $)) m))
-      (print (dedent (string/slice src position (inc end-pos))))
-      (print)
-      (print-c-location id-name line full-path)
-      true)
-    # some things from math.c
-    (or (string/has-prefix? "JANET_DEFINE_MATHOP" trimmed-search-str)
-        (string/has-prefix? "JANET_DEFINE_NAMED_MATHOP" trimmed-search-str)
-        (string/has-prefix? "JANET_DEFINE_MATH2OP" trimmed-search-str))
-    (let [m (peg/match c/c-grammar src position)]
-      (when (or (nil? m) (empty? m))
-        (eprintf "Failed to find end of definition for %s in %s"
-                 id-name full-path)
-        (break nil))
-      (def [_ col end-pos] (find |(= :paren (first $)) m))
-      (print (dedent (string/slice src position (inc end-pos))))
-      (print)
-      (print-c-location id-name line full-path)
-      true)
-    # janet_quick_asm things such as apply
-    # "core/peg" and friends
-    # JANET_CORE_DEF things
-    (string/has-prefix? `"` trimmed-search-str)
-    (let [start-pos (scan-back src "\n" position 2)]
-      (unless start-pos
-        (eprintf "Failed to find start of definiton for %s in %s"
-                 id-name full-path)
-        (break nil))
-      (def m (peg/match c/c-grammar src start-pos))
-      (when (or (nil? m) (empty? m))
-        (eprintf "Failed to find end of definition for %s in %s"
-                 id-name full-path)
-        (break nil))
-      # XXX: not so nice
-      (var result nil)
-      (unless result
-        (set result (find |(= :semi-colon (first $)) m)))
-      (unless result
-        (set result (find |(= :curly (first $)) m)))
-      (unless result
-        (set result (find |(= :paren (first $)) m)))
-      (unless result
-        (errorf "oops: %p" m))
-      (def col (get result 1))
-      (def end-pos (get result 2))
-      #
-      (print (dedent (string/slice src start-pos (inc end-pos))))
-      (print)
-      (print-c-location id-name line full-path)
-      true)
-    # XXX: should not get here
-    (do
-      (eprintf "Unexpected result for %s" id-name)
-      (eprintf "Trimmed search string was: %s" trimmed-search-str))))
+  # try to establish the start of the definition
+  (def start-pos
+    (if (string/has-prefix? `"` trimmed-search-str)
+      (scan-back src "\n" position 2)
+      position))
+  (unless start-pos
+    (eprintf "Failed to find start of definiton for %s in %s"
+             id-name full-path)
+    (break nil))
+  # match-str is used as part of determining type of definition
+  (def match-str
+    (if (string/has-prefix? `"` trimmed-search-str)
+      # need to look backward in src for a number of cases
+      (-> src
+          (string/slice start-pos position)
+          string/trim)
+      # easy cases of not having to look backward
+      trimmed-search-str))
+  # use match-str and match-table to figure out "end of def" marker
+  (def [_ match-type]
+    (->> (pairs match-table)
+         (find |(string/has-prefix? (first $) match-str))))
+  (unless match-type
+    (eprintf "Unexpected result for %s" id-name)
+    (eprintf "Trimmed search string was: %s" trimmed-search-str)
+    (break nil))
+  # try to find the end of the definition
+  (def m (peg/match c/c-grammar src start-pos))
+  (when (or (nil? m) (empty? m))
+    (eprintf "Failed to find end of definition for %s in %s"
+             id-name full-path)
+    (break nil))
+  #
+  (var result nil)
+  (each end-of-def-marker match-type
+    (set result (find |(= end-of-def-marker (first $)) m))
+    (when result (break)))
+  (unless result
+    (eprintf "Failed to locate sentinel(s): %p" match-type)
+    (break nil))
+  (def [_ col end-pos] result)
+  # print out definition
+  (print (dedent (string/slice src start-pos (inc end-pos))))
+  (print)
+  (print-c-location id-name line full-path)
+  true)
 
 (defn handle-janet
   [id-name line position search-str full-path src]
