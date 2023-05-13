@@ -206,6 +206,39 @@
         (eprintf "Sorry, failed to find definition for: %s" id-name)
         false))))
 
+# XXX: might be a faster way to do this, but this was easy
+(defn find-position
+  [line src]
+  (def lines
+    (string/split "\n" src))
+  (def pos
+    (reduce (fn [acc a-line]
+              (+ acc
+                 (length a-line)
+                 1)) # newline length
+            0
+            (array/slice lines 0 (dec line))))
+  #
+  pos)
+
+(comment
+
+  (def first-line
+    "This is line one\n")
+
+  (def second-line
+    "This is line two\n")
+
+  (find-position 3
+                 (string first-line
+                         second-line
+                         "This is line three"))
+  # =>
+  (+ (length first-line)
+     (length second-line))
+
+  )
+
 (defn definition
   [id-name etags-content j-src-path]
   (def etags-table
@@ -217,7 +250,14 @@
     (break [nil nil
             (string/format "Failed to find: %s" id-name)]))
 
-  (def [line position search-str src-path] result)
+  (def line (first result))
+
+  (def search-str
+    (if (= 3 (length result))
+      (get result 1)
+      (get result 2)))
+
+  (def src-path (last result))
 
   (def full-path
     (string j-src-path "/" src-path))
@@ -231,6 +271,12 @@
       (slurp full-path)
       ([e]
         (break [nil nil e]))))
+
+  (def position
+    (find-position line src))
+
+  (unless position
+    (errorf "Failed to find position for: %s" id-name))
 
   (cond
     (string/has-suffix? ".c" src-path)
