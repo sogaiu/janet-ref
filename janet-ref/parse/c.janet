@@ -219,3 +219,52 @@ depending on the "search string":
   '@[(:curly 1 265) (:semi-colon 2 266)]
 
   )
+
+# adapted from index-janet's index-c.janet
+(def col-one-mod
+  ~{:main (some (choice :comment
+                        :macro-define
+                        :non-macro-match
+                        :not-match))
+    :non-macro-match (cmt (sequence (look -1 "\n")
+                                    (not :s)
+                                    (not "#")
+                                    (not "}")
+                                    (not :label)
+                                    (line) (column) (position)
+                                    (capture (to "\n"))
+                                    "\n")
+                          ,|@{:bl $0
+                              :bc $1
+                              :bp $2
+                              :text $3})
+    :label (sequence :id ":")
+    :id (some (choice :a :d "_"))
+    :comment (choice (sequence "//"
+                               (any (if-not (set "\r\n") 1)))
+                     (sequence "/*"
+                               (any (if-not `*/` 1))
+                               "*/"))
+    # order of cmt swapped in this version of col-one
+    :macro-define
+    (choice
+      (cmt (sequence (line) (column) (position)
+                     # for displaying definitions, capture whole thing
+                     (capture (sequence "#define" (thru `\`) "\n"
+                                        (some (sequence
+                                                # XXX: hoping no escapes
+                                                (some (if-not (set "\n\\") 1))
+                                                `\` "\n"))
+                                        (thru "\n"))))
+           ,|@{:bl $0
+               :bc $1
+               :bp $2
+               :text $3})
+      (cmt (sequence (line) (column) (position)
+                     (capture (sequence "#define" (to "\n")))
+                     "\n")
+           ,|@{:bl $0
+               :bc $1
+               :bp $2
+               :text $3}))
+    :not-match 1})

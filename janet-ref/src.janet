@@ -123,7 +123,8 @@
 #                ...);
 
 (def match-table
-  {"JANET_DEFINE_MATHOP" [:paren]
+  {# Janet -> C
+   "JANET_DEFINE_MATHOP" [:paren]
    "JANET_DEFINE_NAMED_MATHOP" [:paren]
    "JANET_DEFINE_MATH2OP" [:paren]
    "static" [:curly]
@@ -133,7 +134,12 @@
    "janet_def" [:semi-colon]
    "JANET_CORE_FN" [:curly]
    "const JanetAbstractType" [:semi-colon]
-   "JANET_CORE_DEF" [:semi-colon]})
+   "JANET_CORE_DEF" [:semi-colon]
+   # C -> C
+   "enum" [:semi-colon]
+   "struct" [:semi-colon]
+   "typedef" [:semi-colon]
+   "#define" [:macro-define]})
 
 (defn handle-c
   [id-name line position search-str full-path src]
@@ -158,30 +164,45 @@
       # easy cases of not having to look backward
       trimmed-search-str))
   # use match-str and match-table to figure out "end of def" marker
-  (def [_ match-type]
+  (def [match-key match-type]
     (or (->> (pairs match-table)
              (find |(string/has-prefix? (first $) match-str)))
-        # XXX: doesn't handle macro defines that well
-        [nil [:curly :paren :semi-colon]]))
+        # XXX: likely doesn't work so well in all cases
+        #      document specifically which ones when they come up
+        [nil [:semi-colon :curly :paren]]))
   (unless match-type
     (eprintf "Unexpected result for %s" id-name)
     (eprintf "Trimmed search string was: %s" trimmed-search-str)
     (break nil))
   # try to find the end of the definition
-  (def m (peg/match c/c-grammar src start-pos))
-  (when (or (nil? m) (empty? m))
-    (eprintf "Failed to find end of definition for %s in %s"
-             id-name full-path)
-    (break nil))
-  #
   (var result nil)
-  (each end-of-def-marker match-type
-    (set result (find |(= end-of-def-marker (first $)) m))
-    (when result (break)))
-  (unless result
-    (eprintf "Failed to locate sentinel(s): %p" match-type)
-    (break nil))
-  (def [_ col end-pos] result)
+  (if (= "#define" match-key)
+    (do
+      (def m (peg/match c/col-one-mod src start-pos))
+      (when (or (nil? m) (empty? m))
+        (eprintf "Failed to find end of definition for %s in %s"
+                 id-name full-path)
+        (break nil))
+      (def begin-pos
+        (get-in m [0 :bp]))
+      (def text-len
+        (length (get-in m [0 :text])))
+      (set result
+           [nil nil (dec (+ begin-pos text-len))]))
+    (do
+      (def m (peg/match c/c-grammar src start-pos))
+      (when (or (nil? m) (empty? m))
+        (eprintf "Failed to find end of definition for %s in %s"
+                 id-name full-path)
+        (break nil))
+      #
+      (each end-of-def-marker match-type
+        (set result (find |(= end-of-def-marker (first $)) m))
+        (when result (break)))
+      (unless result
+        (eprintf "Failed to locate sentinel(s): %p" match-type)
+        (break nil))))
+  (def [_ _ end-pos] result)
   # print out definition
   (print (dedent (string/slice src start-pos (inc end-pos))))
   (print)

@@ -1,0 +1,17 @@
+#define OPMETHODINVERT(T, type, name, oper) \
+static Janet cfun_it_##type##_##name(int32_t argc, Janet *argv) { \
+    janet_fixarity(argc, 2); \
+    T *box = janet_abstract(&janet_##type##_type, sizeof(T)); \
+    *box = janet_unwrap_##type(argv[1]); \
+    /* This avoids undefined behavior. See above for why. */ \
+    *box = (T) ((uint64_t) *box) oper ((uint64_t) janet_unwrap_##type(argv[0])); \
+    return janet_wrap_abstract(box); \
+} \
+
+
+
+/*
+   OPMETHODINVERT
+   +433 /home/user/src/janet/src/core/inttypes.c
+*/
+
