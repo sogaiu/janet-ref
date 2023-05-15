@@ -159,8 +159,10 @@
       trimmed-search-str))
   # use match-str and match-table to figure out "end of def" marker
   (def [_ match-type]
-    (->> (pairs match-table)
-         (find |(string/has-prefix? (first $) match-str))))
+    (or (->> (pairs match-table)
+             (find |(string/has-prefix? (first $) match-str)))
+        # XXX: doesn't handle macro defines that well
+        [nil [:curly :paren :semi-colon]]))
   (unless match-type
     (eprintf "Unexpected result for %s" id-name)
     (eprintf "Trimmed search string was: %s" trimmed-search-str)
