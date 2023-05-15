@@ -279,7 +279,8 @@
     (errorf "Failed to find position for: %s" id-name))
 
   (cond
-    (string/has-suffix? ".c" src-path)
+    (or (string/has-suffix? ".c" src-path)
+        (string/has-suffix? ".h" src-path))
     (do
       (def buf @"")
       (def ebuf @"")
