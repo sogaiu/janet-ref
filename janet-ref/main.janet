@@ -28,7 +28,7 @@
 
     -d, --doc [<thing>]          show doc
     -q, --quiz [<thing>]         show quiz question
-    -s, --src [<thing>]          show source
+    -s, --src [<thing>]          show source [1]
     -u, --usage [<thing>]        show usages
 
     -p, --pprint [<data>]        pretty-print data
@@ -57,7 +57,7 @@
   thing, or if none specified, for a randonly chosen one.
 
   With the `-s` or `--src` option, show source code for specified
-  thing, or if none specified, for a randonly chosen one.
+  thing, or if none specified, for a randonly chosen one [1].
 
   With the `-u` or `--usage` option, show usages for specified thing,
   or if none specified, for a randomly chosen one.
