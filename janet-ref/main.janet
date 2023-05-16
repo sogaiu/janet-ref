@@ -130,6 +130,25 @@
               (= "rougify" (dyn :jref-colorizer))
               "gruvbox" # monokai, thankful_eyes
               "oops")))
+  (setdyn :jref-editor
+          (if-let [editor (os/getenv "JREF_EDITOR")]
+            editor
+            "nvim"))
+  (setdyn :jref-editor-open-at-format
+          (case (dyn :jref-editor)
+            "emacs"
+            ["+%d" "%s"]
+            #
+            "kak"
+            ["+%d" "%s"]
+            #
+            "nvim"
+            ["+%d" "%s"]
+            #
+            "vim"
+            ["+%d" "%s"]
+            #
+            ["+%d" "%s"]))
 
   (def [opts rest]
     (av/parse-argv argv))
