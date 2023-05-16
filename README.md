@@ -164,9 +164,12 @@ special forms, etc.
 
   -r, --repl                   run a repl
 
+  --env-vars                   show tweakable environment variables
+
   --bash-completion            output bash-completion bits
   --fish-completion            output fish-completion bits
   --zsh-completion             output zsh-completion bits
+
   --raw-all                    show all things to help completion
 
 With a thing, but no options, show docs and usages.

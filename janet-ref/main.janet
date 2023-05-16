@@ -6,6 +6,7 @@
 (import ./colorize :as col)
 (import ./completion :as compl)
 (import ./doc :as doc)
+(import ./env-vars :as evars)
 (import ./format/bindings :as bind)
 (import ./format/code :as code)
 (import ./format/data :as data)
@@ -39,9 +40,12 @@
 
     -r, --repl                   run a repl
 
+    --env-vars                   show tweakable environment variables
+
     --bash-completion            output bash-completion bits
     --fish-completion            output fish-completion bits
     --zsh-completion             output zsh-completion bits
+
     --raw-all                    show all things to help completion
 
   With a thing, but no options, show docs and usages.
@@ -166,6 +170,11 @@
   # usage
   (when (opts :help)
     (print usage)
+    (os/exit 0))
+
+  # show tweakable env vars
+  (when (opts :env-vars)
+    (print evars/docstring)
     (os/exit 0))
 
   # possibly handle dumping completion bits

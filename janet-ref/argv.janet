@@ -9,6 +9,9 @@
     (while (< i argc)
       (def arg (get argv i))
       (cond
+        (get {"--env-vars" true} arg)
+        (put opts :env-vars true)
+        #
         (get {"--bash-completion" true} arg)
         (put opts :bash-completion true)
         #
