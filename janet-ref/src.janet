@@ -72,13 +72,6 @@
   (printf "   +%d %s" line full-path)
   (print "*/"))
 
-(defn eprint-c-location
-  [id line full-path]
-  (eprint "/*")
-  (eprint "   " id)
-  (eprintf "   +%d %s" line full-path)
-  (eprint "*/"))
-
 (defn open-editor-at
   [line full-path]
   (unless (dyn :jref-editor)
