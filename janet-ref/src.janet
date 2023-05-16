@@ -72,6 +72,13 @@
   (printf "   +%d %s" line full-path)
   (print "*/"))
 
+(defn eprint-c-location
+  [id line full-path]
+  (eprint "/*")
+  (eprint "   " id)
+  (eprintf "   +%d %s" line full-path)
+  (eprint "*/"))
+
 # JANET_DEFINE_MATHOP(acos, "Returns the arccosine of x.")
 #
 # JANET_DEFINE_NAMED_MATHOP("log-gamma", lgamma, "Returns log-gamma(x).")
@@ -182,6 +189,8 @@
       (when (or (nil? m) (empty? m))
         (eprintf "Failed to find end of definition for %s in %s"
                  id-name full-path)
+        # printing location is better than nothing
+        (eprint-c-location id-name line full-path)
         (break nil))
       (def begin-pos
         (get-in m [0 :bp]))
@@ -194,6 +203,8 @@
       (when (or (nil? m) (empty? m))
         (eprintf "Failed to find end of definition for %s in %s"
                  id-name full-path)
+        # printing location is better than nothing
+        (eprint-c-location id-name line full-path)
         (break nil))
       #
       (each end-of-def-marker match-type
@@ -201,6 +212,8 @@
         (when result (break)))
       (unless result
         (eprintf "Failed to locate sentinel(s): %p" match-type)
+        # printing location is better than nothing
+        (eprint-c-location id-name line full-path)
         (break nil))))
   (def [_ _ end-pos] result)
   # print out definition
