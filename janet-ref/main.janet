@@ -135,20 +135,27 @@
             editor
             "nvim"))
   (setdyn :jref-editor-open-at-format
-          (case (dyn :jref-editor)
-            "emacs"
-            ["+%d" "%s"]
-            #
-            "kak"
-            ["+%d" "%s"]
-            #
-            "nvim"
-            ["+%d" "%s"]
-            #
-            "vim"
-            ["+%d" "%s"]
-            #
-            ["+%d" "%s"]))
+          (if-let [format (os/getenv "JREF_EDITOR_OPEN_AT_FORMAT")]
+            (tuple ;(string/split " " format))
+            (case (dyn :jref-editor)
+              "emacs"
+              ["+%d" "%s"]
+              #
+              "kak"
+              ["+%d" "%s"]
+              #
+              "nvim"
+              ["+%d" "%s"]
+              #
+              "subl"
+              ["%s:%d"]
+              #
+              "vim"
+              ["+%d" "%s"]
+              #
+              ["+%d" "%s"])))
+  (setdyn :jref-editor-filename
+          (os/getenv "JREF_EDITOR_FILENAME"))
 
   (def [opts rest]
     (av/parse-argv argv))

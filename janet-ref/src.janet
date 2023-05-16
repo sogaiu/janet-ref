@@ -78,16 +78,41 @@
     (eprintf "Please specify an editor via JREF_EDITOR")
     (break nil))
   #
-  (def [line-fmt path-fmt]
+  (def editor-filename
+    (if-let [editor-filename (dyn :jref-editor-filename)]
+      editor-filename
+      (if (= :windows (os/which))
+        (string (dyn :jref-editor) ".exe")
+        (dyn :jref-editor))))
+  (def open-at-format
     (dyn :jref-editor-open-at-format))
-  (def line-arg
-    (string/format line-fmt line))
-  (def path-arg
-    (string/format path-fmt full-path))
-  #
-  (os/execute [(dyn :jref-editor)
-               line-arg path-arg]
-              :p))
+  (def oaf-len
+    (length open-at-format))
+  (cond
+    # sublimetext uses: path:line
+    (= 1 oaf-len)
+    (do
+      (def open-at-arg
+        (string/format ;open-at-format full-path line))
+      #
+      (os/execute [editor-filename open-at-arg]
+                  :p))
+    # emacs, kak, nvim, neovim use: +line path
+    (= 2 oaf-len)
+    (do
+      (def [line-fmt path-fmt]
+        (dyn :jref-editor-open-at-format))
+      (def line-arg
+        (string/format line-fmt line))
+      (def path-arg
+        (string/format path-fmt full-path))
+      #
+      (os/execute [editor-filename
+                   line-arg path-arg]
+                  :p))
+    #
+    (eprintf "Don't know how to handle an open at format with %d parts"
+             oaf-len)))
 
 # JANET_DEFINE_MATHOP(acos, "Returns the arccosine of x.")
 #
