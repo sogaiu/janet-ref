@@ -419,15 +419,8 @@
         ([e]
           (eprintf "Failed to read TAGS file: %s" etags-file-path)
           (os/exit 1))))
-    (def [res lang buf]
-      (src/definition thing etags-content j-src-path))
-    (if res
-      (do
-        (print (col/colorize buf lang))
-        (os/exit 0))
-      (do
-        (eprint buf)
-        (os/exit 1))))
+    (src/definition thing etags-content j-src-path)
+    (os/exit 0))
 
   # show docs, usages, or quizzes for a thing
   (let [[file-path _]

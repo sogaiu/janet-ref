@@ -1,7 +1,0 @@
-#define janet_v_free(v)         (((v) != NULL) ? (janet_sfree(janet_v__raw(v)), 0) : 0)
-
-/*
-   janet_v_free
-   +40 /home/user/src/janet/src/core/vector.h
-*/
-

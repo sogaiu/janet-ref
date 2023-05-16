@@ -1,1 +1,0 @@
-jref -s math/pow
