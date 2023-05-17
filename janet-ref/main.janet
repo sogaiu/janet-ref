@@ -327,6 +327,9 @@
                 (group-bindings))))}))
     (def result-value
       ((get result-env 'result) :value))
+    # this prevents a premature exit, though the program is about to
+    # end here anyway...
+    (put result-env :exit nil)
     (if thing
       (when-let [vals (get result-value (keyword thing))]
         (each elt (sort vals)
