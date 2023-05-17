@@ -325,11 +325,13 @@
                 binding-tbl)
               (def result
                 (group-bindings))))}))
-    (def result-value
-      ((get result-env 'result) :value))
     # this prevents a premature exit, though the program is about to
     # end here anyway...
     (put result-env :exit nil)
+    (def result-value
+      ((get result-env 'result) :value))
+    (array/remove result-value
+                  (index-of 'result result-value))
     (if thing
       (when-let [vals (get result-value (keyword thing))]
         (each elt (sort vals)
