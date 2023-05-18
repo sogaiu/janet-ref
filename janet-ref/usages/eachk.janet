@@ -2,9 +2,9 @@
 
   (do
     (def arr @[])
-    (def struct {:a 1 :b 2})
-    (eachk k struct
-      (array/push arr (get struct k)))
+    (def a-struct {:a 1 :b 2})
+    (eachk k a-struct
+      (array/push arr (get a-struct k)))
     arr)
   # =>
   @[1 2]
