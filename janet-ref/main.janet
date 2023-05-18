@@ -295,48 +295,25 @@
     (os/exit 0))
 
   (when (opts :bindings)
-    # arrange for a relatively unpopulated environment for evaluation
-    (def result-env
-      (run-context
-        {:env root-env
-         :read
-         (fn [env where]
-           # just want one evaluation
-           (put env :exit true)
-           #
-           '(upscope
-              (defn group-bindings
-                []
-                (def binding-tbl
-                  @{:macro @[]})
-                (each name (all-bindings)
-                  (def info
-                    (dyn (symbol name)))
-                  # order is important here
-                  (if (info :macro)
-                    (array/push (binding-tbl :macro) name)
-                    (do
-                      (def the-type
-                        (type (info :value)))
-                      (if (nil? (binding-tbl the-type))
-                        (put binding-tbl the-type @[name])
-                        (array/push (binding-tbl the-type) name)))))
-                #
-                binding-tbl)
-              (def result
-                (group-bindings))))}))
-    # this prevents a premature exit, though the program is about to
-    # end here anyway...
-    (put result-env :exit nil)
-    (def result-value
-      ((get result-env 'result) :value))
-    (array/remove result-value
-                  (index-of 'result result-value))
+    (def binding-tbl
+      @{:macro @[]})
+    (each name (all-bindings root-env true)
+      (def info
+        (dyn (symbol name)))
+      # order is important here
+      (if (info :macro)
+        (array/push (binding-tbl :macro) name)
+        (do
+          (def the-type
+            (type (info :value)))
+          (if (nil? (binding-tbl the-type))
+            (put binding-tbl the-type @[name])
+            (array/push (binding-tbl the-type) name)))))
     (if thing
-      (when-let [vals (get result-value (keyword thing))]
+      (when-let [vals (get binding-tbl (keyword thing))]
         (each elt (sort vals)
           (print elt)))
-      (eachp [k v] result-value
+      (eachp [k v] binding-tbl
         (unless (= k :nil)
           (print k)
           (each elt (sort v)
