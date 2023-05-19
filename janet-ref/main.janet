@@ -116,7 +116,8 @@
           (if-let [repos-path (os/getenv "JREF_REPOS_PATH")]
             repos-path
             (string src-root "/janet-repos")))
-  #
+  # on windows, https://github.com/adoxa/ansicon may help for
+  # pygmentize and rougify
   (setdyn :jref-colorizer (os/getenv "JREF_COLORIZER"))
   # bat -- `bat --list-themes`
   # pygmentize -- `pygmentize -L styles`
@@ -134,6 +135,8 @@
               (= "rougify" (dyn :jref-colorizer))
               "gruvbox" # monokai, thankful_eyes
               "oops")))
+  (setdyn :jref-colorizer-filename
+          (os/getenv "JREF_COLORIZER_FILENAME"))
   (setdyn :jref-editor
           (if-let [editor (os/getenv "JREF_EDITOR")]
             editor

@@ -27,32 +27,40 @@
 (defn colorize
   [src &opt lang]
   (default lang "janet")
+  (def colorizer (dyn :jref-colorizer))
+  (def colorizer-style (dyn :jref-colorizer-style))
+  (def colorizer-filename
+    (if-let [colorizer-filename (dyn :jref-colorizer-filename)]
+      colorizer-filename
+      (if (= :windows (os/which))
+        (string colorizer ".exe")
+        colorizer)))
   (cond
-    (= "bat" (dyn :jref-colorizer))
+    (= "bat" colorizer)
     (xform-with-process src
-                        ["bat"
+                        [colorizer-filename
                          "--style=plain"
                          "--paging=never"
                          "--force-colorization"
-                         "--theme" (dyn :jref-colorizer-style)
+                         "--theme" colorizer-style
                          "-l" (if (= "janet" lang)
                                 "clojure"
                                 lang)])
     #
-    (= "pygmentize" (dyn :jref-colorizer))
+    (= "pygmentize" colorizer)
     (xform-with-process src
-                        ["pygmentize"
-                         "-P" (string "style=" (dyn :jref-colorizer-style))
+                        [colorizer-filename
+                         "-P" (string "style=" colorizer-style)
                          "-l" (if (= "janet" lang)
                                 "clojure"
                                 lang)])
     #
-    (= "rougify" (dyn :jref-colorizer))
+    (= "rougify" colorizer)
     (xform-with-process src
-                        ["rougify"
+                        [colorizer-filename
                          "highlight"
                          "--lexer" lang
-                         "--theme" (dyn :jref-colorizer-style)])
+                         "--theme" colorizer-style])
     #
     src))
 

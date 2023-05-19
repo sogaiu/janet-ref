@@ -64,6 +64,19 @@
     (assuming rouge source code has been fetched and placed in a
     certain location).
 
+  JREF_COLORIZER_FILENAME - valid values might be something like:
+
+  * bat.bat
+  * pygmentize.com
+
+  If set appropriately, this is used in the invocation of the
+  colorizer.  It primarily exists to support Windows where the file
+  extension is not so easy for jref's author to determine (e.g. you
+  might be using a shim or a .bat script to lauch a colorizer).  If
+  you're using Windows and your colorizer's filename extension is not
+  ".exe", setting this might help.
+
+
   Editor
   ------
 
