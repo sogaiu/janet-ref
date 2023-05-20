@@ -69,7 +69,7 @@
        "range" "return"
        "sort" "sort-by" "sorted" "splice" "string?" "struct?" "sum"
        "symbol?"
-       "table?" "take" "toggle"
+       "table?" "take" "toggle" "tuple?"
        "unquote"
        "zero?"]})
 
