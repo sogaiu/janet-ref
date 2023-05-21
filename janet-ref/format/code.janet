@@ -53,7 +53,7 @@
        # XXX
        "errorf" "even?" "extreme"
        "fiber?" "first" "function?"
-       "identity" "inc" "index-of" "interpose"
+       "identity" "inc" "index-of" "indexed?" "interpose"
        # XXX
        "juxt" "juxt*"
        "keyword?"

@@ -42,6 +42,7 @@
 #   identity
 #   inc
 #   index-of
+#   indexed?
 #   interpose
 #   juxt*
 #   keep
