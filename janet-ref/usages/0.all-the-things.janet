@@ -19,6 +19,7 @@
 #   array/concat
 #   array?
 #   asm
+#   boolean?
 #   buffer?
 #   bytes?
 #   cfunction?
