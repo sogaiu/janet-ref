@@ -109,6 +109,10 @@
   (def [opts rest]
     (av/parse-argv argv))
 
+  (when (nil? opts)
+    (eprint "Problem parsing arguments.")
+    (os/exit 1))
+
   # the code beyond here is longish, but it's straight-forward, mostly
   # just dispatching based on key-value pair existence in opts
 

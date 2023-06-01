@@ -1,73 +1,50 @@
+(import ./vendor/argy-bargy :as ab)
+
 (defn parse-argv
   [argv]
-  (def opts @{})
-  (def rest @[])
-  (def argc (length argv))
-  #
-  (when (> argc 1)
-    (var i 1)
-    (while (< i argc)
-      (def arg (get argv i))
-      (cond
-        (get {"--env-vars" true} arg)
-        (put opts :env-vars true)
-        #
-        (get {"--bash-completion" true} arg)
-        (put opts :bash-completion true)
-        #
-        (get {"--fish-completion" true} arg)
-        (put opts :fish-completion true)
-        #
-        (get {"--zsh-completion" true} arg)
-        (put opts :zsh-completion true)
-        #
-        (get {"--raw-all" true} arg)
-        (put opts :raw-all true)
-        #
-        (get {"--bindings" true "-b" true} arg)
-        (put opts :bindings true)
-        #
-        (get {"--doc" true "-d" true} arg)
-        (put opts :doc true)
-        #
-        (get {"--eval" true "-e" true} arg)
-        (put opts :eval true)
-        #
-        (get {"--format" true "-f" true} arg)
-        (put opts :format true)
-        #
-        (get {"--grep" true "-g" true} arg)
-        (put opts :grep true)
-        #
-        (get {"--help" true "-h" true} arg)
-        (put opts :help true)
-        #
-        (get {"--indent" true "-i" true} arg)
-        (put opts :indent true)
-        #
-        (get {"--macex1" true "-m" true} arg)
-        (put opts :macex1 true)
-        #
-        (get {"--pprint" true "-p" true} arg)
-        (put opts :pprint true)
-        #
-        (get {"--quiz" true "-q" true} arg)
-        (put opts :quiz true)
-        #
-        (get {"--repl" true "-r" true} arg)
-        (put opts :repl true)
-        #
-        (get {"--src" true "-s" true} arg)
-        (put opts :src true)
-        #
-        (get {"--todo" true "-t" true} arg)
-        (put opts :todo true)
-        #
-        (get {"--usage" true "-u" true} arg)
-        (put opts :usage true)
-        #
-        (array/push rest arg))
-      (++ i)))
+  (def ret
+    (with-dyns [:args argv
+                # for turning off argy-bargy output
+                :err @"" :out @""]
+      (ab/parse-args
+        {:rules
+         ["--env-vars" {:kind :flag}
+          "--bash-completion" {:kind :flag}
+          "--fish-completion" {:kind :flag}
+          "--zsh-completion" {:kind :flag}
+          "--raw-all" {:kind :flag}
+          "--bindings" {:kind :flag}
+          #
+          "--doc" {:kind :flag :short "d"}
+          "--eval" {:kind :flag :short "e"}
+          "--format" {:kind :flag :short "f"}
+          "--grep" {:kind :flag :short "g"}
+          "--help" {:kind :flag :short "h"}
+          "--indent" {:kind :flag :short "i"}
+          "--macex1" {:kind :flag :short "m"}
+          "--pprint" {:kind :flag :short "p"}
+          "--quiz" {:kind :flag :short "q"}
+          "--repl" {:kind :flag :short "r"}
+          "--src" {:kind :flag :short "s"}
+          "--todo" {:kind :flag :short "t"}
+          "--usage" {:kind :flag :short "u"}
+          :thing {:value :string}]})))
+  (when-let [e (get ret :error?)]
+    (eprintf "error parsing args: %p" e)
+    (break [nil nil]))
+  (def opts
+    (->> (get ret :opts)
+         pairs
+         (map (fn [[k v]]
+                [(keyword k) v]))
+         from-pairs))
+  (def rest
+    (if-let [thing (get-in ret [:params :thing])]
+      [thing]
+      []))
+  # XXX: argy-bargy won't save `--help` so need to add it
+  (when (get ret :help?)
+    (put opts :help true))
   #
   [opts rest])
 
