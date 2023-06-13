@@ -18,73 +18,6 @@
 (import ./things :as things)
 (import ./usages :as usages)
 
-(def usage
-  ``
-  Usage: jref [option] [thing]
-
-  View Janet information for things such as functions, macros,
-  special forms, etc.
-
-    -h, --help                   show this output
-
-    -d, --doc [<thing>]          show doc
-    -q, --quiz [<thing>]         show quiz question
-    -s, --src [<thing>]          show source [1]
-    -u, --usage [<thing>]        show usages
-
-    -p, --pprint [<data>]        pretty-print data
-
-    -f, --format [<code>]        format code
-    -i, --indent [<code>]        indent code
-    -e, --eval [<code>]          evaluate code
-    -m, --macex1 [<code>]        macroexpand code
-
-    -r, --repl                   run a repl
-
-    --env-vars                   show tweakable environment variables
-
-    --bash-completion            output bash-completion bits
-    --fish-completion            output fish-completion bits
-    --zsh-completion             output zsh-completion bits
-
-    --raw-all                    show all things to help completion
-
-  With a thing, but no options, show docs and usages.
-
-  With the `-d` or `--doc` option, show docs for thing, or if none
-  specified, for a randomly chosen one.
-
-  With the `-q` or `--quiz` option, show quiz question for specified
-  thing, or if none specified, for a randonly chosen one.
-
-  With the `-s` or `--src` option, show source code for specified
-  thing, or if none specified, for a randonly chosen one [1].
-
-  With the `-u` or `--usage` option, show usages for specified thing,
-  or if none specified, for a randomly chosen one.
-
-  With no arguments, lists all things.
-
-  Be careful to quote shortnames (e.g. *, ->, >, <-, etc.)
-  appropriately so the shell doesn't process them in an undesired
-  fashion.
-
-  ---
-
-  [1] For source code lookups to work, the Janet source code needs to
-  be available locally and a suitable `TAGS` file needs to exist.
-
-  The `ensure-tags` jpm task can perform this setup:
-
-    `jpm run ensure-tags`
-
-  This should clone the janet source + some extra bits to create the
-  `TAGS` file.  Once cloning is complete, the TAGS file should get
-  created automatically.
-
-  The `TAGS` file should end up in the `janet` subdirectory.
-  ``)
-
 (defn all-the-sharp-things
   [content]
   (def m-lines @[])
@@ -106,7 +39,7 @@
 
   (d/init-dyns)
 
-  (def [opts rest]
+  (def [opts rest usage]
     (av/parse-argv argv))
 
   (when (nil? opts)
