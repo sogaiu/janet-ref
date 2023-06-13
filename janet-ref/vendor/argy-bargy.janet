@@ -39,7 +39,7 @@
   [rules name]
   (var res nil)
   (each [k v] rules
-    (when (or (= k name) (= (v :short) name))
+    (when (or (= k name) (= (get v :short) name))
       (set res v)
       (break)))
   res)
@@ -238,9 +238,9 @@
   (unless (or errored? helped?)
     (set helped? true)
 
-    (if (info :examples)
-      (each example (info :examples)
-        (print example))
+    (if (info :usages)
+      (each sample (info :usages)
+        (print sample))
       (do
         (prin "usage: " command)
         (unless (zero? (length orules))
@@ -277,9 +277,9 @@
   (unless (or errored? helped?)
     (set helped? true)
 
-    (if (info :examples)
-      (each example (info :examples)
-        (print example))
+    (if (info :usages)
+      (each sample (info :usages)
+        (print sample))
       (print "usage: " command " <subcommand> [args...]"))
 
     (when (info :about)
@@ -395,9 +395,9 @@
   ```
   [args]
   (def res @[])
-  (def grammar ~{:main      (+ :long-opt :short-opt ':rest)
-                 :rest      (some 1)
-                 :long-opt  (* '(* "--" (any (if-not "=" 1))) (? (* "=" ':rest)))
+  (def grammar ~{:main      (+ :long-opt :short-opt :rest)
+                 :rest      '(some 1)
+                 :long-opt  (* '(* "--" (any (if-not "=" 1))) (? (* "=" :rest)))
                  :short-opt (* '(* "-" 1) (any (% (* (constant "-") '1))))})
   (each arg args
     (array/concat res (peg/match grammar arg)))
@@ -500,6 +500,10 @@
     provided and Argy-Bargy's internal converter will be used instead. The
     valid keywords are :string and :integer.
 
+  A `--help` option is added automatically unless provided in the rules tuple.
+  Options will be separated by a blank line if the rules tuple includes a
+  `---` separator.
+
   #### Parameters
 
   If the key is a keyword, the rule will be applied to parameter arguments
@@ -524,7 +528,9 @@
   can have the following keys:
 
   * `:about` - Message describing the program at a high level.
-  * `:examples` - Collection of examples to be used in usage message.
+  * `:usages` - Collection of usage samples to be used in the usage message.
+    If no samples are provided, one will be generated automatically based on the
+    provided rules.
   * `:opts` - Message printed immediately prior to listing of options.
   * `:params` - Message printed immediately prior to listing of parameters.
   * `:rider` - Message printed at the end of the usage message.
