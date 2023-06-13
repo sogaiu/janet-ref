@@ -236,3 +236,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+pyrmont's [argy-bargy](https://github.com/pyrmont/argy-bargy) is used
+for command line processing and usage message generation.
+
