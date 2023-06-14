@@ -25,10 +25,12 @@
         (if (= :windows (os/which))
           ["powershell" "-command" "&{(get-host).ui.rawui.WindowSize.Width;}"]
           ["tput" "cols"]))
-      (def p (os/spawn cmd :p {:out :pipe :err :pipe}))
-      (def err (:wait p))
-      (def tcols (when (zero? err) (-> (p :out) (:read :all) string/trim scan-number)))
-      (min (or tcols max-width) max-width))
+      (with [f (file/temp)]
+        (os/execute cmd :p {:out f})
+        (file/seek f :set 0)
+        (def out (file/read f :all))
+        (def tcols (scan-number (string/trim out)))
+        (min tcols max-width)))
     cols))
 
 
@@ -95,7 +97,7 @@
   (default hangp 0)
   (default maxw cols)
   (def res (buffer (string/repeat " " startp)))
-  (var currw (- hangp startp))
+  (var currw hangp)
   (var first? true)
   (each word (split-words str)
     (cond
@@ -124,7 +126,7 @@
 
 # Usage messages
 
-(defn usage-error
+(defn- usage-error
   ```
   Print the usage error message to stderr
   ```
