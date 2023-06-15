@@ -68,22 +68,4 @@
   # =>
   8
 
-  (do
-    (defn my-fn
-      [x]
-      (+ x 8))
-    (let [num 9
-          da (disasm my-fn)
-          bc (-> (da :bytecode)
-                 (array/insert 1 ~(addim 2 0 ,num))
-                 (array/remove 2))]
-      (def code
-        ~{:bytecode ,bc
-          :arity ,(da :arity)})
-      (def my-patched-fn
-        (asm code))
-      (my-patched-fn 1)))
-  # =>
-  10
-
   )
