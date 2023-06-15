@@ -48,7 +48,7 @@
 
   (do
     (def code
-      # janet/test/suite0003.janet
+      # janet/test/suite-asm.janet
       '{:bytecode @[(ltim 1 0 0x2)    # $1 = $0 < 2
                     (jmpif 1 :done)   # if ($1) goto :done
                     (lds 1)           # $1 = self
