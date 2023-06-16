@@ -281,4 +281,139 @@
   # =>
   120
 
+  ((asm ~{:bytecode @[(ldt 0)
+                      (ret 0)]
+          :arity 0}))
+  # =>
+  true
+
+  # XXX: don't know how to make an example for ldu
+
+  ((asm ~{:bytecode @[(len 0 0)
+                      (ret 0)]
+          :arity 1})
+    [:ant :bee :cat])
+  # =>
+  3
+
+  ((asm ~{:bytecode @[(lt 0 0 1)
+                      (ret 0)]
+          :arity 2})
+    math/-inf math/inf)
+  # =>
+  true
+
+  ((asm ~{:bytecode @[(lte 0 0 1)
+                      (ret 0)]
+          :arity 2})
+    0 1)
+  # =>
+  true
+
+  ((asm ~{:bytecode @[(ltim 0 0 1)
+                      (ret 0)]
+          :arity 1})
+    0)
+  # =>
+  true
+
+  ((asm ~{:bytecode @[(push3 0 1 2)
+                      (mkarr 0)
+                      (ret 0)]
+          :arity 3})
+    :elephant :fox :giraffe)
+  # =>
+  @[:elephant :fox :giraffe]
+
+  ((asm ~{:bytecode @[(push2 0 1)
+                      (mkbtp 0)
+                      (ret 0)]
+          :arity 2})
+    [] {})
+  # =>
+  '[() {}]
+
+  ((asm ~{:bytecode @[(push2 0 1)
+                      (mkbuf 0)
+                      (ret 0)]
+          :arity 2})
+    :hi " there")
+  # =>
+  @"hi there"
+
+  ((asm ~{:bytecode @[(push2 0 1)
+                      (mkstr 0)
+                      (ret 0)]
+          :arity 2})
+    @"gday, m" 8)
+  # =>
+  "gday, m8"
+
+  ((asm ~{:bytecode @[(push3 0 1 2)
+                      (push3 3 4 5)
+                      (mkstu 0)
+                      (ret 0)]
+          :arity 6})
+    :x 10 :y 20 :z 80)
+  # =>
+  {:x 10 :y 20 :z 80}
+
+  ((asm ~{:bytecode @[(push2 0 1)
+                      (mktab 0)
+                      (ret 0)]
+          :arity 2})
+    :breathe :slowly)
+  # =>
+  @{:breathe :slowly}
+
+  ((asm ~{:bytecode @[(push3 0 1 2)
+                      (mktup 0)
+                      (ret 0)]
+          :arity 3})
+    '+ 1 1)
+  # =>
+  '(+ 1 1)
+
+  ((asm ~{:bytecode @[(mod 0 0 1)
+                      (ret 0)]
+          :arity 2})
+    5 2)
+  # =>
+  1
+
+  ((asm ~{:bytecode @[(movf 0 1)
+                      (ret 1)]
+          :arity 1})
+    :echo)
+  # =>
+  :echo
+
+  ((asm ~{:bytecode @[(movn 1 0)
+                      (ret 1)]
+          :arity 1})
+    :again)
+  # =>
+  :again
+
+  ((asm ~{:bytecode @[(mul 2 0 1)
+                      (ret 2)]
+          :arity 2})
+    2 3)
+  # =>
+  6
+
+  ((asm ~{:bytecode @[(mulim 1 0 8)
+                      (ret 1)]
+          :arity 1})
+    11)
+  # =>
+  88
+
+  ((asm ~{:bytecode @[(neq 2 0 1)
+                      (ret 2)]
+          :arity 2})
+    0 -0)
+  # =>
+  false
+
   )
