@@ -60,8 +60,8 @@
          {:about
           (string "View Janet information for things such as functions, "
                   "macros, special forms, etc.")
-          :examples ["usage: jref [THING] [OPTION].."
-                     "       jref [OPTION]... [THING]"]
+          :usages ["usage: jref [THING] [OPTION].."
+                   "       jref [OPTION]... [THING]"]
           :rider
           ``
           With THING, but no options, show docs and usages.
