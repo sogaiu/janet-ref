@@ -377,7 +377,7 @@
   ((asm ~{:bytecode @[(mod 0 0 1)
                       (ret 0)]
           :arity 2})
-    5 2)
+    -3 2)
   # =>
   1
 
@@ -415,5 +415,121 @@
     0 -0)
   # =>
   false
+
+  ((asm ~{:bytecode @[(neqim 2 0 23)
+                      (ret 2)]
+          :arity 1})
+    22)
+  # =>
+  true
+
+  ((asm ~{:bytecode @[(next 2 0 1)
+                      (ret 2)]
+          :arity 2})
+    [:a :b :c] 1)
+  # =>
+  2
+
+  ((asm ~{:bytecode @[(put 0 1 2)
+                      (ret 0)]
+          :arity 3})
+    @{} :a 1)
+  # =>
+  @{:a 1}
+
+  ((asm ~{:bytecode @[(puti 0 1 0)
+                      (ret 0)]
+          :arity 2})
+    @[] :smile)
+  # =>
+  @[:smile]
+
+  ((asm ~{:bytecode @[(rem 2 0 1)
+                      (ret 2)]
+          :arity 2})
+    -3 2)
+  # =>
+  -1
+
+  ((asm ~{:bytecode @[(res 2 0 1)
+                      (ret 2)]
+          :arity 2})
+    (fiber/new (fn [x] (* x 8)))
+    9)
+  # =>
+  72
+
+  ((asm ~{:bytecode @[(ret 0)]
+          :arity 1})
+    :love)
+  # =>
+  :love
+
+  ((asm ~{:bytecode @[(retn)]
+          :arity 0}))
+  # =>
+  nil
+  ((asm ~{:bytecode @[(sl 2 0 1)
+                      (ret 2)]
+          :arity 2})
+    2r10 3)
+  # =>
+  16
+
+  ((asm ~{:bytecode @[(slim 1 0 3)
+                      (ret 1)]
+          :arity 1})
+    2r10)
+  # =>
+  16
+
+  ((asm ~{:bytecode @[(sr 2 0 1)
+                      (ret 2)]
+          :arity 2})
+    -2r101 2)
+  # =>
+  -2
+
+  ((asm ~{:bytecode @[(srim 1 0 2)
+                      (ret 1)]
+          :arity 1})
+    -2r101)
+  # =>
+  -2
+
+  ((asm ~{:bytecode @[(sru 2 0 1)
+                      (ret 2)]
+          :arity 2})
+    2r1100 3)
+  # =>
+  1
+
+  ((asm ~{:bytecode @[(sruim 1 0 3)
+                      (ret 1)]
+          :arity 1})
+    2r1100)
+  # =>
+  1
+
+  ((asm ~{:bytecode @[(sub 2 0 1)
+                      (ret 2)]
+          :arity 2})
+    0 1)
+  # =>
+  -1
+
+  ((asm ~{:bytecode @[(tcall 0)]
+          :arity 1})
+    +)
+  # =>
+  0
+
+  # enum JanetType, JANET_KEYWORD is 6, 2 ** 6 == 64
+  ((asm ~{:bytecode @[(tchck 0 64)
+                      (ret 0)]
+          :arity 1})
+    :hello)
+  # =>
+  :hello
 
   )
