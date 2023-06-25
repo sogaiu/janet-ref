@@ -151,17 +151,4 @@
   @{false 3
     true 2}
 
-  (do
-    (def rng
-      (math/rng (bor (os/clock) math/int-max)))
-    (->> (tabseq [i :in (range (- (math/rng-int rng 3) 3)
-                               (+ (math/rng-int rng 3) 3))
-                  :when (even? i)]
-           i)
-         kvs
-         sum
-         even?))
-  # =>
-  true
-
   )

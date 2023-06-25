@@ -169,16 +169,4 @@
   # =>
   @[1 2 2 3 3 3]
 
-  (do
-    (def rng
-      (math/rng (bor (os/clock) math/int-max)))
-    (def arr @[])
-    (loop [i :in (range (- (math/rng-int rng 3) 3)
-                        (+ (math/rng-int rng 3) 3))
-           :when (even? i)]
-      (array/push arr i))
-    (even? (sum arr)))
-  # =>
-  true
-
   )

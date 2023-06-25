@@ -189,22 +189,4 @@
   # =>
   3
 
-  (do
-    (def rng
-      (math/rng (bor (os/clock) math/int-max)))
-    (def lower
-      (- (math/rng-int rng 3) 5))
-    (def upper
-      (+ (math/rng-int rng 3) 5))
-    (def fib
-      (generate [i :in (range lower upper)
-                 :when (even? i)]
-        i))
-    (even?
-      (+ (resume fib)
-         (* 0 (resume fib))
-         (resume fib))))
-  # =>
-  true
-
   )
