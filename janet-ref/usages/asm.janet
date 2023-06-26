@@ -3,7 +3,7 @@
   (do
     (def code
       '{:bytecode @[(ldi 1 0x2)  # $1 = 2
-                    (mul 2 0 1)  # $2 = $0 + $1
+                    (mul 2 0 1)  # $2 = $0 * $1
                     (ret 2)]     # return $2
         :arity 1})               # arg 0 is $0
     (def double
