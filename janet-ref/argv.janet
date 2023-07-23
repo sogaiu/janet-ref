@@ -8,6 +8,7 @@
                 # for turning off argy-bargy output
                 :err @"" :out usage]
       (ab/parse-args
+        (get argv 0)
         {:rules
          ["--help" {:kind :flag :short "h"
                     :help "show this output"}
