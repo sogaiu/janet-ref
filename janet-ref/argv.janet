@@ -2,11 +2,8 @@
 
 (defn parse-argv
   [argv]
-  (def usage @"")
   (def ret
-    (with-dyns [:args argv
-                # for turning off argy-bargy output
-                :err @"" :out usage]
+    (with-dyns [:args argv]
       (ab/parse-args
         (get argv 0)
         {:rules
@@ -100,7 +97,8 @@
 
           The `TAGS` file should end up in the `janet` subdirectory.
           ``}})))
-  (when-let [e (get ret :error?)]
+  (def e (get ret :err))
+  (when (not (empty? e))
     (eprintf "error parsing args: %p" e)
     (break [nil nil]))
   (def opts
@@ -114,8 +112,8 @@
       [thing]
       []))
   # XXX: argy-bargy won't save `--help` so need to add it
-  (when (get ret :help?)
+  (when (not (empty? (get ret :help)))
     (put opts :help true))
   #
-  [opts rest usage])
+  [opts rest (get ret :help)])
 
