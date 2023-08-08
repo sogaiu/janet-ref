@@ -111,11 +111,7 @@
 
   # XXX: organize this later
   (when (opts :pprint)
-    (def to-handle
-      (if thing
-        thing
-        (file/read stdin :all)))
-    (->> to-handle
+    (->> (or thing (file/read stdin :all))
          data/fmt
          col/colorize
          print)
@@ -123,11 +119,8 @@
 
   # XXX: organize this later
   (when (opts :macex1)
-    (def to-handle
-      (if thing
-        thing
-        (file/read stdin :all)))
-    (->> (string "(macex1 '" to-handle ")")
+    (->> (or thing (file/read stdin :all))
+         (string/format "(macex1 '%s)")
          eval-string
          (string/format "%n")
          code/fmt
@@ -139,11 +132,8 @@
 
   # XXX: organize this later
   (when (opts :eval)
-    (def to-handle
-      (if thing
-        thing
-        (file/read stdin :all)))
-    (->> (eval-string to-handle)
+    (->> (or thing (file/read stdin :all))
+         eval-string
          (string/format "%n")
          data/fmt
          col/colorize
@@ -152,11 +142,7 @@
 
   # XXX: organize this later
   (when (opts :format)
-    (def to-handle
-      (if thing
-        thing
-        (file/read stdin :all)))
-    (->> to-handle
+    (->> (or thing (file/read stdin :all))
          code/fmt
          bind/process-binding-forms
          indent/format
@@ -166,11 +152,7 @@
 
   # XXX: organize this later
   (when (opts :indent)
-    (def to-handle
-      (if thing
-        thing
-        (file/read stdin :all)))
-    (->> to-handle
+    (->> (or thing (file/read stdin :all))
          indent/format
          col/colorize
          print)
