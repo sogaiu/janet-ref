@@ -137,14 +137,6 @@
   # =>
   true
 
-  (boolean? (every? [true true nil]))
-  # =>
-  false
-
-  (boolean? (every? [:duck :duck :goose]))
-  # =>
-  true
-
   (boolean? (false? false))
   # =>
   true
