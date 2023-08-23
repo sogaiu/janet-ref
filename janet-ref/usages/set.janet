@@ -25,14 +25,14 @@ For further info, see:
   2
 
   (do
-    (set [@{:a 1} :a]
+    (set (@{:a 1} :a)
          3))
   # =>
   3
 
   (do
     (def tbl @{:x 8})
-    (set [tbl :x]
+    (set (tbl :x)
          9)
     tbl)
   # =>
@@ -40,7 +40,7 @@ For further info, see:
 
   (do
     (def arr @[0 1])
-    (set [arr 1]
+    (set (arr 1)
          3)
     arr)
   # =>
@@ -48,7 +48,7 @@ For further info, see:
 
   (do
     (def buf @"hello")
-    (set [buf 1]
+    (set (buf 1)
          (chr "a"))
     buf)
   # =>
