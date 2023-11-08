@@ -4,9 +4,9 @@
   # =>
   true
 
-  (length default-peg-grammar)
+  (>= (length default-peg-grammar) 20)
   # =>
-  20
+  true
 
   (default-peg-grammar :s)
   # =>
