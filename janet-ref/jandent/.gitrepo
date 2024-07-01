@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/sogaiu/jandent
+	branch = master
+	commit = 396264b6bd74ea6804a92ac2ae5510c55415ab4c
+	parent = e990e65a96d6878ccb2cefb13f3254b1581b0745
+	method = merge
+	cmdver = 0.4.6
