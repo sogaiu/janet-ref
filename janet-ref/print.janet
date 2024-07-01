@@ -1,4 +1,4 @@
-(import ./vendor/jandent/jandent/indent)
+(import ./jandent/jandent/indent)
 (import ./colorize :as col)
 
 (defn print-nicely
