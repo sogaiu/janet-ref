@@ -1,0 +1,5 @@
+(import index-janet/main)
+
+(defn main
+  [& argv]
+  (main/main ;argv))
