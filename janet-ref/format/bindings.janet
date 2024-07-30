@@ -1,6 +1,6 @@
 (import ../parse/location :as l)
 (import ../parse/zipper :as j)
-(import ../parse/loc-jipper :as j)
+(import ../janet-location-zipper/loc-jipper :as j)
 
 (defn deprintf
   [fmt & args]

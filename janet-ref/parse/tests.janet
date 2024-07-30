@@ -1,6 +1,6 @@
 (import ./location :as l)
 (import ./zipper :as j)
-(import ./loc-jipper :as j)
+(import ../janet-location-zipper/loc-jipper :as j)
 
 # ti == test indicator, which can look like any of:
 #
