@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/sogaiu/janet-location-zipper
+	branch = master
+	commit = 7e64575222f34dd35ac5d6c2763f097d61e18103
+	parent = a3d02fcd4e63fe697654df1eb5057bb3d3afcc01
+	method = merge
+	cmdver = 0.4.9
