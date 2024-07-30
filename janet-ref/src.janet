@@ -1,4 +1,4 @@
-(import ./parse/etags :as etags)
+(import ./index-janet/index-janet/etags :as etags)
 
 (defn open-editor-at
   [line full-path]

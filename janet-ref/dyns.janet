@@ -1,23 +1,37 @@
 (defn init-dyns
   []
+  (def home-dir
+    (os/getenv "HOME" (os/getenv "USERPOFILE")))
+
+  (def conf-file-path
+    (string home-dir "/.jref.janet"))
+
+  (def conf
+    (when (= :file (os/stat conf-file-path :mode))
+      (let [conf (try
+                   (eval-string (slurp conf-file-path))
+                   ([e]
+                     (errorf e)))]
+        (assert (struct? conf)
+                (string/format "expected a struct, found: %n" conf))
+        conf)))
+
   (setdyn :jref-width 68)
 
   (setdyn :jref-rng
           (math/rng (os/cryptorand 8)))
 
-  # XXX
-  (def src-root
-    (string (os/getenv "HOME") "/src"))
+  (setdyn :jref-src-path
+          (os/getenv "JREF_SRC_PATH"
+                     (get conf :src-path)))
 
   (setdyn :jref-janet-src-path
-          (if-let [j-src-path (os/getenv "JREF_JANET_SRC_PATH")]
-            j-src-path
-            (string src-root "/janet")))
+          (os/getenv "JREF_JANET_SRC_PATH"
+                     (get conf :janet-src-path)))
 
   (setdyn :jref-repos-root
-          (if-let [repos-path (os/getenv "JREF_REPOS_PATH")]
-            repos-path
-            (string src-root "/janet-repos")))
+          (os/getenv "JREF_REPOS_PATH"
+                     (get conf :janet-repos-path)))
 
   # on windows, https://github.com/adoxa/ansicon may help for
   # pygmentize and rougify
@@ -44,15 +58,17 @@
           (os/getenv "JREF_COLORIZER_FILENAME"))
 
   (setdyn :jref-editor
-          (if-let [editor (os/getenv "JREF_EDITOR")]
-            editor
-            "nvim"))
+          (os/getenv "JREF_EDITOR"
+                     (get conf :editor "nvim")))
 
   (setdyn :jref-editor-open-at-format
           (if-let [format (os/getenv "JREF_EDITOR_OPEN_AT_FORMAT")]
             (tuple ;(string/split " " format))
             (case (dyn :jref-editor)
               "emacs"
+              ["+%d" "%s"]
+              #
+              "hx"
               ["+%d" "%s"]
               #
               "kak"
@@ -70,5 +86,6 @@
               ["+%d" "%s"])))
 
   (setdyn :jref-editor-filename
-          (os/getenv "JREF_EDITOR_FILENAME")))
+          (os/getenv "JREF_EDITOR_FILENAME"
+                     (get conf :editor-filename))))
 

@@ -146,76 +146,48 @@ $ jref -h
 usage: jref [THING] [OPTION]..
        jref [OPTION]... [THING]
 
-View Janet information for things such as functions, macros, special
-forms, etc.
+View Janet information for things such as functions,
+macros, special forms, etc.
 
- THING    name of function, macro, special form, etc.
+Parameters:
 
- -h, --help               show this output
+  thing    name of function, macro, special form, etc.
 
- -d, --doc                show doc
- -q, --quiz               show quiz question
- -s, --src                show source [1]
- -u, --usage              show usages
+Options:
 
- -p, --pprint             pretty-print data
+  -h, --help               show this output
 
- -f, --format             format code
- -i, --indent             indent code
- -e, --eval               evaluate code
- -m, --macex1             macroexpand code
+  -d, --doc                show doc
+  -q, --quiz               show quiz question
+  -s, --src                show source [1]
+  -u, --usage              show usages
 
- -r, --repl               run a repl
+  -p, --pprint             pretty-print data
 
-     --env-vars           show tweakable environment vars
+  -f, --format             format code
+  -i, --indent             indent code
+  -e, --eval               evaluate code
+  -m, --macex1             macroexpand code
 
-     --bash-completion    output bash-completion bits
-     --fish-completion    output fish-completion bits
-     --zsh-completion     output zsh-completion bits
+  -r, --repl               run a repl
 
-     --raw-all            show all things to help completion
+      --env-vars           show tweakable environment vars
 
-     --bindings           
+      --bash-completion    output bash-completion bits
+      --fish-completion    output fish-completion bits
+      --zsh-completion     output zsh-completion bits
 
- -g, --grep               
- -t, --todo               
+      --raw-all            show all things to help completion
 
- -h, --help               Show this help message.
+      --bindings           
 
-With THING, but no options, show docs and usages.
+  -g, --grep               
+  -t, --todo               
 
-With the `-d` or `--doc` option, show docs for THING, or if none
-specified, for a randomly chosen one.
-
-With the `-q` or `--quiz` option, show quiz question for specified
-THING, or if none specified, for a randonly chosen one.
-
-With the `-s` or `--src` option, show source code for specified THING,
-or if none specified, for a randonly chosen one [1].
-
-With the `-u` or `--usage` option, show usages for specified THING, or
-if none specified, for a randomly chosen one.
-
-With no arguments, lists all things.
-
-Be careful to quote shortnames (e.g. *, ->, >, <-, etc.) appropriately
-so the shell doesn't process them in an undesired fashion.
-
----
-
-[1] For source code lookups to work, the Janet source code needs to be
-available locally and a suitable `TAGS` file needs to exist.
-
-The `ensure-tags` jpm task can perform this setup:
-
- `jpm run ensure-tags`
-
-This should clone the janet source + some extra bits to create the
-`TAGS` file. Once cloning is complete, the TAGS file should get
-created automatically.
-
-The `TAGS` file should end up in the `janet` subdirectory.
+...
 ```
+
+Output truncated, see actual output for more details :)
 
 ## Credits
 
@@ -245,8 +217,5 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-pyrmont's [argy-bargy](https://github.com/pyrmont/argy-bargy) is used
-for command line processing and usage message generation.
-
-* pyrmont - code review
+* pyrmont - discussion and code review
 
