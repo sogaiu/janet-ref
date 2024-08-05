@@ -31,7 +31,8 @@
     (var i 1)
     (while (< i argc)
       (def arg (get argv i))
-      (if (peg/match ~(sequence "-" (range "az" "AZ" "09")) arg)
+      (if (peg/match ~(sequence "-" (opt "-") 
+                                (range "az" "AZ" "09")) arg)
         (let [res (opt-to-keyword arg)]
           (cond
             (string? res)
