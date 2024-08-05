@@ -1,4 +1,4 @@
-(import ../parse/location :as loc)
+(import ../parse/location-with-unreadable :as loc)
 
 # keys are numbers that represent which element of a call (involving
 # the symbol associatated with the name) is the first one to have a

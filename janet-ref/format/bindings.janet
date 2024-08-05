@@ -1,4 +1,4 @@
-(import ../parse/location :as l)
+(import ../parse/location-with-unreadable :as l)
 (import ../janet-zipper/janet-zipper/zipper :as j)
 (import ../janet-location-zipper/loc-jipper :as j)
 

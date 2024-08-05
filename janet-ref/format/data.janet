@@ -1,4 +1,4 @@
-(import ../parse/location :as loc)
+(import ../parse/location-with-unreadable :as loc)
 
 (defn fmt
   [src]
