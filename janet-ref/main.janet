@@ -11,7 +11,7 @@
 (import ./format/bindings :as bind)
 (import ./format/code :as code)
 (import ./format/data :as data)
-(import ./index-janet/index-janet/main :as ij)
+(import ./look-up-janet-def/lujd/index :as idx)
 (import ./jandent/jandent/indent :as indent)
 (import ./print :as pr)
 (import ./quiz :as qu)
@@ -383,16 +383,13 @@
     (def tags-fname (string "TAGS" file-ext))
     (def etags-file-path (string j-src-path "/" tags-fname))
 
-    (when (not (os/stat etags-file-path))
-      (eprintf "Failed to find index file %s in Janet directory: %s"
-               tags-fname j-src-path)
-      (eprintf "Attempting to create index file at: %s" etags-file-path)
-      (def dir (os/cwd))
-      (defer (os/cd dir)
-        (os/cd j-src-path)
-        (os/setenv "IJ_OUTPUT_FORMAT" "etags")
-        (os/setenv "IJ_FILE_EXTENSION" file-ext)
-        (ij/main))
+    (when (or (not (os/stat etags-file-path))
+              (not (idx/file-newest? etags-file-path j-src-path)))
+      (eprintf "Index file might be stale or failed to find it in: %s"
+               j-src-path)
+      (eprintf "Trying to create fresh index file at: %s"
+               etags-file-path)
+      (idx/build-index j-src-path file-ext)
       (when (not (os/stat etags-file-path))
         (eprintf "Failed to create index file at: %s" etags-file-path)
         (os/exit 1))
@@ -402,7 +399,7 @@
       (try
         (slurp etags-file-path)
         ([e]
-          (eprintf "Failed to read TAGS file: %s" etags-file-path)
+          (eprintf "Failed to read index file: %s" etags-file-path)
           (os/exit 1))))
     (src/definition thing etags-content j-src-path)
     (os/exit 0))
