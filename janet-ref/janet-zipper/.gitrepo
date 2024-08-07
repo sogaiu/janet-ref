@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/sogaiu/janet-zipper
 	branch = master
-	commit = 327ce087f2de667cda3de7f6b8b64276ab7d8ae0
-	parent = 9c538c9dc2158fd23e0a59c5e02e105c3e0dc8fa
+	commit = 4cf38b52187b82018cf58db42525c2849fa96ed4
+	parent = f8e115c21f6ba505b6cdade32c3fde1e4ae0788b
 	method = merge
 	cmdver = 0.4.9
