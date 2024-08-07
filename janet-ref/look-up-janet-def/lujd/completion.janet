@@ -21,11 +21,14 @@
 
 (def zsh-completion
   ``
-  _lujd_ids() {
+  #compdef lujd
+
+  _lujd() {
       local matches=(`lujd --raw-all`)
       compadd -a matches
   }
-  compdef _lujd_ids lujd
+
+  _lujd "$@"
   ``)
 
 (defn maybe-handle-dump-completion

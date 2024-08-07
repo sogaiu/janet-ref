@@ -3,7 +3,9 @@
 Look up a definition for a Janet identifier [1] via a command line
 program and display the results in an editor.
 
-![Invoking lujd](invoking-lujd-with-net-server-id.png?raw=true "Invoking lujd")
+![lujd before completion](lujd-with-net-slash-before-completion.png?raw=true "lujd before completion")
+
+![lujd showing completion candidates](lujd-with-net-slash-showing-completion-candidates.png?raw=true "lujd showing completion candidates")
 
 ![Viewing definition](net-server-def-in-nvim.png?raw=true "Viewing definition")
 
@@ -106,6 +108,48 @@ Usage text can be seen via:
 ```
 $ lujd -h
 ```
+
+## Shell Completion
+
+The Janet identifier argument to `lujd` can be completed if using the bash
+/ fish / zsh shells with appropriate configuration.
+
+So for example, pressing `TAB` after entering `lujd j` might yield the
+output:
+
+```
+janet/build        janet/version      juxt*
+janet/config-bits  juxt
+```
+
+To set this up, invoke `lujd` with one of the following for the
+relevant shell:
+
+* `--bash-completion`
+* `--fish-completion`
+* `--zsh-completion`
+
+Put the resulting output in a location appropriate for the shell in
+use.  Something along the lines of:
+
+* `bash` -
+    put output in file named `lujd` in the directory at
+    `~/.local/share/bash-completion/complete/`
+
+* `fish` -
+    put output in file named `lujd.fish` in the directory at
+    `~/.config/fish/completions/`
+
+* `zsh` -
+    put output in file named `_lujd` and put it in a directory
+    that's on your `fpath`
+
+Below are some links to resources that are probably much better than the bits above:
+
+* [bash](https://github.com/scop/bash-completion/blob/master/README.md#faq) --
+  look for `Where should I install my own local completions?`
+* [fish](https://fishshell.com/docs/current/completions.html#where-to-put-completions)
+* [zsh](https://zsh.sourceforge.io/Doc/Release/Completion-System.html) -- good luck...just kidding, see [this](https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org) instead.
 
 ## Footnotes
 
