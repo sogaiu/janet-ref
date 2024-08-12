@@ -21,11 +21,14 @@
 
 (def zsh-completion
   ``
-  _jref_specials() {
+  #compdef jref
+
+  _jref() {
       local matches=(`jref --raw-all`)
       compadd -a matches
   }
-  compdef _jref_specials jref
+
+  _jref "$@"
   ``)
 
 (defn maybe-handle-dump-completion
