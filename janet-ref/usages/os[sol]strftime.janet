@@ -80,15 +80,14 @@
   # =>
   "1970"
 
-  (os/strftime "%Z" 0)
-  # =>
-  "GMT"
-
   (os/strftime "%%")
   # =>
   "%"
 
   )
+
+#  (os/strftime "%Z" 0)
+#  "GMT"
 
 ```
   Some conversion specifications can be modified by preceding the conver‐
@@ -109,8 +108,8 @@
 #  (os/strftime "%E" 0)
 #  "%E"
 
-#repl:25:> (os/strftime "%O")
-#"%O"
+#  (os/strftime "%O")
+#  "%O"
 
-#repl:45:> (os/strftime "%+")
-#"%+"
+#  (os/strftime "%+")
+#  "%+"
