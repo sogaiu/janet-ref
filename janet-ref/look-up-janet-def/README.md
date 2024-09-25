@@ -28,7 +28,8 @@ jpm install
 ```
 
 In either case, success should lead to the command `lujd` being
-available on `PATH` and a `lujd` directory under `JANET_PATH`.
+available on `PATH` and a `lujd` directory within a directory on
+`JANET_PATH`.
 
 Ensure you have a local copy of the [Janet source
 code](https://github.com/janet-lang/janet).  If you store your source
