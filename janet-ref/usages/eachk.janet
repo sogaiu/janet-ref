@@ -5,7 +5,7 @@
     (def a-struct {:a 1 :b 2})
     (eachk k a-struct
       (array/push arr (get a-struct k)))
-    arr)
+    (sort arr))
   # =>
   @[1 2]
 

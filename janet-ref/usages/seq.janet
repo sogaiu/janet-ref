@@ -47,16 +47,17 @@
   # =>
   @[3 0 -3]
 
-  (seq [k :keys {:a 1 :b 2}]
-    k)
+  (sort
+    (seq [k :keys {:a 1 :b 2}]
+      k))
   # =>
   @[:a :b]
 
-  (flatten
+  (sort
     (seq [[k v] :pairs {:a 1 :b 2}]
       [v k]))
   # =>
-  @[1 :a 2 :b]
+  @[[1 :a] [2 :b]]
 
   (seq [i :in [0 1 2]]
     (math/pow i 3))

@@ -77,7 +77,7 @@
     (def arr @[])
     (loop [k :keys {:a 1 :b 2}]
       (array/push arr k))
-    arr)
+    (sort arr))
   # =>
   @[:a :b]
 
@@ -95,7 +95,7 @@
     (def nums [0 1 2])
     (loop [i :in nums]
       (array/push arr (math/pow i 3)))
-    arr)
+    (sort arr))
   # =>
   @[0 1 8]
 

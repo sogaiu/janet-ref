@@ -88,10 +88,9 @@
     (def fib
       (generate [k :keys {:a 1 :b 2}]
         (keyword (string/ascii-upper k))))
-    (resume fib)
-    (resume fib))
+    (sort @[(resume fib) (resume fib)]))
   # =>
-  :B
+  @[:A :B]
 
   (do
     (def fib
