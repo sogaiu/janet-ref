@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/sogaiu/look-up-janet-def
 	branch = master
-	commit = 39e29ece0c41ba51ae574145df6cfa12e699b54d
-	parent = 5a51d32096e11878d07f2a2906c6de9423c70fbd
+	commit = 2dc4b668bb9a79212e61760e4ad9b00078bea436
+	parent = ea6aa099e917eb0b90dd17009fff7e047e9a0133
 	method = merge
 	cmdver = 0.4.9

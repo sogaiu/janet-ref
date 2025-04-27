@@ -530,10 +530,10 @@
   # =>
   33
 
-  (first (keys loc->node))
+  (has-key? loc->node {:bc 8 :bl 5 :bp 34
+                       :ec 9 :el 5 :ep 35})
   # =>
-  {:bc 8 :bl 5 :bp 34
-   :ec 9 :el 5 :ep 35}
+  true
 
   (get loc->node {:bc 8 :bl 5 :bp 34
                   :ec 9 :el 5 :ep 35})

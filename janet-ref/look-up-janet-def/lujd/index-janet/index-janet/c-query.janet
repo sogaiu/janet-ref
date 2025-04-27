@@ -525,9 +525,9 @@
   # =>
   17
 
-  (first (keys loc->node))
+  (has-key? loc->node {:bc 15 :bl 1 :bp 14 :ec 16 :el 1 :ep 15})
   # =>
-  {:bc 15 :bl 1 :bp 14 :ec 16 :el 1 :ep 15}
+  true
 
   (get loc->node {:bc 15 :bl 1 :bp 14 :ec 16 :el 1 :ep 15})
   # =>

@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/sogaiu/index-janet
 	branch = master
-	commit = 96bbf8e56274adcbbb8ea961821b9d9eb61cf9a8
-	parent = 7022c15aa6aeb06ecac46128bbacc01e5f055f85
+	commit = f1d9a98f9305f442a5c1480f5c65328ff538bd6c
+	parent = 39e29ece0c41ba51ae574145df6cfa12e699b54d
 	method = merge
 	cmdver = 0.4.9
