@@ -224,7 +224,7 @@
 
   (def starts-with-janet-caps @[])
 
-  (each val (values loc->node)
+  (each val (sort (values loc->node))
     (def [_ _ target] val)
     (when (and (string? target)
                (string/find "JANET" target))
