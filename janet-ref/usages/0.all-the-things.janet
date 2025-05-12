@@ -70,6 +70,7 @@
 #   sort-by
 #   sorted
 #   string/split
+#   string/trim
 #   string/triml
 #   string/trimr
 #   string?
