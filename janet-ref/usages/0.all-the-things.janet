@@ -70,6 +70,7 @@
 #   sort-by
 #   sorted
 #   string/split
+#   string/trimr
 #   string?
 #   struct?
 #   sum
