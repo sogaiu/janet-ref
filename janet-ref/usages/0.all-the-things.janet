@@ -79,6 +79,7 @@
 #   take-until
 #   take-while
 #   tuple?
+#   type
 #   zero?
 #
 # Macros
