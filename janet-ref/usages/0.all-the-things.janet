@@ -69,6 +69,7 @@
 #   sort
 #   sort-by
 #   sorted
+#   string/split
 #   string?
 #   struct?
 #   sum
