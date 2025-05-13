@@ -66,6 +66,7 @@
 #   product
 #   range
 #   reduce
+#   reverse
 #   slice
 #   some
 #   sort
