@@ -128,6 +128,7 @@
 #   repeat
 #   return
 #   seq
+#   short-fn
 #   tabseq
 #   toggle
 #   try
