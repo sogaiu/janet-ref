@@ -32,6 +32,7 @@
 #   drop
 #   drop-until
 #   drop-while
+#   eval
 #   even?
 #   extreme
 #   fiber?
