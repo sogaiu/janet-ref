@@ -40,6 +40,7 @@
 #   find-index
 #   first
 #   function?
+#   has-key?
 #   has-value?
 #   identity
 #   inc
