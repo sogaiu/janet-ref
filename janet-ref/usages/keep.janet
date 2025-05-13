@@ -1,5 +1,29 @@
 (comment
 
+  (keep identity [false :x nil true])
+  # =>
+  @[:x true]
+
+  (keep (fn [x] (when (> x 1) x))
+        @[0 1 2 3])
+  # =>
+  @[2 3]
+
+  (keep (fn [x] (when (> x 2) (* x x)))
+        [0 1 3 4 5])
+  # =>
+  @[9 16 25]
+
+  (keep |(when (pos? (+ ;$&)) $0)
+        [1 2 3] [-1 1 1])
+  # =>
+  @[2 3]
+
+  (keep |(when (neg? (+ ;$&)) $0)
+        [-1 -2 -3] [-1 1])
+  # =>
+  @[-1]
+
   (keep (fn [elt]
           (when (number? elt)
             elt))
@@ -43,8 +67,8 @@
 
   (->> [0 1 2 3 7 8 9]
        (map |(math/pow $ 2))
-       (keep (fn [x] 
-               (when (odd? x) 
+       (keep (fn [x]
+               (when (odd? x)
                  (math/sqrt x)))))
   # =>
   @[1 3 7 9]
