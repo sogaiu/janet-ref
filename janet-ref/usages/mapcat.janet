@@ -12,6 +12,14 @@
   # =>
   @["alice" 1 "bob" 2 "carol" 3]
 
+  (mapcat tuple [:x :y] [-1 1])
+  # =>
+  @[:x -1 :y 1]
+
+  (mapcat |(tuple $0 $1 $2) [:a :b] [:x :y :z] [0 1])
+  # =>
+  @[:a :x 0 :b :y 1]
+
   (->> [[:a 1] [:b 2] [:c 3]]
        (mapcat identity)
        splice
