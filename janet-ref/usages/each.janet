@@ -4,14 +4,21 @@
   # =>
   nil
 
-  (do
-    (def arr @[])
-    (def tup [:a :b :c])
+  (let [arr @[]
+        tup [:a :b :c]]
     (each elt tup
       (array/push arr elt))
     arr)
   # =>
   @[:a :b :c]
+
+  (do
+    (def arr @[])
+    (each v {:a 2 :e 6}
+      (array/push arr v))
+    (sort arr))
+  # =>
+  @[2 6]
 
   (do
     (def tbl @{})
@@ -33,12 +40,5 @@
   # =>
   @"ant!bee!"
 
-  (do
-    (def arr @[])
-    (each v {:a 2 :e 6}
-      (array/push arr v))
-    (sort arr))
-  # =>
-  @[2 6]
-
   )
+
