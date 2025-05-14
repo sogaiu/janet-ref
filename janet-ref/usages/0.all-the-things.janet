@@ -16,6 +16,7 @@
 #
 # Functions
 #   accumulate
+#   all
 #   apply
 #   array?
 #   array/concat
