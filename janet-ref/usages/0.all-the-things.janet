@@ -16,8 +16,8 @@
 #
 # Functions
 #   accumulate
-#   array/concat
 #   array?
+#   array/concat
 #   asm
 #   boolean?
 #   buffer?
