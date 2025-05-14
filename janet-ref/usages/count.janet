@@ -4,6 +4,16 @@
   # =>
   2
 
+  (count (fn [x y] (neg? (+ x y)))
+         [-1 -1 -1] [-1 0 1])
+  # =>
+  2
+
+  (count |(pos? (* $0 $1 $2))
+         [-3 -2] [-1 0 99] [3 2])
+  # =>
+  1
+
   (count even? [2r111 0x08 8r11 10])
   # =>
   2
@@ -17,6 +27,10 @@
   (count nil [])
   # =>
   0
+
+  (count pos? [math/-inf -1 0 1 math/pi])
+  # =>
+  2
 
   (count pos?
           (coro
