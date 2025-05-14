@@ -9,14 +9,10 @@
   # =>
   @[1 2]
 
-  (do
-    (def arr @[])
-    (def tbl @{:x 1
-               :y 2
-               :z 3})
+  (let [arr @[]
+        tbl @{:x 1 :y 2 :z 3}]
     (eachk k tbl
-      (when (= k :z)
-        (break))
+      (when (= k :z) (break))
       (array/push arr k))
     (not= (length arr) (length tbl)))
   # =>
