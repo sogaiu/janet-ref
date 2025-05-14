@@ -16,6 +16,7 @@
 #
 # Functions
 #   accumulate
+#   apply
 #   array?
 #   array/concat
 #   asm
