@@ -32,6 +32,7 @@
 #   drop
 #   drop-until
 #   drop-while
+#   empty?
 #   eval-string
 #   eval
 #   even?
