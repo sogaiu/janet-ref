@@ -15,6 +15,7 @@
 #   (while condition body...)
 #
 # Functions
+#   %
 #   *
 #   /
 #   accumulate
