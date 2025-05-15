@@ -17,6 +17,7 @@
 # Functions
 #   %
 #   *
+#   -
 #   /
 #   accumulate
 #   accumulate2
