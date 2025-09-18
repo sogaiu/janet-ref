@@ -1,3 +1,5 @@
+#! /usr/bin/env janet
+
 (import janet-ref/main)
 
 (defn main
