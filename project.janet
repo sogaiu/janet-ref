@@ -8,10 +8,13 @@
   :url url
   :repo repo)
 
-(task "install" []
-  (if (bundle/installed? name)
-    (bundle/replace name ".")
-    (bundle/install ".")))
+(declare-source
+  :source ["lib" "init.janet"]
+  :prefix "janet-ref")
+
+(declare-binscript
+  :main "bin/jref"
+  :is-janet true)
 
 (task "cmd-line-tests" []
   :tags [:test]

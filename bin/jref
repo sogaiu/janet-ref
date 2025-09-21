@@ -1,8 +1,8 @@
 #! /usr/bin/env janet
 
-(import janet-ref :prefix "" :only [main/main])
+(import janet-ref)
 
 (defn main
   [& argv]
-  (main/main ;argv))
+  (janet-ref/main ;argv))
 
