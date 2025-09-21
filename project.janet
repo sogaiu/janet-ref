@@ -1,14 +1,17 @@
+(def {:name name
+      :url url
+      :repo repo}
+  (parse (slurp "info.jdn")))
+
 (declare-project
-  :name "janet-ref"
-  :url "https://github.com/sogaiu/janet-ref"
-  :repo "git+https://github.com/sogaiu/janet-ref.git")
+  :name name
+  :url url
+  :repo repo)
 
-(declare-source
-  :source @["janet-ref"])
-
-(declare-binscript
-  :main "jref"
-  :is-janet true)
+(task "install" []
+  (if (bundle/installed? name)
+    (bundle/replace name ".")
+    (bundle/install ".")))
 
 (task "cmd-line-tests" []
   :tags [:test]

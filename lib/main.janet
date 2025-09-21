@@ -231,7 +231,7 @@
 
   # XXX: organize this later
   (when (opts :repl)
-    (eval-string "(import janet-ref/repl) (repl/cli-main @[])")
+    (eval-string "(import janet-ref/lib/repl) (repl/cli-main @[])")
     (os/exit 0))
 
   # XXX: organize this later
@@ -314,7 +314,7 @@
   (when (and (nil? thing)
              (empty? opts))
     (if-let [[file-path _]
-             (module/find "janet-ref/usages/0.all-the-things")]
+             (module/find "janet-ref/lib/usages/0.all-the-things")]
       (do
         (unless (os/stat file-path)
           (eprintf "Failed to find file: %s" file-path)
@@ -406,7 +406,7 @@
 
   # show docs, usages, or quizzes for a thing
   (let [[file-path _]
-        (module/find (string "janet-ref/usages/"
+        (module/find (string "janet-ref/lib/usages/"
                              (things/escape-sym-name thing)))]
 
     (unless file-path

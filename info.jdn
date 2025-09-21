@@ -1,0 +1,6 @@
+{:name "janet-ref"
+ :url "https://github.com/sogaiu/janet-ref"
+ :repo "git+https://github.com/sogaiu/janet-ref.git"
+ :source {:prefix "janet-ref"
+          :files ["lib" "init.janet"]}}
+

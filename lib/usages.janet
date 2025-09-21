@@ -4,7 +4,7 @@
 (defn all-file-names
   []
   (let [[file-path _]
-        (module/find "janet-ref/usages/0.all-the-things")]
+        (module/find "janet-ref/lib/usages/0.all-the-things")]
     (when file-path
       (let [dir-path
             (string/slice file-path 0
