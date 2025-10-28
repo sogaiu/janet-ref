@@ -1,4 +1,4 @@
-(import ../janet-peg/janet-peg/location :as loc)
+(import ../../deps/janet-peg/lib/location :as loc)
 
 (def loc-grammar
   (do

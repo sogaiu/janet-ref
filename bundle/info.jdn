@@ -1,0 +1,20 @@
+{:name "janet-ref"
+ :url "https://github.com/sogaiu/janet-ref"
+ :repo "git+https://github.com/sogaiu/janet-ref.git"
+
+ :vendored
+ {"deps" [{:name "janet-peg"
+           :url "https://github.com/sogaiu/janet-peg"
+           :tag "6f8bc4691798d806ffd3843d0d959286151b4886"
+           :prefix "janet-peg"
+           :files ["lib/location.janet"]}]}
+
+ :sources
+ [{:prefix "janet-ref"
+   :items ["deps" "lib" "init.janet"]}]
+
+ :binscripts
+ [{:main "bin/jref"
+   #:hardcoded-syspath :dynamic
+   :is-janet true}]}
+

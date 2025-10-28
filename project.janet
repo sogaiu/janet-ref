@@ -1,7 +1,7 @@
 (def {:name name
       :url url
       :repo repo}
-  (parse (slurp "info.jdn")))
+  (parse (slurp "bundle/info.jdn")))
 
 (declare-project
   :name name
@@ -9,7 +9,7 @@
   :repo repo)
 
 (declare-source
-  :source ["lib" "init.janet"]
+  :source ["deps" "lib" "init.janet"]
   :prefix "janet-ref")
 
 (declare-binscript
